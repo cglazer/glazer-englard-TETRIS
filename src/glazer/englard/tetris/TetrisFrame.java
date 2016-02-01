@@ -46,6 +46,8 @@ public class TetrisFrame extends JFrame implements KeyListener {
 	private Color color;
 	private String shape;
 	private JPanel northPanel;
+private int coloredRow;
+private int coloredColumn;
 
 	public TetrisFrame() {
 		setSize(370, 620);
@@ -54,9 +56,9 @@ public class TetrisFrame extends JFrame implements KeyListener {
 		this.container = getContentPane();
 		this.gridPanel = new JPanel();
 		this.start = new JButton("START");
-		this.moveLeft= new JButton("MOVE LEFT");
-		this.moveRight=new JButton("MOVE RIGHT");
-		this.northPanel=new JPanel();
+		this.moveLeft = new JButton("MOVE LEFT");
+		this.moveRight = new JButton("MOVE RIGHT");
+		this.northPanel = new JPanel();
 		this.labels = new JLabel[30][10];
 		this.row = 0;
 		this.column = 5;
@@ -65,7 +67,7 @@ public class TetrisFrame extends JFrame implements KeyListener {
 		this.gameOver = new JLabel();
 		this.isRunning = true;
 		this.color = chooseColor();
-this.shape= chooseShape();
+		this.shape = chooseShape();
 		setComponents();
 		addComponents();
 	}
@@ -113,16 +115,18 @@ this.shape= chooseShape();
 		this.moveLeft.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				if(column!=0){
-			column--;
-			}}
+				if (column != 0) {
+					column--;
+				}
+			}
 		});
 		this.moveRight.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-			if(column!=9){
-				column++;
-			}}
+				if (column != 9) {
+					column++;
+				}
+			}
 		});
 	}
 
@@ -144,12 +148,15 @@ this.shape= chooseShape();
 				}
 			}
 			if (row != 0) {
-				labels[row - 1][column].setBackground(Color.LIGHT_GRAY);
+				//labels[row - 1][column].setBackground(Color.LIGHT_GRAY);
+				labels[coloredRow][coloredColumn].setBackground(Color.LIGHT_GRAY);
 				map.put(colored, false);
 			}
 
 			labels[row][column].setBackground(color);
 			labels[row][column].setOpaque(true);
+			coloredRow=row;
+			coloredColumn=column;
 			repaint();
 			colored = row + "," + column;
 			map.put(colored, true);
@@ -209,22 +216,22 @@ this.shape= chooseShape();
 			shape = "Z";
 			break;
 		case 2:
-			shape="S";
+			shape = "S";
 			break;
 		case 3:
-			shape="l";
+			shape = "l";
 			break;
 		case 4:
-			shape= "T";
+			shape = "T";
 			break;
 		case 5:
-			shape="BOX";
+			shape = "O";
 			break;
 		case 6:
-			shape= "d";
+			shape = "J";
 			break;
 		}
-return this.shape;
+		return this.shape;
 	}
 
 	public void gameOver() {
@@ -240,14 +247,12 @@ return this.shape;
 			// b.y++;
 		} else if (c == KeyEvent.VK_LEFT) {
 			System.out.println("left");
-			this.color = Color.GREEN;
 			if (column != 0) {
 				column--;
 			}
 		} else if (c == KeyEvent.VK_RIGHT) {
 			System.out.println("right");
 			if (column != 9) {
-				this.color = Color.BLUE;
 				column++;
 			}
 		}
