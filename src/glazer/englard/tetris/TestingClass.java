@@ -23,7 +23,7 @@ public class TestingClass extends JFrame implements KeyListener {
 	private int row;
 	private int column;
 	private JButton start;
-	private GridPanel panel;
+	private JPanel panel;
 	private Container container;
 
 	public TestingClass() {
@@ -31,13 +31,26 @@ public class TestingClass extends JFrame implements KeyListener {
 		setTitle("testing");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setLayout(new BorderLayout());
-		panel = new GridPanel();
-		
+		panel = new JPanel();
+		panel.setLayout(new GridLayout(3, 3));
 		addKeyListener(this);
 		setFocusable(true);
-		Container container=getContentPane();
+		Container container = getContentPane();
 		container.add(panel, BorderLayout.CENTER);
-		
+		this.labels = new JLabel[3][3];
+		this.row = 0;
+		this.column = 0;
+		for (int i = 0; i < 3; i++) {
+			for (int x = 0; x < 3; x++) {
+				labels[i][x] = new JLabel();
+
+				labels[i][x].setOpaque(true);
+				panel.add(labels[i][x]);
+				labels[i][x].setBorder(BorderFactory
+						.createLineBorder(Color.GRAY));
+			}
+		}
+		labels[row][column].setBackground(Color.YELLOW);
 		this.start = new JButton("START");
 		container.add(start, BorderLayout.NORTH);
 		start.addActionListener(new ActionListener() {
@@ -45,23 +58,23 @@ public class TestingClass extends JFrame implements KeyListener {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				// TODO Auto-generated method stub
-				ScheduledExecutorService executor = Executors
-						.newScheduledThreadPool(1);
-				executor.scheduleAtFixedRate(gameRunnable, 0, 1,
-						TimeUnit.SECONDS);
 
+				while (row < 3) {
+
+					labels[row][column].setBackground(Color.YELLOW);
+					row++;
+					try {
+						Thread.sleep(1000);
+					} catch (InterruptedException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				}
 			}
 
 		});
-		
-	}
 
-	Runnable gameRunnable = new Runnable() {
-		public void run() {
-			System.out.println("hello " + column);
-			panel.clicked(column);
-		}
-	};
+	}
 
 	@Override
 	public void keyPressed(KeyEvent e) {
@@ -74,31 +87,32 @@ public class TestingClass extends JFrame implements KeyListener {
 		} else if (c == KeyEvent.VK_LEFT) {
 			System.out.println("left");
 			// this.color = Color.GREEN;
-			labels[row][column].setBackground(Color.LIGHT_GRAY);
 			if (column != 0) {
+				labels[row][column].setBackground(Color.LIGHT_GRAY);
 				column--;
 				labels[row][column].setBackground(Color.YELLOW);
-			}
-			repaint();
 
+				repaint();
+			}
 		} else if (c == KeyEvent.VK_RIGHT) {
 			System.out.println("right");
-			labels[row][column].setBackground(Color.LIGHT_GRAY);
+
 			if (column != 2) {
+				this.labels[row][column].setBackground(Color.LIGHT_GRAY);
 				// this.color = Color.BLUE;
 				column++;
 				labels[row][column].setBackground(Color.YELLOW);
+
+				repaint();
 			}
-			repaint();
 		}
 
-		repaint();
 	}
 
 	@Override
 	public void keyReleased(KeyEvent arg0) {
 		// TODO Auto-generated method stub
-System.out.println("Here");
+		System.out.println("Here");
 	}
 
 	@Override
