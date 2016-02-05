@@ -26,36 +26,33 @@ public class JPiece extends Piece implements PieceInterface {
 		int turnType = super.turnCounter % 4;
 		switch (turnType) {
 		case 1:
-			// r1 same, r3 same
+			// r1 same, 3 stays same 	,c234 all c3
 			super.row2 -= 1;
 			super.row4 += 1;
 			super.column1 += 2;
-			// c234 all c3
 			super.column2 = super.column3;
 			super.column4 = super.column3;
 			break;
 		case 2:
+			//3 stays, c1 stays, 24 go to r3
 			super.row1 += 2;
-			// r234 all r3
 			super.row2 = super.row3;
 			super.row4 = super.row3;
-			// c1 stays c3 stays
 			super.column2 += 1;
 			super.column4 -= 1;
 			break;
 		case 3:
-			super.row1 += 1;
+			//3 stays, c234 all c3
 			super.row2 += 1;
-			// r3 stays
 			super.row4 -= 1;
-			// c234 all c3
+			super.column1 -=2;
 			super.column2 = super.column3;
 			super.column4 = super.column3;
 			break;
 		case 0:
 			super.row1 -= 2;
-			super.row2 -= 1;
-			super.row4 += 1;
+			super.row2 = super.row3;
+			super.row4 = super.row3;
 			super.column2 -= 1;
 			super.column4 += 1;
 			break;

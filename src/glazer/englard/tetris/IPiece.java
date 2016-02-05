@@ -6,7 +6,7 @@ public class IPiece extends Piece implements PieceInterface {
 
 	public IPiece() {
 		super();
-		super.color = new Color(31, 190, 214);
+		super.color = new Color(31, 190, 214); // light blue
 		startPosition();
 
 	}
@@ -27,48 +27,48 @@ public class IPiece extends Piece implements PieceInterface {
 		int turnType = super.turnCounter % 4;
 		switch (turnType) {
 		case 1:
-			// everything goes into column 3, c3 does not change and r2 does not
-			// change
-			super.row1 = super.row1 + 1;
-			super.row3 = super.row3 - 1;
-			super.row4 = super.row4 - 2;
+			// everything in c3, 3 stays same
+			super.row1 += 1;
+			super.row2 += 2;
+			super.row4 += 3;
 			super.column1 = super.column3;
 			super.column2 = super.column3;
 			super.column4 = super.column3;
+			
 			break;
 		case 2:
-			// row2/column2 stays the same
-			super.row1 = super.row1 - 1;
-			super.row3 = super.row3 + 1;
-			super.row4 = super.row4 + 2;
-			super.column1 = super.column2;
-			super.column3 = super.column2;
-			super.column4 = super.column2;
-
+			// everything inr2, 2 stays same
+			super.row1 = super.row2;
+			super.row3 = super.row2;
+			super.row4 = super.row2;
+			super.column1 -= 2;
+			super.column3 -= 1;
+			super.column4 += 1;
+			
 			break;
 		case 3:
 			// everything goes into r3, r3 stays same
-			super.row1 = super.row3;
-			super.row2 = super.row3;
-			super.row4 = super.row3;
-			super.column1 = super.column1 - 2;
-			super.column2 = super.column2 - 1;
-			super.column4 = super.column4 + 1;
+			super.row1 -= 2;
+			super.row2 -= 1;
+			super.row4 += 1;
+			super.column1 = super.column3;
+			super.column2 = super.column3;
+			super.column4 = super.column3;
+			
 			break;
 		case 0:
-			// goes inot c2, r3 stays
-			super.row1 = super.row1 + 2;
-			super.row2 = super.row2 + 1;
-			super.row4 = super.row4 - 1;
-			super.column1 = super.column2;
-			super.column3 = super.column2;
-			super.column4 = super.column2;
+			// goes into r1, r1 and c2 stay
+			super.row2 = super.row1;
+			super.row3 = super.row1;
+			super.row4 = super.row1;
+			super.column1 -= 1;
+			super.column3 += 1;
+			super.column4 += 2;
+			
 			break;
 
 		}
 		super.turnCounter++;
 
 	}
-
-
 }

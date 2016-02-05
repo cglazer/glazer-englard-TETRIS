@@ -1,14 +1,13 @@
 package glazer.englard.tetris;
 
 import java.awt.Color;
-import java.util.Random;
 
-public class Piece {
+public abstract class Piece {
 
 	// the shape and color of the piece are randomly generated
 	// each piece is made of 4 subunits
 
-	//private char shape;
+	// private char shape;
 	protected Color color;
 	protected int row1;
 	protected int column1;
@@ -21,10 +20,8 @@ public class Piece {
 	protected int turnCounter;
 
 	public Piece() {
-	//	generateShape();
-	//	setStartPosition(); // based on the shape, the boxes in grid that are
-							// highlighed
-		this.turnCounter = 0;
+
+		this.turnCounter = 1;
 	}
 
 	public int getRow1() {
@@ -91,14 +88,12 @@ public class Piece {
 		this.column4 = column4;
 	}
 
-	//public char getShape() {
-	//	return shape;
-	//}
-
 	public Color getColor() {
 		return color;
 	}
+
 	public void moveRight() {
+
 		column1 += 1;
 		column2 += 1;
 		column3 += 1;
@@ -116,12 +111,21 @@ public class Piece {
 
 	public void moveDown() {
 
-		row1 -= 1;
-		row2 -= 1;
-		row3 -= 1;
-		row4 -= 1;
+		row1 += 1;
+		row2 += 1;
+		row3 += 1;
+		row4 += 1;
 
 	}
 
-	
+	public void moveDownFast() {
+
+		row1 += 2;
+		row2 += 2;
+		row3 += 2;
+		row4 += 2;
+	}
+
+	public abstract void turn();
+
 }
