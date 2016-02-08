@@ -2,7 +2,7 @@ package glazer.englard.tetris;
 
 import java.awt.Color;
 
-public class OPiece extends Piece implements PieceInterface {
+public class OPiece extends Piece  {
 
 	public OPiece(int maxC) {
 		super(maxC);

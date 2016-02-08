@@ -30,6 +30,10 @@ public class SPiece extends Piece{
 		int turnType = super.turnCounter % 4;
 		switch (turnType) {
 		case 1:
+			//make sure does not go off the end of the board
+			if (super.row2 + 2 > super.MaxRow){
+				return;
+			}
 			// 1 and 4 stay 
 			super.row2 += 2;
 			super.column3 += 2;
@@ -52,6 +56,12 @@ public class SPiece extends Piece{
 
 		}
 		super.turnCounter++;
+		while (super.column2 < 0) {
+			super.moveRight();
+		}
+		while (super.column2 > super.MaxColumn) {
+			super.moveLeft();
+		}
 	}
 
 	@Override

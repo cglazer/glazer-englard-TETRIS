@@ -47,7 +47,7 @@ public class Testing extends JFrame {
 	Runnable test = new Runnable() {
 		@Override
 		public void run() {
-			text.setText(text.getText() + " Hello");
+			text.setText("the");
 			text.repaint();
 			text.revalidate();
 			repaint();

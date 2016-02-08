@@ -42,10 +42,12 @@ public class TetrisGrid extends JPanel {
 	private int score;
 	private int lines;
 	private PriorityQueue queue;
+	private int level;
 
 	public TetrisGrid() {
 		this.numRows = 20;
 		this.numCols = 10;
+		this.level = 1;
 		this.labels = new JLabel[this.numRows + 1][this.numCols];
 		this.map = new HashMap<JLabel, Boolean>();
 		this.labelSet = new HashSet<JLabel>();
@@ -60,7 +62,7 @@ public class TetrisGrid extends JPanel {
 						.createLineBorder(Color.BLACK));
 			}
 		}
-		
+
 	}
 
 	public void startGame() {
@@ -111,6 +113,7 @@ public class TetrisGrid extends JPanel {
 						.contains(labels[row2][column2 + 1]))
 				&& (!map.get(labels[row3][column3 + 1]) || labelSet
 						.contains(labels[row3][column3 + 1]))
+
 				&& (!map.get(labels[row4][column4 + 1]) || labelSet
 						.contains(labels[row4][column4 + 1]))) {
 			this.pieceShape.moveRight();
@@ -193,10 +196,13 @@ public class TetrisGrid extends JPanel {
 			queue.enqueue(this.nextPieceShape);
 			break;
 		}
+		score += 10;
 
 	}
-	public Piece getNextShape(){
+
+	public Piece getNextShape() {
 		return queue.peek();
+
 	}
 
 	private void refreshColumnValues() {
@@ -234,6 +240,7 @@ public class TetrisGrid extends JPanel {
 	public void checkFinishedRow() {
 		this.numDeletedRows = 0;
 		boolean fullLine = true;
+
 		int checkCol;
 		for (int i = 0; i < numRows; i++) {
 			checkCol = 0;
@@ -241,7 +248,9 @@ public class TetrisGrid extends JPanel {
 			while (fullLine) {
 				if (!map.get(labels[i][checkCol])) {
 					fullLine = false;
+
 				} else {
+
 					if (checkCol == 9) {
 						for (int x = 0; x < numCols; x++) {
 							labels[i][x].setBackground(Color.LIGHT_GRAY);
@@ -251,26 +260,34 @@ public class TetrisGrid extends JPanel {
 						this.numDeletedRows++;
 						repaint();
 						fullLine = false;
+
 					}
 					checkCol++;
+
 				}
 			}
+
 		}
-		switch (this.numDeletedRows) {
-		case 1:
-			this.score += 40;
-			break;
-		case 2:
-			this.score += 100;
-			break;
-		case 3:
-			this.score += 300;
-			break;
-		case 4:
-			this.score += 1200;
-			break;
+		
+		//if (!map.keySet().contains(true)) {
+		//	score += 2000 * level;
+		//} else {
+			switch (this.numDeletedRows) {
+			case 1:
+				this.score += 40 * level;
+				break;
+			case 2:
+				this.score += 100 * level;
+				break;
+			case 3:
+				this.score += 300 * level;
+				break;
+			case 4:
+				this.score += 1200 * level;
+				break;
+			}
 		}
-	}
+//	}
 
 	public int getScore() {
 		return score;
@@ -346,6 +363,7 @@ public class TetrisGrid extends JPanel {
 		repaint();
 		pieceShape.moveDown();
 		refreshRowValues();
+
 	}
 
 	public void checkPieceDone() {

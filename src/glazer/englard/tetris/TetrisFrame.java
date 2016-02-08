@@ -4,8 +4,10 @@ import java.applet.Applet;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Container;
+import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
+
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
@@ -55,6 +57,9 @@ public class TetrisFrame extends JFrame implements KeyListener {
 	private int column3;
 	private int column4;
 	private Color nextShapeColor;
+	private JPanel eastHolder;
+	private boolean isPaused;
+	private DropMenu menuBar;
 
 	public TetrisFrame() {
 		setSize(370, 620);
@@ -78,6 +83,9 @@ public class TetrisFrame extends JFrame implements KeyListener {
 		this.executor2 = Executors.newScheduledThreadPool(1);
 		this.eastPanel = new JPanel();
 		this.nextPieceLabels = new JLabel[2][4];
+		this.eastHolder = new JPanel();
+		this.isPaused = false;
+		this.menuBar = new DropMenu();
 		setComponents();
 		addComponents();
 	}
@@ -88,29 +96,41 @@ public class TetrisFrame extends JFrame implements KeyListener {
 		this.westPanel.setLayout(new BoxLayout(this.westPanel,
 				BoxLayout.PAGE_AXIS));
 		this.container.setFocusable(true);
-		this.eastPanel.setLayout(new GridLayout(2, 4));
+		this.eastHolder.setLayout(new BorderLayout());
+		this.eastPanel.setLayout(new GridLayout(3, 4));
+		this.eastPanel.setPreferredSize(new Dimension(90, 70));
+
 	}
 
 	public void addComponents() {
 
 		this.container.add(this.grid, BorderLayout.CENTER);
 		this.northPanel.add(start);
-		this.northPanel.add(this.turn);
-		this.northPanel.add(this.moveLeft);
-		this.northPanel.add(this.moveRight);
-		this.northPanel.add(this.moveDown);
+		// this.northPanel.add(this.turn);
+		// this.northPanel.add(this.moveLeft);
+		// this.northPanel.add(this.moveRight);
+		// this.northPanel.add(this.moveDown);
+
+		this.setMenuBar(menuBar);
 		this.container.add(this.northPanel, BorderLayout.NORTH);
 		this.container.add(this.gameOver, BorderLayout.SOUTH);
 		this.container.add(this.westPanel, BorderLayout.WEST);
-		this.container.add(this.eastPanel, BorderLayout.EAST);
+		this.eastHolder.add(eastPanel, BorderLayout.NORTH);
+		this.container.add(this.eastHolder, BorderLayout.EAST);
 		this.westPanel.add(this.scoreLabel);
 		this.westPanel.add(this.score);
 		this.westPanel.add(this.linesLabel);
 		this.westPanel.add(this.lines);
+
 		this.container.addKeyListener(this);
+		// add space before to line things up
+		this.eastPanel.add(new JLabel(" "));
+		this.eastPanel.add(new JLabel(" "));
+		this.eastPanel.add(new JLabel(" "));
+		this.eastPanel.add(new JLabel(" "));
 		for (int i = 0; i < 2; i++) {
 			for (int x = 0; x < 4; x++) {
-				this.nextPieceLabels[i][x] = new JLabel("N");
+				this.nextPieceLabels[i][x] = new JLabel(" ");
 				this.eastPanel.add(this.nextPieceLabels[i][x]);
 				this.nextPieceLabels[i][x].setBorder(BorderFactory
 						.createLineBorder(Color.BLACK));
@@ -181,7 +201,7 @@ public class TetrisFrame extends JFrame implements KeyListener {
 	Runnable playSound = new Runnable() {
 
 		public void run() {
-			 //MusicThread musicThread= new MusicThread();
+			// MusicThread musicThread= new MusicThread();
 			// musicThread.start();
 
 			Applet.newAudioClip(getClass().getResource("jolly-game-groove.wav"))
@@ -194,10 +214,17 @@ public class TetrisFrame extends JFrame implements KeyListener {
 		{
 			if (grid.checkGameOver()) {
 				gameOver();
+			} else if (isPaused) {
+				try {
+					Thread.sleep(100);
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 			} else {
 				runningThread = new RunningThread(grid, score, lines);
 				runningThread.start();
-				//setEastPanel();
+				setEastPanel();
 			}
 			/**
 			 * if (grid.checkGameOver()) { gameOver(); } else { grid.runGame();
@@ -247,6 +274,12 @@ public class TetrisFrame extends JFrame implements KeyListener {
 			grid.moveLeft();
 		} else if (c == KeyEvent.VK_RIGHT) {
 			grid.moveRight();
+		} else if (c == KeyEvent.VK_P) {
+			// pause
+			this.isPaused = true;
+		} else if (c == KeyEvent.VK_R) {
+			// resume
+			this.isPaused = false;
 		}
 		repaint();
 	}
