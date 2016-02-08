@@ -222,15 +222,15 @@ public class TetrisFrame extends JFrame implements KeyListener {
 			}
 		}
 		this.nextShape = grid.getNextShape();
-		this.nextShapeColor=this.nextShape.getColor();
+		this.nextShapeColor = this.nextShape.getColor();
 		this.column1 = this.nextShape.getColumn1() - 3;
 		this.column2 = this.nextShape.getColumn2() - 3;
 		this.column3 = this.nextShape.getColumn3() - 3;
 		this.column4 = this.nextShape.getColumn4() - 3;
-		this.row1 = this.nextShape.getRow1()+1;
-		this.row2 = this.nextShape.getRow2()+1;
-		this.row3 = this.nextShape.getRow3()+1;
-		this.row4 = this.nextShape.getRow4()+1;
+		this.row1 = this.nextShape.getRow1() + 1;
+		this.row2 = this.nextShape.getRow2() + 1;
+		this.row3 = this.nextShape.getRow3() + 1;
+		this.row4 = this.nextShape.getRow4() + 1;
 		this.nextPieceLabels[row1][column1].setBackground(this.nextShapeColor);
 		this.nextPieceLabels[row2][column2].setBackground(this.nextShapeColor);
 		this.nextPieceLabels[row3][column3].setBackground(this.nextShapeColor);
