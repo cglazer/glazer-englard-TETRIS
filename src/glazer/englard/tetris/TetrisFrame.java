@@ -214,16 +214,23 @@ public class TetrisFrame extends JFrame implements KeyListener {
 	}
 
 	public void setEastPanel() {
+		for (int i = 0; i < 2; i++) {
+			for (int x = 0; x < 4; x++) {
+				this.nextPieceLabels[i][x].setBackground(Color.LIGHT_GRAY);
+				this.nextPieceLabels[i][x].setOpaque(true);
+
+			}
+		}
 		this.nextShape = grid.getNextShape();
 		this.nextShapeColor=this.nextShape.getColor();
-		this.column1 = this.nextShape.getColumn1() - 2;
-		this.column2 = this.nextShape.getColumn2() - 2;
-		this.column3 = this.nextShape.getColumn3() - 2;
-		this.column4 = this.nextShape.getColumn4() - 2;
-		this.row1 = this.nextShape.getColumn1();
-		this.row2 = this.nextShape.getColumn2();
-		this.row3 = this.nextShape.getColumn3();
-		this.row4 = this.nextShape.getColumn4();
+		this.column1 = this.nextShape.getColumn1() - 3;
+		this.column2 = this.nextShape.getColumn2() - 3;
+		this.column3 = this.nextShape.getColumn3() - 3;
+		this.column4 = this.nextShape.getColumn4() - 3;
+		this.row1 = this.nextShape.getRow1()+1;
+		this.row2 = this.nextShape.getRow2()+1;
+		this.row3 = this.nextShape.getRow3()+1;
+		this.row4 = this.nextShape.getRow4()+1;
 		this.nextPieceLabels[row1][column1].setBackground(this.nextShapeColor);
 		this.nextPieceLabels[row2][column2].setBackground(this.nextShapeColor);
 		this.nextPieceLabels[row3][column3].setBackground(this.nextShapeColor);
