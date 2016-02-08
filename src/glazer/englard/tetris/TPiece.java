@@ -3,8 +3,8 @@ package glazer.englard.tetris;
 import java.awt.Color;
 
 public class TPiece extends Piece implements PieceInterface {
-	public TPiece() {
-		super();
+	public TPiece(int maxC) {
+		super(maxC);
 		super.color = new Color(128, 0, 128); // purple
 		startPosition();
 	}
@@ -69,6 +69,18 @@ public class TPiece extends Piece implements PieceInterface {
 	
 		super.turnCounter++;
 
+	}
+
+	@Override
+	public boolean moveRightValidate() {
+		//4 is alwasy right most piece
+		return super.column4 < super.MaxColumn;
+	}
+
+	@Override
+	public boolean moveLeftValidate() {
+		//2 or 1 is right most
+		return (super.column2 > 0 && super.column1 > 0);
 	}
 
 }

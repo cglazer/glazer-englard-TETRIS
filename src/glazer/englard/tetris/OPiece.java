@@ -4,8 +4,8 @@ import java.awt.Color;
 
 public class OPiece extends Piece implements PieceInterface {
 
-	public OPiece() {
-		super();
+	public OPiece(int maxC) {
+		super(maxC);
 		super.color = Color.YELLOW;
 		startPosition();
 	}
@@ -26,6 +26,18 @@ public class OPiece extends Piece implements PieceInterface {
 	public void turn() {
 		// nothing happens when you turn a OPiece
 
+	}
+
+	@Override
+	public boolean moveRightValidate() {
+		//2 is always right most
+		return super.column2 < super.MaxColumn;
+	}
+
+	@Override
+	public boolean moveLeftValidate() {
+		//1 is always rigth most piece
+		return super.column1 > 0;
 	}
 
 	

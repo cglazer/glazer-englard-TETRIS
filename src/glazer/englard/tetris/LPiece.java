@@ -4,8 +4,8 @@ import java.awt.Color;
 
 public class LPiece extends Piece implements PieceInterface {
 
-	public LPiece() {
-		super();
+	public LPiece(int maxC) {
+		super(maxC);
 		super.color = Color.ORANGE;
 		startPosition();
 	}
@@ -62,5 +62,17 @@ public class LPiece extends Piece implements PieceInterface {
 		}
 		super.turnCounter++;
 
+	}
+
+	@Override
+	public boolean moveRightValidate() {
+		//right most piece is 1 or 4
+		return (super.column1 < super.MaxColumn && super.column4< super.MaxColumn);
+	}
+
+	@Override
+	public boolean moveLeftValidate() {
+		//left most piece s 4 or 1
+		return (super.column1 > 0 && super.column4 > 0);
 	}
 }

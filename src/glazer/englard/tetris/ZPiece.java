@@ -4,8 +4,8 @@ import java.awt.Color;
 
 public class ZPiece extends Piece implements PieceInterface {
 
-	public ZPiece() {
-		super();
+	public ZPiece(int maxC) {
+		super(maxC);
 		super.color = Color.RED;
 		startPosition();
 	}
@@ -49,6 +49,18 @@ public class ZPiece extends Piece implements PieceInterface {
 
 		}
 		super.turnCounter++;
+	}
+
+	@Override
+	public boolean moveRightValidate() {
+		//right most piece is 4 1 or 2
+		return (super.column2< super.MaxColumn && super.column1 < super.MaxColumn && super.column4 < super.MaxColumn  );
+	}
+
+	@Override
+	public boolean moveLeftValidate() {
+		//left most piece is 4 1 or 2
+		return (super.column1 > 0 && super.column2 > 0 && super.column4> 0);
 	}
 
 }

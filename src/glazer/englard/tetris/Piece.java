@@ -18,9 +18,11 @@ public abstract class Piece {
 	protected int row4;
 	protected int column4;
 	protected int turnCounter;
+	protected int MinRow =28;
+	protected int MaxColumn;
 
-	public Piece() {
-
+	public Piece(int maxColumn) {
+		this.MaxColumn = maxColumn-1;
 		this.turnCounter = 1;
 	}
 
@@ -93,21 +95,30 @@ public abstract class Piece {
 	}
 
 	public void moveRight() {
-
+		// validate that the piece can move right
+		//if(moveRightValidate()){
 		column1 += 1;
 		column2 += 1;
 		column3 += 1;
 		column4 += 1;
+		//}
 
 	}
+
+	abstract public boolean moveRightValidate();
 
 	public void moveLeft() {
-		column1 -= 1;
-		column2 -= 1;
-		column3 -= 1;
-		column4 -= 1;
+		// validate the piece can move left
+		//if (moveLeftValidate()) {
+			column1 -= 1;
+			column2 -= 1;
+			column3 -= 1;
+			column4 -= 1;
+		//}
 
 	}
+
+	abstract public boolean moveLeftValidate();
 
 	public void moveDown() {
 

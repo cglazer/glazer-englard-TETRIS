@@ -18,6 +18,7 @@ public class TetrisGrid extends JPanel {
 	private HashMap<JLabel, Boolean> map;
 	private HashSet<JLabel> labelSet;
 	private Piece pieceShape;
+	private Piece nextPieceShape;
 	private Color color;
 	private int numRows;
 	private int numCols;
@@ -40,15 +41,16 @@ public class TetrisGrid extends JPanel {
 	private int numDeletedRows;
 	private int score;
 	private int lines;
+	private PriorityQueue queue;
 
 	public TetrisGrid() {
-		this.numRows = 30;
+		this.numRows = 20;
 		this.numCols = 10;
-		this.labels = new JLabel[this.numRows][this.numCols];
+		this.labels = new JLabel[this.numRows + 1][this.numCols];
 		this.map = new HashMap<JLabel, Boolean>();
 		this.labelSet = new HashSet<JLabel>();
 		this.numDeletedRows = 0;
-
+		this.queue = new PriorityQueue();
 		setLayout(new GridLayout(this.numRows, this.numCols));
 		for (int i = 0; i < this.numRows; i++) {
 			for (int x = 0; x < this.numCols; x++) {
@@ -58,9 +60,13 @@ public class TetrisGrid extends JPanel {
 						.createLineBorder(Color.BLACK));
 			}
 		}
+		
 	}
 
 	public void startGame() {
+		this.queue.reset();
+		chooseShape();
+		chooseShape();
 		this.lines = 0;
 		this.score = 0;
 		this.map.clear();
@@ -72,7 +78,7 @@ public class TetrisGrid extends JPanel {
 				this.map.put(labels[i][x], false);
 			}
 		}
-		chooseShape();
+		nextShape();
 	}
 
 	public void runGame() {
@@ -82,47 +88,58 @@ public class TetrisGrid extends JPanel {
 	}
 
 	public void moveLeft() {
-		if (column1 != 0
-				&& column2 != 0
-				&& column3 != 0
-				&& column4 != 0
+		if (pieceShape.moveLeftValidate()
 				&& (!map.get(labels[row1][column1 - 1]) || labelSet
-						.contains(labels[row1][column1]))
+						.contains(labels[row1][column1 - 1]))
 				&& (!map.get(labels[row2][column2 - 1]) || labelSet
-						.contains(labels[row2][column2]))
+						.contains(labels[row2][column2 - 1]))
 				&& (!map.get(labels[row3][column3 - 1]) || labelSet
-						.contains(labels[row3][column3]))
+						.contains(labels[row3][column3 - 1]))
 				&& (!map.get(labels[row4][column4 - 1]) || labelSet
-						.contains(labels[row4][column4]))) {
+						.contains(labels[row4][column4 - 1]))) {
 			this.pieceShape.moveLeft();
 			refreshColumnValues();
+			System.out.println("move left");
 		}
 	}
 
 	public void moveRight() {
-		if (column1 != numCols - 1
-				&& column2 != numCols - 1
-				&& column3 != numCols - 1
-				&& column4 != numCols - 1
+		if (pieceShape.moveRightValidate()
 				&& (!map.get(labels[row1][column1 + 1]) || labelSet
-						.contains(labels[row1][column1]))
+						.contains(labels[row1][column1 + 1]))
 				&& (!map.get(labels[row2][column2 + 1]) || labelSet
-						.contains(labels[row2][column2]))
+						.contains(labels[row2][column2 + 1]))
 				&& (!map.get(labels[row3][column3 + 1]) || labelSet
-						.contains(labels[row3][column3]))
+						.contains(labels[row3][column3 + 1]))
 				&& (!map.get(labels[row4][column4 + 1]) || labelSet
-						.contains(labels[row4][column4]))) {
+						.contains(labels[row4][column4 + 1]))) {
 			this.pieceShape.moveRight();
 			refreshColumnValues();
+			System.out.println("move right");
 		}
 	}
 
 	public void moveDownFast() {
-		if (row1 + 2 < numRows && row2 + 2 < numRows && row3 + 2 < numRows
-				&& row4 + 2 < numRows && !map.get(labels[row1 + 2][column1])
-				&& !map.get(labels[row2 + 2][column2])
-				&& !map.get(labels[row3 + 2][column3])
-				&& !map.get(labels[row4 + 2][column4])) {
+		if (row1 + 2 < numRows
+				&& row2 + 2 < numRows
+				&& row3 + 2 < numRows
+				&& row4 + 2 < numRows
+				&& (!map.get(labels[row1 + 2][column1]) || labelSet
+						.contains(labels[row1 + 2][column1]))
+				&& (!map.get(labels[row2 + 2][column2]) || labelSet
+						.contains(labels[row2 + 2][column2]))
+				&& (!map.get(labels[row3 + 2][column3]) || labelSet
+						.contains(labels[row3 + 2][column3]))
+				&& (!map.get(labels[row4 + 2][column4]) || labelSet
+						.contains(labels[row4 + 2][column4]))
+				&& (!map.get(labels[row1 + 1][column1]) || labelSet
+						.contains(labels[row1 + 1][column1]))
+				&& (!map.get(labels[row2 + 1][column2]) || labelSet
+						.contains(labels[row2 + 1][column2]))
+				&& (!map.get(labels[row3 + 1][column3]) || labelSet
+						.contains(labels[row3 + 1][column3]))
+				&& (!map.get(labels[row4 + 1][column4]) || labelSet
+						.contains(labels[row4 + 1][column4]))) {
 			this.pieceShape.moveDownFast();
 			refreshRowValues();
 			score += 2;
@@ -135,36 +152,51 @@ public class TetrisGrid extends JPanel {
 		refreshColumnValues();
 	}
 
-	public void chooseShape() {
-		Random newShape = new Random();
-		int numShape = newShape.nextInt(6);
-		switch (numShape) {
-		case 0:
-			this.pieceShape = new LPiece();
-			break;
-		case 1:
-			this.pieceShape = new IPiece();
-			break;
-		case 2:
-			this.pieceShape = new OPiece();
-			break;
-		case 3:
-			this.pieceShape = new JPiece();
-			break;
-		case 4:
-			this.pieceShape = new TPiece();
-			break;
-		case 5:
-			this.pieceShape = new ZPiece();
-			break;
-		/**
-		 * case 6: shape = "S"; break;
-		 */
-		}
+	public void nextShape() {
+		this.pieceShape = queue.dequeue();
+		chooseShape();
 		this.color = this.pieceShape.getColor();
 		refreshRowValues();
 		refreshColumnValues();
+	}
 
+	public void chooseShape() {
+		Random newShape = new Random();
+		int numShape = newShape.nextInt(7);
+		switch (numShape) {
+		case 0:
+			this.nextPieceShape = new LPiece(numCols);
+			queue.enqueue(this.nextPieceShape);
+			break;
+		case 1:
+			this.nextPieceShape = new IPiece(numCols);
+			queue.enqueue(this.nextPieceShape);
+			break;
+		case 2:
+			this.nextPieceShape = new OPiece(numCols);
+			queue.enqueue(this.nextPieceShape);
+			break;
+		case 3:
+			this.nextPieceShape = new JPiece(numCols);
+			queue.enqueue(this.nextPieceShape);
+			break;
+		case 4:
+			this.nextPieceShape = new TPiece(numCols);
+			queue.enqueue(this.nextPieceShape);
+			break;
+		case 5:
+			this.nextPieceShape = new ZPiece(numCols);
+			queue.enqueue(this.nextPieceShape);
+			break;
+		case 6:
+			this.nextPieceShape = new SPiece(numCols);
+			queue.enqueue(this.nextPieceShape);
+			break;
+		}
+
+	}
+	public Piece getNextShape(){
+		return queue.peek();
 	}
 
 	private void refreshColumnValues() {
@@ -256,6 +288,7 @@ public class TetrisGrid extends JPanel {
 
 	public void eraseOldPeice() {
 		// TODO Auto-generated method stub
+		// if piece is on board it gets erased!!
 		if (row1 > 0) {
 			labels[coloredRow1][coloredColumn1].setBackground(Color.LIGHT_GRAY);
 			map.put(labels[coloredRow1][coloredColumn1], false);
@@ -277,6 +310,7 @@ public class TetrisGrid extends JPanel {
 
 	public void drawCurrentPiece() {
 		// TODO Auto-generated method stub
+		// draws current piece
 		if (row1 >= 0) {
 			labels[row1][column1].setBackground(color);
 			labels[row1][column1].setOpaque(true);
@@ -316,18 +350,21 @@ public class TetrisGrid extends JPanel {
 
 	public void checkPieceDone() {
 		// TODO Auto-generated method stub
-		if ((map.get(labels[row1][column1]) && !labelSet
-				.contains(labels[row1][column1]))
+		if (row1 == numRows
+				|| row2 == numRows
+				|| row3 == numRows
+				|| row4 == numRows
+				|| (map.get(labels[row1][column1]) && !labelSet
+						.contains(labels[row1][column1]))
 				|| (map.get(labels[row2][column2]) && !labelSet
 						.contains(labels[row2][column2]))
 				|| (map.get(labels[row3][column3]) && !labelSet
 						.contains(labels[row3][column3]))
 				|| (map.get(labels[row4][column4]) && !labelSet
-						.contains(labels[row4][column4]))
-				|| row1 == 28
-				|| row2 == 28 || row3 == 28 || row4 == 28) {
+						.contains(labels[row4][column4]))) {
+
 			checkFinishedRow();
-			chooseShape();
+			nextShape();
 		}
 	}
 
