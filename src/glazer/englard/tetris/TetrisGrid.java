@@ -5,9 +5,11 @@ import java.awt.GridLayout;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Random;
+
 import javax.swing.BorderFactory;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.border.Border;
 
 public class TetrisGrid extends JPanel {
 	/**
@@ -53,13 +55,24 @@ public class TetrisGrid extends JPanel {
 		this.labelSet = new HashSet<JLabel>();
 		this.numDeletedRows = 0;
 		this.queue = new PriorityQueue();
+
 		setLayout(new GridLayout(this.numRows, this.numCols));
+		Border raisedbevel = BorderFactory.createRaisedSoftBevelBorder();
+		Border loweredbevel = BorderFactory.createEtchedBorder();
+		Border compound = BorderFactory.createCompoundBorder(loweredbevel,
+				raisedbevel);
 		for (int i = 0; i < this.numRows; i++) {
 			for (int x = 0; x < this.numCols; x++) {
 				this.labels[i][x] = new JLabel();
 				add(this.labels[i][x]);
-				this.labels[i][x].setBorder(BorderFactory
-						.createLineBorder(Color.BLACK));
+
+				// Border dark =
+				// BorderFactory.createLineBorder(Color.DARK_GRAY);
+				// Border blackCompound =
+				// BorderFactory.createCompoundBorder(compound,dark );
+				this.labels[i][x].setBorder(compound);
+				// this.labels[i][x].setBorder(BorderFactory.createLineBorder(Color.BLACK));
+
 			}
 		}
 
@@ -240,19 +253,21 @@ public class TetrisGrid extends JPanel {
 	public void checkFinishedRow() {
 		this.numDeletedRows = 0;
 		boolean fullLine = true;
-
+		int numSubPiece = 0;
 		int checkCol;
+		int x = 0;
 		for (int i = 0; i < numRows; i++) {
 			checkCol = 0;
 			fullLine = true;
+
 			while (fullLine) {
 				if (!map.get(labels[i][checkCol])) {
 					fullLine = false;
 
 				} else {
-
+					numSubPiece++;
 					if (checkCol == 9) {
-						for (int x = 0; x < numCols; x++) {
+						for (x = 0; x < numCols; x++) {
 							labels[i][x].setBackground(Color.LIGHT_GRAY);
 							map.put(labels[i][x], false);
 						}
@@ -260,18 +275,26 @@ public class TetrisGrid extends JPanel {
 						this.numDeletedRows++;
 						repaint();
 						fullLine = false;
+						numSubPiece -= 10;
 
 					}
 					checkCol++;
 
 				}
 			}
+			// finish off checking rest of the spaces to see if the whole board
+			// is empty
+			for (int col = x; col < numCols; col++) {
+				if (map.get(labels[i][col])) {
+					numSubPiece++;
+				}
+			}
 
 		}
-		
-		//if (!map.keySet().contains(true)) {
-		//	score += 2000 * level;
-		//} else {
+
+		if (numSubPiece == 0) {
+			score += 2000 * level;
+		} else {
 			switch (this.numDeletedRows) {
 			case 1:
 				this.score += 40 * level;
@@ -287,7 +310,7 @@ public class TetrisGrid extends JPanel {
 				break;
 			}
 		}
-//	}
+	}
 
 	public int getScore() {
 		return score;
