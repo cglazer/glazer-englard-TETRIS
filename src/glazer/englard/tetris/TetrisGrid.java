@@ -45,16 +45,19 @@ public class TetrisGrid extends JPanel {
 	private int lines;
 	private PriorityQueue queue;
 	private int level;
+	private int numCells;
 
 	public TetrisGrid() {
 		this.numRows = 20;
 		this.numCols = 10;
+		this.numCells = 0;
 		this.level = 1;
 		this.labels = new JLabel[this.numRows + 1][this.numCols];
 		this.map = new HashMap<JLabel, Boolean>();
 		this.labelSet = new HashSet<JLabel>();
 		this.numDeletedRows = 0;
 		this.queue = new PriorityQueue();
+		// chooseShape();
 		// this.setBackground(Color.BLACK);
 		setLayout(new GridLayout(this.numRows, this.numCols));
 		Border raisedbevel = BorderFactory.createRaisedSoftBevelBorder();
@@ -171,7 +174,8 @@ public class TetrisGrid extends JPanel {
 	}
 
 	public void turn() {
-		if (row1 > 0) {
+		if (row1 > 0 && row1 + 1 < numRows && row2 + 1 < numRows
+				&& row4 + 1 < numRows) {
 			this.pieceShape.turn();
 			refreshRowValues();
 			refreshColumnValues();
@@ -231,7 +235,7 @@ public class TetrisGrid extends JPanel {
 			queue.enqueue(this.nextPieceShape);
 			break;
 		}
-		score += 10;
+		// score += 10;
 
 	}
 
@@ -425,7 +429,7 @@ public class TetrisGrid extends JPanel {
 						.contains(labels[row3][column3]))
 				|| (map.get(labels[row4][column4]) && !labelSet
 						.contains(labels[row4][column4]))) {
-
+			score += 10;
 			checkFinishedRow();
 			nextShape();
 		}
@@ -434,6 +438,29 @@ public class TetrisGrid extends JPanel {
 	public int getLines() {
 		// TODO Auto-generated method stub
 		return this.lines;
+	}
+
+	public void fallDown() {
+		numCells = 0;
+		if (row1 > 0) {
+			while (row1 + 1 < numRows
+					&& row2 + 1 < numRows
+					&& row3 + 1 < numRows
+					&& row4 + 1 < numRows
+					&& (!map.get(labels[row1 + 1][column1]) || labelSet
+							.contains(labels[row1 + 1][column1]))
+					&& (!map.get(labels[row2 + 1][column2]) || labelSet
+							.contains(labels[row2 + 1][column2]))
+					&& (!map.get(labels[row3 + 1][column3]) || labelSet
+							.contains(labels[row3 + 1][column3]))
+					&& (!map.get(labels[row4 + 1][column4]) || labelSet
+							.contains(labels[row4 + 1][column4]))) {
+				this.pieceShape.moveDown();
+				refreshRowValues();
+				this.numCells++;
+			}
+		}
+		score += (2 * numCells);
 	}
 
 }
