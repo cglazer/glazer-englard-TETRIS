@@ -79,10 +79,39 @@ public class ZPiece extends Piece  {
 
 	@Override
 	public void unTurn() {
-		// TODO Auto-generated method stub
-		turn();
-		turn();
-		turn();
+		super.turnCounter--;
+		int turnType = super.turnCounter % 4;
+		switch (turnType) {
+		case 1:
+			
+			// 3 and 4 stay, r1 stays, and c2 stays
+			super.row2 -= 2;
+			super.column1 -= 2;
+			break;
+		case 2:
+			// 3 and 2 say, r4 and c1 stay
+			super.row1 -= 2;
+			super.column4 += 2;
+			break;
+		case 3:
+			//3 and 4 stay
+			super.row2 +=2;
+			super.column1 +=2;
+			break;
+		case 0:
+			//2 and 3 stay 
+			super.row1 +=2;
+			super.column4 -=2;
+			break;
+
+		}
+		while (super.column4 < 0) {
+			super.moveRight();
+		}
+		while (super.column4 > super.MaxColumn) {
+			super.moveLeft();
+		
+		}
 	}
 
 }

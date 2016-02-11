@@ -42,10 +42,8 @@ public class OPiece extends Piece  {
 
 	@Override
 	public void unTurn() {
-		// TODO Auto-generated method stub
-		turn();
-		turn();
-		turn();
+		//does not do anything since o piece never turns
+		
 	}
 
 	
