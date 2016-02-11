@@ -4,22 +4,27 @@ import java.applet.Applet;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Container;
+import java.awt.Dimension;
 import java.awt.FlowLayout;
+import java.awt.Frame;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.io.File;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.border.Border;
 
 public class TetrisFrame extends JFrame implements KeyListener {
 	/**
@@ -55,9 +60,12 @@ public class TetrisFrame extends JFrame implements KeyListener {
 	private int column3;
 	private int column4;
 	private Color nextShapeColor;
-
+	private JPanel eastHolder;
+	private boolean isPaused;
+	private DropMenu menuBar;
+	private JFrame frame;
 	public TetrisFrame() {
-		setSize(370, 620);
+		setSize(640, 650);
 		setTitle("Tetris");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.container = getContentPane();
@@ -78,6 +86,10 @@ public class TetrisFrame extends JFrame implements KeyListener {
 		this.executor2 = Executors.newScheduledThreadPool(1);
 		this.eastPanel = new JPanel();
 		this.nextPieceLabels = new JLabel[2][4];
+		this.eastHolder = new JPanel();
+		this.isPaused = false;
+		this.menuBar = new DropMenu();
+		this.frame=this;
 		setComponents();
 		addComponents();
 	}
@@ -88,32 +100,76 @@ public class TetrisFrame extends JFrame implements KeyListener {
 		this.westPanel.setLayout(new BoxLayout(this.westPanel,
 				BoxLayout.PAGE_AXIS));
 		this.container.setFocusable(true);
-		this.eastPanel.setLayout(new GridLayout(2, 4));
+		this.eastHolder.setLayout(new BorderLayout());
+		this.eastPanel.setLayout(new GridLayout(3, 4));
+		this.eastPanel.setPreferredSize(new Dimension(90, 70));
+
+		this.eastHolder.setBackground(Color.BLUE);
+		this.northPanel.setBackground(Color.BLUE);
+		this.westPanel.setBackground(Color.BLUE);
+this.eastPanel.setBackground(Color.BLUE);
+this.score.setMinimumSize(new Dimension(100, 50));
+this.score.setPreferredSize(new Dimension(100, 50));
+this.score.setMaximumSize(new Dimension(100, 50));
+this.score.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+this.linesLabel.setMinimumSize(new Dimension(100, 50));
+this.linesLabel.setPreferredSize(new Dimension(100, 50));
+this.linesLabel.setMaximumSize(new Dimension(100, 50));
+Border paddingBorder = BorderFactory.createEmptyBorder(20,40,20,40);
+//this.linesLabel.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+Border border = BorderFactory.createLineBorder(Color.BLACK);
+
+this.linesLabel.setBorder(BorderFactory.createCompoundBorder(border,paddingBorder));
+
+//this.linesLabel.set
+this.westPanel.setMinimumSize(new Dimension(170, 500));
+this.westPanel.setPreferredSize(new Dimension(170, 500));
+this.westPanel.setMaximumSize(new Dimension(170, 500));
+this.eastHolder.setMinimumSize(new Dimension(170, 500));
+this.eastHolder.setPreferredSize(new Dimension(170, 500));
+this.eastHolder.setMaximumSize(new Dimension(170, 500));
+this.eastPanel.setMinimumSize(new Dimension(100, 80));
+this.eastPanel.setPreferredSize(new Dimension(100, 80));
+this.eastPanel.setMaximumSize(new Dimension(100, 80));
+//JLabel back= new JLabel();
+//ImageIcon icon= new ImageIcon(("unnamed.gif"));
+//back.setIcon(icon);
+
+//frame.setContentPane(back);
 	}
 
 	public void addComponents() {
 
 		this.container.add(this.grid, BorderLayout.CENTER);
 		this.northPanel.add(start);
-		this.northPanel.add(this.turn);
-		this.northPanel.add(this.moveLeft);
-		this.northPanel.add(this.moveRight);
-		this.northPanel.add(this.moveDown);
+		// this.northPanel.add(this.turn);
+		// this.northPanel.add(this.moveLeft);
+		// this.northPanel.add(this.moveRight);
+		// this.northPanel.add(this.moveDown);
+
+		this.setMenuBar(menuBar);
 		this.container.add(this.northPanel, BorderLayout.NORTH);
 		this.container.add(this.gameOver, BorderLayout.SOUTH);
 		this.container.add(this.westPanel, BorderLayout.WEST);
-		this.container.add(this.eastPanel, BorderLayout.EAST);
+		this.eastHolder.add(eastPanel, BorderLayout.NORTH);
+		this.container.add(this.eastHolder, BorderLayout.EAST);
 		this.westPanel.add(this.scoreLabel);
 		this.westPanel.add(this.score);
 		this.westPanel.add(this.linesLabel);
 		this.westPanel.add(this.lines);
+
 		this.container.addKeyListener(this);
+		// add space before to line things up
+		this.eastPanel.add(new JLabel(" "));
+		this.eastPanel.add(new JLabel(" "));
+		this.eastPanel.add(new JLabel(" "));
+		this.eastPanel.add(new JLabel(" "));
 		for (int i = 0; i < 2; i++) {
 			for (int x = 0; x < 4; x++) {
-				this.nextPieceLabels[i][x] = new JLabel("N");
+				this.nextPieceLabels[i][x] = new JLabel(" ");
 				this.eastPanel.add(this.nextPieceLabels[i][x]);
-				this.nextPieceLabels[i][x].setBorder(BorderFactory
-						.createLineBorder(Color.BLACK));
+				//this.nextPieceLabels[i][x].setBorder(BorderFactory
+				//		.createLineBorder(Color.BLACK));
 			}
 		}
 		this.start.addActionListener(new ActionListener() {
@@ -171,7 +227,7 @@ public class TetrisFrame extends JFrame implements KeyListener {
 		this.executor2.scheduleAtFixedRate(playSound, 0, 22, TimeUnit.SECONDS);
 		for (int i = 0; i < 2; i++) {
 			for (int x = 0; x < 4; x++) {
-				this.nextPieceLabels[i][x].setBackground(Color.LIGHT_GRAY);
+				this.nextPieceLabels[i][x].setBackground(Color.BLUE);
 				this.nextPieceLabels[i][x].setOpaque(true);
 
 			}
@@ -194,6 +250,13 @@ public class TetrisFrame extends JFrame implements KeyListener {
 		{
 			if (grid.checkGameOver()) {
 				gameOver();
+			} else if (isPaused) {
+				try {
+					Thread.sleep(100);
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 			} else {
 				runningThread = new RunningThread(grid, score, lines);
 				runningThread.start();
@@ -216,9 +279,10 @@ public class TetrisFrame extends JFrame implements KeyListener {
 	public void setEastPanel() {
 		for (int i = 0; i < 2; i++) {
 			for (int x = 0; x < 4; x++) {
-				this.nextPieceLabels[i][x].setBackground(Color.LIGHT_GRAY);
+				this.nextPieceLabels[i][x].setBackground(Color.BLUE);
 				this.nextPieceLabels[i][x].setOpaque(true);
-
+				this.nextPieceLabels[i][x].setBorder(BorderFactory
+							.createLineBorder(Color.BLUE));
 			}
 		}
 		this.nextShape = grid.getNextShape();
@@ -235,6 +299,14 @@ public class TetrisFrame extends JFrame implements KeyListener {
 		this.nextPieceLabels[row2][column2].setBackground(this.nextShapeColor);
 		this.nextPieceLabels[row3][column3].setBackground(this.nextShapeColor);
 		this.nextPieceLabels[row4][column4].setBackground(this.nextShapeColor);
+		this.nextPieceLabels[row1][column1].setBorder(BorderFactory
+						.createLineBorder(Color.BLACK));
+		this.nextPieceLabels[row2][column2].setBorder(BorderFactory
+				.createLineBorder(Color.BLACK));
+		this.nextPieceLabels[row3][column3].setBorder(BorderFactory
+				.createLineBorder(Color.BLACK));
+		this.nextPieceLabels[row4][column4].setBorder(BorderFactory
+				.createLineBorder(Color.BLACK));
 	}
 
 	public void keyPressed(KeyEvent e) {
@@ -247,6 +319,12 @@ public class TetrisFrame extends JFrame implements KeyListener {
 			grid.moveLeft();
 		} else if (c == KeyEvent.VK_RIGHT) {
 			grid.moveRight();
+		} else if (c == KeyEvent.VK_P) {
+			// pause
+			this.isPaused = true;
+		} else if (c == KeyEvent.VK_R) {
+			// resume
+			this.isPaused = false;
 		}
 		repaint();
 	}

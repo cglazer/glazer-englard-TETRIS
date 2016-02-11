@@ -1,6 +1,7 @@
 package glazer.englard.tetris;
 
 import java.awt.Color;
+import java.util.Random;
 
 public abstract class Piece {
 
@@ -18,7 +19,7 @@ public abstract class Piece {
 	protected int row4;
 	protected int column4;
 	protected int turnCounter;
-	protected int MinRow =28;
+	protected int MaxRow =28;
 	protected int MaxColumn;
 
 	public Piece(int maxColumn) {

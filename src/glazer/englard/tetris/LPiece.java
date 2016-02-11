@@ -2,7 +2,7 @@ package glazer.englard.tetris;
 
 import java.awt.Color;
 
-public class LPiece extends Piece implements PieceInterface {
+public class LPiece extends Piece  {
 
 	public LPiece(int maxC) {
 		super(maxC);
@@ -27,6 +27,10 @@ public class LPiece extends Piece implements PieceInterface {
 		int turnType = super.turnCounter % 4;
 		switch (turnType) {
 		case 1:
+			//make sure piece does not go beyon bottom
+			if(super.row4 + 1 > super.MaxRow){
+				return; //dont turn
+			}
 			// c1 stays, 234 all c3, r3c3 stay
 			super.row1 += 2;
 			super.row2 -= 1;
@@ -61,7 +65,10 @@ public class LPiece extends Piece implements PieceInterface {
 
 		}
 		super.turnCounter++;
-
+		//validate that pieces did not go off the board
+		while (super.column1 < 0) {
+			super.moveRight();
+		}
 	}
 
 	@Override

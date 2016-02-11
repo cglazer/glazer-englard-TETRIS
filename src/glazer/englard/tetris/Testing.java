@@ -6,11 +6,12 @@ import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 
 public class Testing extends JFrame {
 	private ScheduledExecutorService executor;
 	private ScheduledExecutorService executor2;
-
+	private JLabel text;
 	public static void main(String[] args) {
 		Testing frame = new Testing();
 		frame.setVisible(true);
@@ -25,6 +26,8 @@ public class Testing extends JFrame {
 		this.executor.scheduleAtFixedRate(test, 0, 200, TimeUnit.MILLISECONDS);
 		this.executor2 = Executors.newScheduledThreadPool(1);
 		this.executor2.scheduleAtFixedRate(playSound, 0, 22, TimeUnit.SECONDS);
+		this.text = new JLabel("Hello");
+		add(text);
 	}
 
 	/**
@@ -44,7 +47,10 @@ public class Testing extends JFrame {
 	Runnable test = new Runnable() {
 		@Override
 		public void run() {
-			System.out.println("Hello");
+			text.setText("the");
+			text.repaint();
+			text.revalidate();
+			repaint();
 		}
 	};
 }
