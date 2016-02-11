@@ -2,7 +2,7 @@ package glazer.englard.tetris;
 
 import java.awt.Color;
 
-public class LPiece extends Piece  {
+public class LPiece extends Piece {
 
 	public LPiece(int maxC) {
 		super(maxC);
@@ -24,12 +24,16 @@ public class LPiece extends Piece  {
 
 	@Override
 	public void turn() {
+		// dont turn if part of the piece is above the board
+		if (super.row1 == -1) {
+			return;
+		}
 		int turnType = super.turnCounter % 4;
 		switch (turnType) {
 		case 1:
-			//make sure piece does not go beyon bottom
-			if(super.row4 + 1 > super.MaxRow){
-				return; //dont turn
+			// make sure piece does not go beyon bottom
+			if (super.row4 + 1 > super.MaxRow) {
+				return; // dont turn
 			}
 			// c1 stays, 234 all c3, r3c3 stay
 			super.row1 += 2;
@@ -65,7 +69,52 @@ public class LPiece extends Piece  {
 
 		}
 		super.turnCounter++;
-		//validate that pieces did not go off the board
+		// validate that pieces did not go off the board
+		while (super.column1 < 0) {
+			super.moveRight();
+		}
+	}
+
+	public void unTurn() {
+		super.turnCounter--;
+		int turnType = super.turnCounter % 4;
+		switch (turnType) {
+		case 1:
+			// c1 stays, 234 all c3, r3c3 stay
+			super.row1 -= 2;
+			super.row2 += 1;
+			super.row4 -= 1;
+			super.column2 +=1;
+			super.column4 -=1;
+			break;
+		case 2:
+			// r1 stays r234 allr3
+			super.row2 -=1;
+			super.row4 +=1;
+			super.column1 += 2;
+			super.column2 += 1;
+			super.column4 -= 1;
+			break;
+		case 3:
+			// 3 stays, c1 stays
+			super.row1 += 2;
+			super.row2 += 1;
+			super.row4 -= 1;
+			super.column2 -=1;
+			super.column4 +=1;
+			break;
+		case 0:
+			// 3 stays , r1 stays
+			super.row2 -=1;
+			super.row4 +=1;
+			super.column1 -= 2;
+			super.column2 -= 1;
+			super.column4 += 1;
+			break;
+
+		}
+		super.turnCounter++;
+		// validate that pieces did not go off the board
 		while (super.column1 < 0) {
 			super.moveRight();
 		}
@@ -73,13 +122,13 @@ public class LPiece extends Piece  {
 
 	@Override
 	public boolean moveRightValidate() {
-		//right most piece is 1 or 4
-		return (super.column1 < super.MaxColumn && super.column4< super.MaxColumn);
+		// right most piece is 1 or 4
+		return (super.column1 < super.MaxColumn && super.column4 < super.MaxColumn);
 	}
 
 	@Override
 	public boolean moveLeftValidate() {
-		//left most piece s 4 or 1
+		// left most piece s 4 or 1
 		return (super.column1 > 0 && super.column4 > 0);
 	}
 }

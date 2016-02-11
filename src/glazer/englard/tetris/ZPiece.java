@@ -24,6 +24,9 @@ public class ZPiece extends Piece  {
 
 	@Override
 	public void turn() {
+		if(super.row1 == -1 ){
+			return;
+		}
 		int turnType = super.turnCounter % 4;
 		switch (turnType) {
 		case 1:
