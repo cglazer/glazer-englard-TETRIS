@@ -23,7 +23,7 @@ public abstract class Piece {
 	protected int MaxColumn;
 
 	public Piece(int maxColumn) {
-		this.MaxColumn = maxColumn;
+		this.MaxColumn = maxColumn-1;
 		this.turnCounter = 1;
 	}
 

@@ -55,7 +55,7 @@ public class TetrisGrid extends JPanel {
 		this.labelSet = new HashSet<JLabel>();
 		this.numDeletedRows = 0;
 		this.queue = new PriorityQueue();
-
+//this.setBackground(Color.BLACK);
 		setLayout(new GridLayout(this.numRows, this.numCols));
 		Border raisedbevel = BorderFactory.createRaisedSoftBevelBorder();
 		Border loweredbevel = BorderFactory.createEtchedBorder();
@@ -65,13 +65,14 @@ public class TetrisGrid extends JPanel {
 			for (int x = 0; x < this.numCols; x++) {
 				this.labels[i][x] = new JLabel();
 				add(this.labels[i][x]);
-
+				this.labels[i][x].setBackground(Color.BLACK);
+				this.labels[i][x].setOpaque(true);
 				// Border dark =
 				// BorderFactory.createLineBorder(Color.DARK_GRAY);
 				// Border blackCompound =
 				// BorderFactory.createCompoundBorder(compound,dark );
-				this.labels[i][x].setBorder(compound);
-				// this.labels[i][x].setBorder(BorderFactory.createLineBorder(Color.BLACK));
+			//	this.labels[i][x].setBorder(compound);
+				 this.labels[i][x].setBorder(BorderFactory.createLineBorder(Color.DARK_GRAY));
 
 			}
 		}
@@ -88,7 +89,7 @@ public class TetrisGrid extends JPanel {
 		this.labelSet.clear();
 		for (int i = 0; i < numRows; i++) {
 			for (int x = 0; x < numCols; x++) {
-				this.labels[i][x].setBackground(Color.LIGHT_GRAY);
+				this.labels[i][x].setBackground(Color.BLACK);
 				this.labels[i][x].setOpaque(true);
 				this.map.put(labels[i][x], false);
 			}
@@ -246,7 +247,7 @@ public class TetrisGrid extends JPanel {
 		}
 		for (int i = 0; i < numCols; i++) {
 			map.put(labels[0][i], false);
-			labels[0][i].setBackground(Color.LIGHT_GRAY);
+			labels[0][i].setBackground(Color.BLACK);
 		}
 	}
 
@@ -268,7 +269,7 @@ public class TetrisGrid extends JPanel {
 					numSubPiece++;
 					if (checkCol == 9) {
 						for (x = 0; x < numCols; x++) {
-							labels[i][x].setBackground(Color.LIGHT_GRAY);
+							labels[i][x].setBackground(Color.black);
 							map.put(labels[i][x], false);
 						}
 						deleteRows(i);
@@ -330,19 +331,19 @@ public class TetrisGrid extends JPanel {
 		// TODO Auto-generated method stub
 		// if piece is on board it gets erased!!
 		if (row1 > 0) {
-			labels[coloredRow1][coloredColumn1].setBackground(Color.LIGHT_GRAY);
+			labels[coloredRow1][coloredColumn1].setBackground(Color.BLACK);
 			map.put(labels[coloredRow1][coloredColumn1], false);
 		}
 		if (row2 > 0) {
-			labels[coloredRow2][coloredColumn2].setBackground(Color.LIGHT_GRAY);
+			labels[coloredRow2][coloredColumn2].setBackground(Color.BLACK);
 			map.put(labels[coloredRow2][coloredColumn2], false);
 		}
 		if (row3 > 0) {
-			labels[coloredRow3][coloredColumn3].setBackground(Color.LIGHT_GRAY);
+			labels[coloredRow3][coloredColumn3].setBackground(Color.BLACK);
 			map.put(labels[coloredRow3][coloredColumn3], false);
 		}
 		if (row4 > 0) {
-			labels[coloredRow4][coloredColumn4].setBackground(Color.LIGHT_GRAY);
+			labels[coloredRow4][coloredColumn4].setBackground(Color.BLACK);
 			map.put(labels[coloredRow4][coloredColumn4], false);
 		}
 		labelSet.clear();
