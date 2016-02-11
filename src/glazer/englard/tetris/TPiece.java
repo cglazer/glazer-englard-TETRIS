@@ -97,4 +97,12 @@ public class TPiece extends Piece {
 		return (super.column2 > 0 && super.column1 > 0);
 	}
 
+	@Override
+	public void unTurn() {
+		// TODO Auto-generated method stub
+		turn();
+		turn();
+		turn();
+	}
+
 }

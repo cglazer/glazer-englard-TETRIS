@@ -149,4 +149,6 @@ public class IPiece extends Piece {
 		return super.column1 > 0;
 
 	}
+
+	
 }

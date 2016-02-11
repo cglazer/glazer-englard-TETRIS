@@ -78,4 +78,12 @@ public class SPiece extends Piece {
 		return (super.column1 > 0 && super.column2 > 0 && super.column3 > 0);
 	}
 
+	@Override
+	public void unTurn() {
+		// TODO Auto-generated method stub
+		turn();
+		turn();
+		turn();
+	}
+
 }

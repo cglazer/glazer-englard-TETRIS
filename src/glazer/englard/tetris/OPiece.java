@@ -40,6 +40,14 @@ public class OPiece extends Piece  {
 		return super.column1 > 0;
 	}
 
+	@Override
+	public void unTurn() {
+		// TODO Auto-generated method stub
+		turn();
+		turn();
+		turn();
+	}
+
 	
 
 }

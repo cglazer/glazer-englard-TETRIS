@@ -77,4 +77,12 @@ public class ZPiece extends Piece  {
 		
 	}
 
+	@Override
+	public void unTurn() {
+		// TODO Auto-generated method stub
+		turn();
+		turn();
+		turn();
+	}
+
 }

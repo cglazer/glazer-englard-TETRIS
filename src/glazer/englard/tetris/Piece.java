@@ -19,11 +19,11 @@ public abstract class Piece {
 	protected int row4;
 	protected int column4;
 	protected int turnCounter;
-	protected int MaxRow =28;
+	protected int MaxRow = 28;
 	protected int MaxColumn;
 
 	public Piece(int maxColumn) {
-		this.MaxColumn = maxColumn-1;
+		this.MaxColumn = maxColumn - 1;
 		this.turnCounter = 1;
 	}
 
@@ -97,12 +97,12 @@ public abstract class Piece {
 
 	public void moveRight() {
 		// validate that the piece can move right
-		//if(moveRightValidate()){
+		// if(moveRightValidate()){
 		column1 += 1;
 		column2 += 1;
 		column3 += 1;
 		column4 += 1;
-		//}
+		// }
 
 	}
 
@@ -110,16 +110,18 @@ public abstract class Piece {
 
 	public void moveLeft() {
 		// validate the piece can move left
-		//if (moveLeftValidate()) {
-			column1 -= 1;
-			column2 -= 1;
-			column3 -= 1;
-			column4 -= 1;
-		//}
+		// if (moveLeftValidate()) {
+		column1 -= 1;
+		column2 -= 1;
+		column3 -= 1;
+		column4 -= 1;
+		// }
 
 	}
 
 	abstract public boolean moveLeftValidate();
+
+	abstract public void unTurn();
 
 	public void moveDown() {
 

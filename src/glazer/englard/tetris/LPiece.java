@@ -131,4 +131,8 @@ public class LPiece extends Piece {
 		// left most piece s 4 or 1
 		return (super.column1 > 0 && super.column4 > 0);
 	}
+
+	
+
+
 }

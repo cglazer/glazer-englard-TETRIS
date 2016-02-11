@@ -64,6 +64,7 @@ public class TetrisFrame extends JFrame implements KeyListener {
 	private boolean isPaused;
 	private DropMenu menuBar;
 	private JFrame frame;
+
 	public TetrisFrame() {
 		setSize(640, 650);
 		setTitle("Tetris");
@@ -89,7 +90,7 @@ public class TetrisFrame extends JFrame implements KeyListener {
 		this.eastHolder = new JPanel();
 		this.isPaused = false;
 		this.menuBar = new DropMenu();
-		this.frame=this;
+		this.frame = this;
 		setComponents();
 		addComponents();
 	}
@@ -107,35 +108,36 @@ public class TetrisFrame extends JFrame implements KeyListener {
 		this.eastHolder.setBackground(Color.BLUE);
 		this.northPanel.setBackground(Color.BLUE);
 		this.westPanel.setBackground(Color.BLUE);
-this.eastPanel.setBackground(Color.BLUE);
-this.score.setMinimumSize(new Dimension(100, 50));
-this.score.setPreferredSize(new Dimension(100, 50));
-this.score.setMaximumSize(new Dimension(100, 50));
-this.score.setBorder(BorderFactory.createLineBorder(Color.BLACK));
-this.linesLabel.setMinimumSize(new Dimension(100, 50));
-this.linesLabel.setPreferredSize(new Dimension(100, 50));
-this.linesLabel.setMaximumSize(new Dimension(100, 50));
-Border paddingBorder = BorderFactory.createEmptyBorder(20,40,20,40);
-//this.linesLabel.setBorder(BorderFactory.createLineBorder(Color.BLACK));
-Border border = BorderFactory.createLineBorder(Color.BLACK);
+		this.eastPanel.setBackground(Color.BLUE);
+		this.score.setMinimumSize(new Dimension(100, 50));
+		this.score.setPreferredSize(new Dimension(100, 50));
+		this.score.setMaximumSize(new Dimension(100, 50));
+		this.score.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+		this.linesLabel.setMinimumSize(new Dimension(100, 50));
+		this.linesLabel.setPreferredSize(new Dimension(100, 50));
+		this.linesLabel.setMaximumSize(new Dimension(100, 50));
+		Border paddingBorder = BorderFactory.createEmptyBorder(20, 40, 20, 40);
+		// this.linesLabel.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+		Border border = BorderFactory.createLineBorder(Color.BLACK);
 
-this.linesLabel.setBorder(BorderFactory.createCompoundBorder(border,paddingBorder));
+		this.linesLabel.setBorder(BorderFactory.createCompoundBorder(border,
+				paddingBorder));
 
-//this.linesLabel.set
-this.westPanel.setMinimumSize(new Dimension(170, 500));
-this.westPanel.setPreferredSize(new Dimension(170, 500));
-this.westPanel.setMaximumSize(new Dimension(170, 500));
-this.eastHolder.setMinimumSize(new Dimension(170, 500));
-this.eastHolder.setPreferredSize(new Dimension(170, 500));
-this.eastHolder.setMaximumSize(new Dimension(170, 500));
-this.eastPanel.setMinimumSize(new Dimension(100, 80));
-this.eastPanel.setPreferredSize(new Dimension(100, 80));
-this.eastPanel.setMaximumSize(new Dimension(100, 80));
-//JLabel back= new JLabel();
-//ImageIcon icon= new ImageIcon(("unnamed.gif"));
-//back.setIcon(icon);
+		// this.linesLabel.set
+		this.westPanel.setMinimumSize(new Dimension(170, 500));
+		this.westPanel.setPreferredSize(new Dimension(170, 500));
+		this.westPanel.setMaximumSize(new Dimension(170, 500));
+		this.eastHolder.setMinimumSize(new Dimension(170, 500));
+		this.eastHolder.setPreferredSize(new Dimension(170, 500));
+		this.eastHolder.setMaximumSize(new Dimension(170, 500));
+		this.eastPanel.setMinimumSize(new Dimension(100, 80));
+		this.eastPanel.setPreferredSize(new Dimension(100, 80));
+		this.eastPanel.setMaximumSize(new Dimension(100, 80));
+		// JLabel back= new JLabel();
+		// ImageIcon icon= new ImageIcon(("unnamed.gif"));
+		// back.setIcon(icon);
 
-//frame.setContentPane(back);
+		// frame.setContentPane(back);
 	}
 
 	public void addComponents() {
@@ -168,8 +170,8 @@ this.eastPanel.setMaximumSize(new Dimension(100, 80));
 			for (int x = 0; x < 4; x++) {
 				this.nextPieceLabels[i][x] = new JLabel(" ");
 				this.eastPanel.add(this.nextPieceLabels[i][x]);
-				//this.nextPieceLabels[i][x].setBorder(BorderFactory
-				//		.createLineBorder(Color.BLACK));
+				// this.nextPieceLabels[i][x].setBorder(BorderFactory
+				// .createLineBorder(Color.BLACK));
 			}
 		}
 		this.start.addActionListener(new ActionListener() {
@@ -282,7 +284,7 @@ this.eastPanel.setMaximumSize(new Dimension(100, 80));
 				this.nextPieceLabels[i][x].setBackground(Color.BLUE);
 				this.nextPieceLabels[i][x].setOpaque(true);
 				this.nextPieceLabels[i][x].setBorder(BorderFactory
-							.createLineBorder(Color.BLUE));
+						.createLineBorder(Color.BLUE));
 			}
 		}
 		this.nextShape = grid.getNextShape();
@@ -300,7 +302,7 @@ this.eastPanel.setMaximumSize(new Dimension(100, 80));
 		this.nextPieceLabels[row3][column3].setBackground(this.nextShapeColor);
 		this.nextPieceLabels[row4][column4].setBackground(this.nextShapeColor);
 		this.nextPieceLabels[row1][column1].setBorder(BorderFactory
-						.createLineBorder(Color.BLACK));
+				.createLineBorder(Color.BLACK));
 		this.nextPieceLabels[row2][column2].setBorder(BorderFactory
 				.createLineBorder(Color.BLACK));
 		this.nextPieceLabels[row3][column3].setBorder(BorderFactory

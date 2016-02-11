@@ -55,7 +55,7 @@ public class TetrisGrid extends JPanel {
 		this.labelSet = new HashSet<JLabel>();
 		this.numDeletedRows = 0;
 		this.queue = new PriorityQueue();
-//this.setBackground(Color.BLACK);
+		// this.setBackground(Color.BLACK);
 		setLayout(new GridLayout(this.numRows, this.numCols));
 		Border raisedbevel = BorderFactory.createRaisedSoftBevelBorder();
 		Border loweredbevel = BorderFactory.createEtchedBorder();
@@ -71,8 +71,9 @@ public class TetrisGrid extends JPanel {
 				// BorderFactory.createLineBorder(Color.DARK_GRAY);
 				// Border blackCompound =
 				// BorderFactory.createCompoundBorder(compound,dark );
-			//	this.labels[i][x].setBorder(compound);
-				 this.labels[i][x].setBorder(BorderFactory.createLineBorder(Color.DARK_GRAY));
+				// this.labels[i][x].setBorder(compound);
+				this.labels[i][x].setBorder(BorderFactory
+						.createLineBorder(Color.DARK_GRAY));
 
 			}
 		}
@@ -104,69 +105,89 @@ public class TetrisGrid extends JPanel {
 	}
 
 	public void moveLeft() {
-		if (pieceShape.moveLeftValidate()
-				&& (!map.get(labels[row1][column1 - 1]) || labelSet
-						.contains(labels[row1][column1 - 1]))
-				&& (!map.get(labels[row2][column2 - 1]) || labelSet
-						.contains(labels[row2][column2 - 1]))
-				&& (!map.get(labels[row3][column3 - 1]) || labelSet
-						.contains(labels[row3][column3 - 1]))
-				&& (!map.get(labels[row4][column4 - 1]) || labelSet
-						.contains(labels[row4][column4 - 1]))) {
-			this.pieceShape.moveLeft();
-			refreshColumnValues();
-			System.out.println("move left");
+		if (row1 > 0) {
+			if (pieceShape.moveLeftValidate()
+					&& (!map.get(labels[row1][column1 - 1]) || labelSet
+							.contains(labels[row1][column1 - 1]))
+					&& (!map.get(labels[row2][column2 - 1]) || labelSet
+							.contains(labels[row2][column2 - 1]))
+					&& (!map.get(labels[row3][column3 - 1]) || labelSet
+							.contains(labels[row3][column3 - 1]))
+					&& (!map.get(labels[row4][column4 - 1]) || labelSet
+							.contains(labels[row4][column4 - 1]))) {
+				this.pieceShape.moveLeft();
+				refreshColumnValues();
+				System.out.println("move left");
+			}
 		}
 	}
 
 	public void moveRight() {
-		if (pieceShape.moveRightValidate()
-				&& (!map.get(labels[row1][column1 + 1]) || labelSet
-						.contains(labels[row1][column1 + 1]))
-				&& (!map.get(labels[row2][column2 + 1]) || labelSet
-						.contains(labels[row2][column2 + 1]))
-				&& (!map.get(labels[row3][column3 + 1]) || labelSet
-						.contains(labels[row3][column3 + 1]))
+		if (row1 > 0) {
+			if (pieceShape.moveRightValidate()
+					&& (!map.get(labels[row1][column1 + 1]) || labelSet
+							.contains(labels[row1][column1 + 1]))
+					&& (!map.get(labels[row2][column2 + 1]) || labelSet
+							.contains(labels[row2][column2 + 1]))
+					&& (!map.get(labels[row3][column3 + 1]) || labelSet
+							.contains(labels[row3][column3 + 1]))
 
-				&& (!map.get(labels[row4][column4 + 1]) || labelSet
-						.contains(labels[row4][column4 + 1]))) {
-			this.pieceShape.moveRight();
-			refreshColumnValues();
-			System.out.println("move right");
+					&& (!map.get(labels[row4][column4 + 1]) || labelSet
+							.contains(labels[row4][column4 + 1]))) {
+				this.pieceShape.moveRight();
+				refreshColumnValues();
+				System.out.println("move right");
+			}
 		}
 	}
 
 	public void moveDownFast() {
-		if (row1 + 2 < numRows
-				&& row2 + 2 < numRows
-				&& row3 + 2 < numRows
-				&& row4 + 2 < numRows
-				&& (!map.get(labels[row1 + 2][column1]) || labelSet
-						.contains(labels[row1 + 2][column1]))
-				&& (!map.get(labels[row2 + 2][column2]) || labelSet
-						.contains(labels[row2 + 2][column2]))
-				&& (!map.get(labels[row3 + 2][column3]) || labelSet
-						.contains(labels[row3 + 2][column3]))
-				&& (!map.get(labels[row4 + 2][column4]) || labelSet
-						.contains(labels[row4 + 2][column4]))
-				&& (!map.get(labels[row1 + 1][column1]) || labelSet
-						.contains(labels[row1 + 1][column1]))
-				&& (!map.get(labels[row2 + 1][column2]) || labelSet
-						.contains(labels[row2 + 1][column2]))
-				&& (!map.get(labels[row3 + 1][column3]) || labelSet
-						.contains(labels[row3 + 1][column3]))
-				&& (!map.get(labels[row4 + 1][column4]) || labelSet
-						.contains(labels[row4 + 1][column4]))) {
-			this.pieceShape.moveDownFast();
-			refreshRowValues();
-			score += 2;
+		if (row1 > 0) {
+			if (row1 + 2 < numRows
+					&& row2 + 2 < numRows
+					&& row3 + 2 < numRows
+					&& row4 + 2 < numRows
+					&& (!map.get(labels[row1 + 2][column1]) || labelSet
+							.contains(labels[row1 + 2][column1]))
+					&& (!map.get(labels[row2 + 2][column2]) || labelSet
+							.contains(labels[row2 + 2][column2]))
+					&& (!map.get(labels[row3 + 2][column3]) || labelSet
+							.contains(labels[row3 + 2][column3]))
+					&& (!map.get(labels[row4 + 2][column4]) || labelSet
+							.contains(labels[row4 + 2][column4]))
+					&& (!map.get(labels[row1 + 1][column1]) || labelSet
+							.contains(labels[row1 + 1][column1]))
+					&& (!map.get(labels[row2 + 1][column2]) || labelSet
+							.contains(labels[row2 + 1][column2]))
+					&& (!map.get(labels[row3 + 1][column3]) || labelSet
+							.contains(labels[row3 + 1][column3]))
+					&& (!map.get(labels[row4 + 1][column4]) || labelSet
+							.contains(labels[row4 + 1][column4]))) {
+				this.pieceShape.moveDownFast();
+				refreshRowValues();
+				score += 2;
+			}
 		}
 	}
 
 	public void turn() {
-		this.pieceShape.turn();
-		refreshRowValues();
-		refreshColumnValues();
+		if (row1 > 0) {
+			this.pieceShape.turn();
+			refreshRowValues();
+			refreshColumnValues();
+			if ((map.get(labels[row1][column1]) && !labelSet
+					.contains(labels[row1][column1]))
+					|| (map.get(labels[row2][column2]) && !labelSet
+							.contains(labels[row2][column2]))
+					|| (map.get(labels[row3][column3]) && !labelSet
+							.contains(labels[row3][column3]))
+					|| (map.get(labels[row4][column4]) && !labelSet
+							.contains(labels[row4][column4]))) {
+				this.pieceShape.unTurn();
+				refreshRowValues();
+				refreshColumnValues();
+			}
+		}
 	}
 
 	public void nextShape() {
