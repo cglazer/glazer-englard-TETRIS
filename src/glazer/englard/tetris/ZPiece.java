@@ -24,6 +24,9 @@ public class ZPiece extends Piece  {
 
 	@Override
 	public void turn() {
+		if(super.row1 == -1 ){
+			return;
+		}
 		int turnType = super.turnCounter % 4;
 		switch (turnType) {
 		case 1:
@@ -72,6 +75,14 @@ public class ZPiece extends Piece  {
 		//left most piece is 4 1 or 2
 		return (super.column3 > 0 && super.column2 > 0 && super.column4> 0);
 		
+	}
+
+	@Override
+	public void unTurn() {
+		// TODO Auto-generated method stub
+		turn();
+		turn();
+		turn();
 	}
 
 }

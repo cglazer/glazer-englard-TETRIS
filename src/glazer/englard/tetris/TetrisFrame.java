@@ -6,24 +6,23 @@ import java.awt.Color;
 import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
-import java.awt.Frame;
+import java.awt.Font;
 import java.awt.GridLayout;
+import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-import java.io.File;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
-
 import javax.swing.BorderFactory;
-import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.SwingConstants;
 import javax.swing.border.Border;
 
 public class TetrisFrame extends JFrame implements KeyListener {
@@ -63,7 +62,11 @@ public class TetrisFrame extends JFrame implements KeyListener {
 	private JPanel eastHolder;
 	private boolean isPaused;
 	private DropMenu menuBar;
-	private JFrame frame;
+	private JPanel westNorthPanel;
+	private JPanel westSouthPanel;
+	private ImageIcon tetrisIcon;
+	private JLabel tetrisIconLabel;
+
 	public TetrisFrame() {
 		setSize(640, 650);
 		setTitle("Tetris");
@@ -78,6 +81,7 @@ public class TetrisFrame extends JFrame implements KeyListener {
 		this.westPanel = new JPanel();
 		this.gameOver = new JLabel();
 		grid = new TetrisGrid();
+
 		this.scoreLabel = new JLabel("Score");
 		this.score = new JLabel("0");
 		this.linesLabel = new JLabel("Lines");
@@ -89,7 +93,16 @@ public class TetrisFrame extends JFrame implements KeyListener {
 		this.eastHolder = new JPanel();
 		this.isPaused = false;
 		this.menuBar = new DropMenu();
-		this.frame=this;
+		this.westNorthPanel = new JPanel();
+		this.westSouthPanel = new JPanel();
+		this.tetrisIcon = new ImageIcon(this.getClass().getResource(
+				"tetrisIcon.jpg"));
+		this.tetrisIconLabel = new JLabel();
+		Image img = tetrisIcon.getImage();
+		Image newimg = img.getScaledInstance(160, 100,
+				java.awt.Image.SCALE_SMOOTH);
+		this.tetrisIcon = new ImageIcon(newimg);
+
 		setComponents();
 		addComponents();
 	}
@@ -97,45 +110,71 @@ public class TetrisFrame extends JFrame implements KeyListener {
 	public void setComponents() {
 		this.container.setLayout(new BorderLayout());
 		this.northPanel.setLayout(new FlowLayout());
-		this.westPanel.setLayout(new BoxLayout(this.westPanel,
-				BoxLayout.PAGE_AXIS));
+		// this.westPanel.setLayout(new BoxLayout(this.westPanel,
+		// BoxLayout.PAGE_AXIS));
+		// this.eastHolder.setLayout(new BoxLayout(this.eastHolder,
+		// BoxLayout.PAGE_AXIS));
 		this.container.setFocusable(true);
 		this.eastHolder.setLayout(new BorderLayout());
 		this.eastPanel.setLayout(new GridLayout(3, 4));
-		this.eastPanel.setPreferredSize(new Dimension(90, 70));
 
+		this.eastPanel.setMinimumSize(new Dimension(150, 100));
+		this.eastPanel.setPreferredSize(new Dimension(150, 100));
+		this.eastPanel.setMaximumSize(new Dimension(150, 100));
 		this.eastHolder.setBackground(Color.BLUE);
 		this.northPanel.setBackground(Color.BLUE);
 		this.westPanel.setBackground(Color.BLUE);
-this.eastPanel.setBackground(Color.BLUE);
-this.score.setMinimumSize(new Dimension(100, 50));
-this.score.setPreferredSize(new Dimension(100, 50));
-this.score.setMaximumSize(new Dimension(100, 50));
-this.score.setBorder(BorderFactory.createLineBorder(Color.BLACK));
-this.linesLabel.setMinimumSize(new Dimension(100, 50));
-this.linesLabel.setPreferredSize(new Dimension(100, 50));
-this.linesLabel.setMaximumSize(new Dimension(100, 50));
-Border paddingBorder = BorderFactory.createEmptyBorder(20,40,20,40);
-//this.linesLabel.setBorder(BorderFactory.createLineBorder(Color.BLACK));
-Border border = BorderFactory.createLineBorder(Color.BLACK);
+		this.eastPanel.setBackground(Color.BLUE);
+		this.westNorthPanel.setBackground(Color.BLUE);
+		this.westSouthPanel.setBackground(Color.BLUE);
+		this.score.setMinimumSize(new Dimension(130, 50));
+		this.score.setPreferredSize(new Dimension(130, 50));
+		this.score.setMaximumSize(new Dimension(130, 50));
+		// this.score.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+		this.lines.setMinimumSize(new Dimension(130, 50));
+		this.lines.setPreferredSize(new Dimension(130, 50));
+		this.lines.setMaximumSize(new Dimension(130, 50));
 
-this.linesLabel.setBorder(BorderFactory.createCompoundBorder(border,paddingBorder));
+		Border paddingBorder = BorderFactory.createEmptyBorder(0, 0, 0, 0);
 
-//this.linesLabel.set
-this.westPanel.setMinimumSize(new Dimension(170, 500));
-this.westPanel.setPreferredSize(new Dimension(170, 500));
-this.westPanel.setMaximumSize(new Dimension(170, 500));
-this.eastHolder.setMinimumSize(new Dimension(170, 500));
-this.eastHolder.setPreferredSize(new Dimension(170, 500));
-this.eastHolder.setMaximumSize(new Dimension(170, 500));
-this.eastPanel.setMinimumSize(new Dimension(100, 80));
-this.eastPanel.setPreferredSize(new Dimension(100, 80));
-this.eastPanel.setMaximumSize(new Dimension(100, 80));
-//JLabel back= new JLabel();
-//ImageIcon icon= new ImageIcon(("unnamed.gif"));
-//back.setIcon(icon);
+		Border border = BorderFactory.createLineBorder(Color.WHITE);
 
-//frame.setContentPane(back);
+		this.lines.setBorder(BorderFactory.createCompoundBorder(paddingBorder,
+				border));
+		this.score.setBorder(BorderFactory.createCompoundBorder(paddingBorder,
+				border));
+		this.eastPanel.setBorder(BorderFactory.createCompoundBorder(
+				paddingBorder, border));
+		lines.setHorizontalAlignment(SwingConstants.CENTER);
+		lines.setVerticalAlignment(SwingConstants.CENTER);
+		score.setHorizontalAlignment(SwingConstants.CENTER);
+		score.setVerticalAlignment(SwingConstants.CENTER);
+		lines.setFont(new Font("Serif", Font.PLAIN, 20));
+		this.linesLabel.setFont(new Font("Serif", Font.PLAIN, 20));
+		this.score.setFont(new Font("Serif", Font.PLAIN, 20));
+		this.scoreLabel.setFont(new Font("Serif", Font.PLAIN, 20));
+		this.westPanel.setLayout(new BorderLayout());
+		this.westPanel.setBorder(BorderFactory.createEmptyBorder(5, 5, 50, 5));
+		this.eastHolder.setBorder(BorderFactory.createEmptyBorder(5, 5, 50, 5));
+		this.tetrisIconLabel.setBorder(border);
+		this.lines.setForeground(Color.WHITE);
+		this.lines.setBackground(Color.BLACK);
+		this.lines.setOpaque(true);
+		this.score.setForeground(Color.WHITE);
+		this.score.setBackground(Color.BLACK);
+		this.score.setOpaque(true);
+		this.eastPanel.setBackground(Color.BLACK);
+		this.eastPanel.setOpaque(true);
+		this.westPanel.setMinimumSize(new Dimension(170, 500));
+		this.westPanel.setPreferredSize(new Dimension(170, 500));
+		this.westPanel.setMaximumSize(new Dimension(170, 500));
+		this.eastHolder.setMinimumSize(new Dimension(170, 500));
+		this.eastHolder.setPreferredSize(new Dimension(170, 500));
+		this.eastHolder.setMaximumSize(new Dimension(170, 500));
+
+		this.tetrisIconLabel.setIcon(this.tetrisIcon);
+		// this.nextShape = grid.getNextShape();
+		// setEastPanel();
 	}
 
 	public void addComponents() {
@@ -152,12 +191,14 @@ this.eastPanel.setMaximumSize(new Dimension(100, 80));
 		this.container.add(this.gameOver, BorderLayout.SOUTH);
 		this.container.add(this.westPanel, BorderLayout.WEST);
 		this.eastHolder.add(eastPanel, BorderLayout.NORTH);
+		this.eastHolder.add(this.westNorthPanel, BorderLayout.CENTER);
 		this.container.add(this.eastHolder, BorderLayout.EAST);
-		this.westPanel.add(this.scoreLabel);
-		this.westPanel.add(this.score);
-		this.westPanel.add(this.linesLabel);
-		this.westPanel.add(this.lines);
-
+		this.westNorthPanel.add(this.scoreLabel);
+		this.westNorthPanel.add(this.score);
+		this.westSouthPanel.add(this.linesLabel);
+		this.westSouthPanel.add(this.lines);
+		this.westPanel.add(this.tetrisIconLabel, BorderLayout.NORTH);
+		this.westPanel.add(this.westSouthPanel, BorderLayout.CENTER);
 		this.container.addKeyListener(this);
 		// add space before to line things up
 		this.eastPanel.add(new JLabel(" "));
@@ -168,8 +209,8 @@ this.eastPanel.setMaximumSize(new Dimension(100, 80));
 			for (int x = 0; x < 4; x++) {
 				this.nextPieceLabels[i][x] = new JLabel(" ");
 				this.eastPanel.add(this.nextPieceLabels[i][x]);
-				//this.nextPieceLabels[i][x].setBorder(BorderFactory
-				//		.createLineBorder(Color.BLACK));
+				// this.nextPieceLabels[i][x].setBorder(BorderFactory
+				// .createLineBorder(Color.BLACK));
 			}
 		}
 		this.start.addActionListener(new ActionListener() {
@@ -220,6 +261,7 @@ this.eastPanel.setMaximumSize(new Dimension(100, 80));
 	public void startGame() {
 		// playSound();
 		grid.startGame();
+		setEastPanel();
 		executor.scheduleAtFixedRate(gameRunnable, 0, 200,
 				TimeUnit.MILLISECONDS);
 		// MusicThread musicThread= new MusicThread();
@@ -279,10 +321,10 @@ this.eastPanel.setMaximumSize(new Dimension(100, 80));
 	public void setEastPanel() {
 		for (int i = 0; i < 2; i++) {
 			for (int x = 0; x < 4; x++) {
-				this.nextPieceLabels[i][x].setBackground(Color.BLUE);
+				this.nextPieceLabels[i][x].setBackground(Color.BLACK);
 				this.nextPieceLabels[i][x].setOpaque(true);
 				this.nextPieceLabels[i][x].setBorder(BorderFactory
-							.createLineBorder(Color.BLUE));
+						.createLineBorder(Color.BLACK));
 			}
 		}
 		this.nextShape = grid.getNextShape();
@@ -300,13 +342,13 @@ this.eastPanel.setMaximumSize(new Dimension(100, 80));
 		this.nextPieceLabels[row3][column3].setBackground(this.nextShapeColor);
 		this.nextPieceLabels[row4][column4].setBackground(this.nextShapeColor);
 		this.nextPieceLabels[row1][column1].setBorder(BorderFactory
-						.createLineBorder(Color.BLACK));
+				.createLineBorder(Color.DARK_GRAY));
 		this.nextPieceLabels[row2][column2].setBorder(BorderFactory
-				.createLineBorder(Color.BLACK));
+				.createLineBorder(Color.DARK_GRAY));
 		this.nextPieceLabels[row3][column3].setBorder(BorderFactory
-				.createLineBorder(Color.BLACK));
+				.createLineBorder(Color.DARK_GRAY));
 		this.nextPieceLabels[row4][column4].setBorder(BorderFactory
-				.createLineBorder(Color.BLACK));
+				.createLineBorder(Color.DARK_GRAY));
 	}
 
 	public void keyPressed(KeyEvent e) {
@@ -325,6 +367,9 @@ this.eastPanel.setMaximumSize(new Dimension(100, 80));
 		} else if (c == KeyEvent.VK_R) {
 			// resume
 			this.isPaused = false;
+		} else if (c == KeyEvent.VK_SPACE) {
+			// fall down
+			this.grid.fallDown();
 		}
 		repaint();
 	}

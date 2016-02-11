@@ -23,6 +23,9 @@ public class JPiece extends Piece {
 
 	@Override
 	public void turn() {
+		if (super.row1 == -1) {
+			return;
+		}
 		int turnType = super.turnCounter % 4;
 		switch (turnType) {
 		case 1:
@@ -82,4 +85,14 @@ public class JPiece extends Piece {
 		// left most piece s 4 or 1
 		return (super.column1 > 0 && super.column4 > 0);
 	}
+
+	@Override
+	public void unTurn() {
+		// TODO Auto-generated method stub
+		turn();
+		turn();
+		turn();
+	}
+
+	
 }
