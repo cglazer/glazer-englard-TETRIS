@@ -1,0 +1,11 @@
+package glazer.englard.tetris;
+
+public class ZPiece extends Piece implements PieceInterface{
+
+	
+	public void turn() {
+		// TODO Auto-generated method stub
+		
+	}
+
+}
