@@ -16,11 +16,13 @@ import java.awt.event.KeyListener;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
+
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 import javax.swing.border.Border;
@@ -45,6 +47,8 @@ public class TetrisFrame extends JFrame implements KeyListener {
 	private JLabel score;
 	private JLabel lines;
 	private JLabel linesLabel;
+	private JLabel levelLabel;
+	private JLabel level;
 	private JPanel westPanel;
 	private RunningThread runningThread;
 	private JPanel eastPanel;
@@ -86,6 +90,8 @@ public class TetrisFrame extends JFrame implements KeyListener {
 		this.score = new JLabel("0");
 		this.linesLabel = new JLabel("Lines");
 		this.lines = new JLabel("0");
+		this.levelLabel = new JLabel("Level");
+		this.level = new JLabel("1");
 		this.executor = Executors.newScheduledThreadPool(1);
 		this.executor2 = Executors.newScheduledThreadPool(1);
 		this.eastPanel = new JPanel();
@@ -134,25 +140,31 @@ public class TetrisFrame extends JFrame implements KeyListener {
 		this.lines.setMinimumSize(new Dimension(130, 50));
 		this.lines.setPreferredSize(new Dimension(130, 50));
 		this.lines.setMaximumSize(new Dimension(130, 50));
-
+		
+		this.level.setMinimumSize(new Dimension(130, 50));
+		this.level.setPreferredSize(new Dimension(130, 50));
+		this.level.setMaximumSize(new Dimension(130, 50));
 		Border paddingBorder = BorderFactory.createEmptyBorder(0, 0, 0, 0);
-
 		Border border = BorderFactory.createLineBorder(Color.WHITE);
-
-		this.lines.setBorder(BorderFactory.createCompoundBorder(paddingBorder,
-				border));
-		this.score.setBorder(BorderFactory.createCompoundBorder(paddingBorder,
-				border));
+		Border compound = BorderFactory.createCompoundBorder(paddingBorder,
+				border);
+		this.lines.setBorder(compound);
+		this.score.setBorder(compound);
+		this.level.setBorder(compound);
 		this.eastPanel.setBorder(BorderFactory.createCompoundBorder(
 				paddingBorder, border));
 		lines.setHorizontalAlignment(SwingConstants.CENTER);
 		lines.setVerticalAlignment(SwingConstants.CENTER);
 		score.setHorizontalAlignment(SwingConstants.CENTER);
 		score.setVerticalAlignment(SwingConstants.CENTER);
+		level.setHorizontalAlignment(SwingConstants.CENTER);
+		level.setVerticalAlignment(SwingConstants.CENTER);
 		lines.setFont(new Font("Serif", Font.PLAIN, 20));
 		this.linesLabel.setFont(new Font("Serif", Font.PLAIN, 20));
 		this.score.setFont(new Font("Serif", Font.PLAIN, 20));
 		this.scoreLabel.setFont(new Font("Serif", Font.PLAIN, 20));
+		level.setFont(new Font("Serif", Font.PLAIN, 20));
+		this.levelLabel.setFont(new Font("Serif", Font.PLAIN, 20));
 		this.westPanel.setLayout(new BorderLayout());
 		this.westPanel.setBorder(BorderFactory.createEmptyBorder(5, 5, 50, 5));
 		this.eastHolder.setBorder(BorderFactory.createEmptyBorder(5, 5, 50, 5));
@@ -163,6 +175,9 @@ public class TetrisFrame extends JFrame implements KeyListener {
 		this.score.setForeground(Color.WHITE);
 		this.score.setBackground(Color.BLACK);
 		this.score.setOpaque(true);
+		this.level.setForeground(Color.WHITE);
+		this.level.setBackground(Color.BLACK);
+		this.level.setOpaque(true);
 		this.eastPanel.setBackground(Color.BLACK);
 		this.eastPanel.setOpaque(true);
 		this.westPanel.setMinimumSize(new Dimension(170, 500));
@@ -195,6 +210,8 @@ public class TetrisFrame extends JFrame implements KeyListener {
 		this.container.add(this.eastHolder, BorderLayout.EAST);
 		this.westNorthPanel.add(this.scoreLabel);
 		this.westNorthPanel.add(this.score);
+		this.westNorthPanel.add(this.levelLabel);
+		this.westNorthPanel.add(this.level);
 		this.westSouthPanel.add(this.linesLabel);
 		this.westSouthPanel.add(this.lines);
 		this.westPanel.add(this.tetrisIconLabel, BorderLayout.NORTH);
@@ -262,7 +279,7 @@ public class TetrisFrame extends JFrame implements KeyListener {
 		// playSound();
 		grid.startGame();
 		setEastPanel();
-		executor.scheduleAtFixedRate(gameRunnable, 0, 200,
+		executor.scheduleAtFixedRate(gameRunnable, 0, grid.getSpeed(),
 				TimeUnit.MILLISECONDS);
 		// MusicThread musicThread= new MusicThread();
 		// musicThread.start();
@@ -300,7 +317,7 @@ public class TetrisFrame extends JFrame implements KeyListener {
 					e.printStackTrace();
 				}
 			} else {
-				runningThread = new RunningThread(grid, score, lines);
+				runningThread = new RunningThread(grid, score, lines,level);
 				runningThread.start();
 				setEastPanel();
 			}

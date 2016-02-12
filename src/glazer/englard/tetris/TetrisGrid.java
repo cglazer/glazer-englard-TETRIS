@@ -48,12 +48,14 @@ public class TetrisGrid extends JPanel {
 	private PriorityQueue queue;
 	private int level;
 	private int numCells;
+	private int speed;
 
 	public TetrisGrid() {
 		this.numRows = 20;
 		this.numCols = 10;
 		this.numCells = 0;
 		this.level = 1;
+		this.speed = 150;
 		this.labels = new JLabel[this.numRows + 1][this.numCols];
 		this.map = new HashMap<JLabel, Boolean>();
 		this.labelSet = new HashSet<JLabel>();
@@ -380,7 +382,11 @@ public class TetrisGrid extends JPanel {
 		// TODO Auto-generated method stub
 		// draws current piece
 		if (row1 >= 0) {
-			labels[row1][column1].setBackground(color);//.setIcon(new ImageIcon(new ImageIcon(this.getClass().getResource("./purplePiece.png")).getImage().getScaledInstance(27, 27,  java.awt.Image.SCALE_SMOOTH)));
+			labels[row1][column1].setBackground(color);// .setIcon(new
+														// ImageIcon(new
+														// ImageIcon(this.getClass().getResource("./purplePiece.png")).getImage().getScaledInstance(27,
+														// 27,
+														// java.awt.Image.SCALE_SMOOTH)));
 			labels[row1][column1].setOpaque(true);
 			map.put(labels[row1][column1], true);
 			labelSet.add(labels[row1][column1]);
@@ -433,13 +439,35 @@ public class TetrisGrid extends JPanel {
 						.contains(labels[row4][column4]))) {
 			score += 10;
 			checkFinishedRow();
+			checkLineAmount();
 			nextShape();
 		}
 	}
 
+	private void checkLineAmount() {
+		if (this.lines == 10) {
+			moveUpLevel();
+		}
+
+	}
+
+	private void moveUpLevel() {
+		this.level++;
+		this.lines = 0;
+		this.speed += 15; 
+
+	}
+
+	public int getSpeed() {
+		return this.speed;
+	}
+
 	public int getLines() {
-		// TODO Auto-generated method stub
 		return this.lines;
+	}
+
+	public int getLevel() {
+		return this.level;
 	}
 
 	public void fallDown() {
