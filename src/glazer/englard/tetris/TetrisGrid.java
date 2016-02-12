@@ -7,6 +7,8 @@ import java.util.HashSet;
 import java.util.Random;
 
 import javax.swing.BorderFactory;
+import javax.swing.Icon;
+import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.border.Border;
@@ -378,7 +380,7 @@ public class TetrisGrid extends JPanel {
 		// TODO Auto-generated method stub
 		// draws current piece
 		if (row1 >= 0) {
-			labels[row1][column1].setBackground(color);
+			labels[row1][column1].setBackground(color);//.setIcon(new ImageIcon(new ImageIcon(this.getClass().getResource("./purplePiece.png")).getImage().getScaledInstance(27, 27,  java.awt.Image.SCALE_SMOOTH)));
 			labels[row1][column1].setOpaque(true);
 			map.put(labels[row1][column1], true);
 			labelSet.add(labels[row1][column1]);
