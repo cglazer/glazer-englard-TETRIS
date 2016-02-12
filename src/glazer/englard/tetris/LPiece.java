@@ -75,6 +75,9 @@ public class LPiece extends Piece {
 		}
 	}
 
+
+	
+
 	public void unTurn() {
 		super.turnCounter--;
 		int turnType = super.turnCounter % 4;
@@ -113,7 +116,8 @@ public class LPiece extends Piece {
 			break;
 
 		}
-		super.turnCounter++;
+		
+
 		// validate that pieces did not go off the board
 		while (super.column1 < 0) {
 			super.moveRight();

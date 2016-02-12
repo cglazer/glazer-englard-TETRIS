@@ -80,10 +80,40 @@ public class SPiece extends Piece {
 
 	@Override
 	public void unTurn() {
-		// TODO Auto-generated method stub
-		turn();
-		turn();
-		turn();
+
+		super.turnCounter--;
+		int turnType = super.turnCounter % 4;
+		switch (turnType) {
+		case 1:
+			
+		// 1 and 4 stay
+			super.row2 -= 2;
+			super.column3 -= 2;
+			break;
+		case 2:
+			// 3 and 4 stay
+			super.row1 -= 2;
+			super.column2 += 2;
+			break;
+		case 3:
+			// 1 and 4 stay
+			super.row2 += 2;
+			super.column3 += 2;
+			break;
+		case 0:
+			// 3 an 4 stay
+			super.row1 += 2;
+			super.column2 -= 2;
+			break;
+
+		}
+		while (super.column2 < 0) {
+			super.moveRight();
+		}
+		while (super.column2 > super.MaxColumn) {
+			super.moveLeft();
+		}
+
 	}
 
 }

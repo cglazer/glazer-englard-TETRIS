@@ -99,10 +99,50 @@ public class TPiece extends Piece {
 
 	@Override
 	public void unTurn() {
-		// TODO Auto-generated method stub
-		turn();
-		turn();
-		turn();
+
+		super.turnCounter--;
+		int turnType = super.turnCounter % 4;
+		switch (turnType) {
+		case 1:
+			// validate
+			if (super.row2 + 1 > super.MaxRow) {
+				return; // dont turn
+			}
+			
+			super.column2 -= 1;
+			super.row2 -= 1;
+			break;
+		case 2:
+			
+			super.row1 -= 1;
+			super.column1 += 1;
+			break;
+		case 3:
+			// right mid goes to top mid
+			super.row4 += 1;
+			super.column4 += 1;
+
+			break;
+		case 0:
+			
+			super.row1 += 1;
+			super.row2 +=1;
+			super.row4 -=1 ;
+			super.column1 -= 1;
+			super.column2 += 1;
+			super.column4 -= 1;
+			break;
+
+		}
+
+		// validation that piece does not go off the sides of the board
+		while (super.column4 > super.MaxColumn) {
+			super.moveLeft();
+		}
+		while (super.column1 < 0) {
+			super.moveRight();
+		}
+
 	}
 
 }

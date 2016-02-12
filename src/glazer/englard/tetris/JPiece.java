@@ -88,10 +88,48 @@ public class JPiece extends Piece {
 
 	@Override
 	public void unTurn() {
-		// TODO Auto-generated method stub
-		turn();
-		turn();
-		turn();
+
+		super.turnCounter--;
+		int turnType = super.turnCounter % 4;
+		switch (turnType) {
+		case 1:
+			super.row2 += 1;
+			super.row4 -= 1;
+			super.column1 -= 2;
+			super.column2 -=1;
+			super.column4 +=1;
+			break;
+		case 2:
+			// 3 stays, c1 stays, 24 go to r3
+			super.row1 -= 2;
+			super.row2 -=1;
+			super.row4 +=1;
+			super.column2 -= 1;
+			super.column4 += 1;
+			break;
+		case 3:
+			// 3 stays, c234 all c3
+			super.row2 -= 1;
+			super.row4 += 1;
+			super.column1 -= 2;
+			super.column2 +=1;
+			super.column4 -=1 ;
+			break;
+		case 0:
+			super.row1 += 2;
+			super.row2 +=1 ;
+			super.row4 -=1 ;
+			super.column2 += 1;
+			super.column4 -= 1;
+			break;
+
+		}
+		
+		// validate that pieces did not go off the board
+		while (super.column1 < 0) {
+			super.moveRight();
+		}
+
 	}
 
 	
