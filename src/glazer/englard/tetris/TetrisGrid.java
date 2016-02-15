@@ -7,8 +7,6 @@ import java.util.HashSet;
 import java.util.Random;
 
 import javax.swing.BorderFactory;
-import javax.swing.Icon;
-import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.border.Border;
@@ -56,35 +54,37 @@ public class TetrisGrid extends JPanel {
 		this.numCells = 0;
 		this.level = 1;
 		this.speed = 150;
-		this.labels = new JLabel[this.numRows + 1][this.numCols];
+		this.labels = new JLabel[this.numRows + 1][this.numCols+1];
 		this.map = new HashMap<JLabel, Boolean>();
 		this.labelSet = new HashSet<JLabel>();
 		this.numDeletedRows = 0;
 		this.queue = new PriorityQueue();
-		// chooseShape();
-		// this.setBackground(Color.BLACK);
-		setLayout(new GridLayout(this.numRows, this.numCols));
+			setLayout(new GridLayout(this.numRows+1, this.numCols+1));
 		Border raisedbevel = BorderFactory.createRaisedSoftBevelBorder();
 		Border loweredbevel = BorderFactory.createEtchedBorder();
 		Border compound = BorderFactory.createCompoundBorder(loweredbevel,
 				raisedbevel);
 		for (int i = 0; i < this.numRows; i++) {
-			for (int x = 0; x < this.numCols; x++) {
+			for (int x = 0; x < this.numCols+1; x++) {
 				this.labels[i][x] = new JLabel();
 				add(this.labels[i][x]);
 				this.labels[i][x].setBackground(Color.BLACK);
 				this.labels[i][x].setOpaque(true);
-				// Border dark =
-				// BorderFactory.createLineBorder(Color.DARK_GRAY);
-				// Border blackCompound =
-				// BorderFactory.createCompoundBorder(compound,dark );
-				// this.labels[i][x].setBorder(compound);
 				this.labels[i][x].setBorder(BorderFactory
 						.createLineBorder(Color.DARK_GRAY));
-
 			}
 		}
-
+		for(int i=0; i<this.numRows; i++){
+			this.labels[i][this.numCols].setBackground(Color.LIGHT_GRAY);
+		}
+		for(int i=0; i<this.numCols; i++){
+			this.labels[this.numRows][i]= new JLabel();
+			add(this.labels[this.numRows][i]);
+			this.labels[this.numRows][i].setBackground(Color.LIGHT_GRAY);
+			this.labels[this.numRows][i].setOpaque(true);
+			this.labels[this.numRows][i].setBorder(BorderFactory
+					.createLineBorder(Color.DARK_GRAY));
+		}
 	}
 
 	public void startGame() {

@@ -268,13 +268,6 @@ public class TetrisFrame extends JFrame implements KeyListener {
 		// MusicThread musicThread= new MusicThread();
 		// musicThread.start();
 		this.executor2.scheduleAtFixedRate(playSound, 0, 22, TimeUnit.SECONDS);
-		for (int i = 0; i < 2; i++) {
-			for (int x = 0; x < 4; x++) {
-				this.nextPieceLabels[i][x].setBackground(Color.BLUE);
-				this.nextPieceLabels[i][x].setOpaque(true);
-
-			}
-		}
 	}
 
 	Runnable playSound = new Runnable() {
@@ -305,11 +298,6 @@ public class TetrisFrame extends JFrame implements KeyListener {
 				runningThread.start();
 				setEastPanel();
 			}
-			/**
-			 * if (grid.checkGameOver()) { gameOver(); } else { grid.runGame();
-			 * score.setText(String.valueOf(grid.getScore()));
-			 * lines.setText(String.valueOf(grid.getLines())); }
-			 */
 		}
 	};
 
