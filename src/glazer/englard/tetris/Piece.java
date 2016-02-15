@@ -110,12 +110,14 @@ public abstract class Piece {
 
 	public void moveLeft() {
 		// validate the piece can move left
-		// if (moveLeftValidate()) {
-		column1 -= 1;
-		column2 -= 1;
-		column3 -= 1;
-		column4 -= 1;
-		// }
+		if (moveLeftValidate()) {
+			column1 -= 1;
+			column2 -= 1;
+			column3 -= 1;
+			column4 -= 1;
+		}else{
+		System.out.println("cant move left");
+		}
 
 	}
 
