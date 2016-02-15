@@ -453,12 +453,12 @@ public class TetrisGrid extends JPanel {
 
 	private void moveUpLevel() {
 		this.level++;
-		this.lines = 0;
+	//	this.lines = 0;
 		this.speed += 15; 
 
 	}
 
-	public int getSpeed() {
+	public long getSpeed() {
 		return this.speed;
 	}
 
@@ -492,5 +492,7 @@ public class TetrisGrid extends JPanel {
 		}
 		score += (2 * numCells);
 	}
+
+	
 
 }

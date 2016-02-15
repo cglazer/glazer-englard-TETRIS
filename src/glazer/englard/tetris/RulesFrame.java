@@ -17,7 +17,7 @@ public class RulesFrame extends JFrame {
 	private static final long serialVersionUID = 1L;
 
 	public RulesFrame() {
-		setSize(300, 325);
+		setSize(300, 345);
 		setTitle("Tetris Rules");
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		JLabel list = new JLabel(
@@ -27,7 +27,9 @@ public class RulesFrame extends JFrame {
 						+ "To MOVE LEFT hit the left arrow <br>"
 						+ "To DROP the piece press the spacebar<br> Scoring: <br> 1 Line = 40*(level)<br> 2 Lines = 100*(level) <br>3 Lines = 300*(level) <br> 4 Lines = 1200*(level)"
 						+ "<br>Clear the board = 2000*(level)"
-						+ "<br>Every piece = 10*(level) <br> drop = 2 pionts per cell </p></html>");
+						+ "<br>Every piece = 10*(level) "
+						+ "<br>Soft drop = 1 point per cell"
+						+ "<br> Hard drop = 2 pionts per cell </p></html>");
 		list.setFont(new Font("Serif", Font.PLAIN, 14));
 		list.setForeground(Color.CYAN);
 		Container container = this.getContentPane();
