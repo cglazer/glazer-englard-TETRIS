@@ -91,6 +91,7 @@ public class TetrisGrid extends JPanel {
 		this.queue.reset();
 		chooseShape();
 		chooseShape();
+		chooseShape();
 		this.lines = 0;
 		this.score = 0;
 		this.map.clear();
@@ -124,7 +125,6 @@ public class TetrisGrid extends JPanel {
 							.contains(labels[row4][column4 - 1]))) {
 				this.pieceShape.moveLeft();
 				refreshColumnValues();
-				System.out.println("move left");
 			}
 		}
 	}
@@ -143,7 +143,6 @@ public class TetrisGrid extends JPanel {
 							.contains(labels[row4][column4 + 1]))) {
 				this.pieceShape.moveRight();
 				refreshColumnValues();
-				System.out.println("move right");
 			}
 		}
 	}
@@ -453,8 +452,8 @@ public class TetrisGrid extends JPanel {
 
 	private void moveUpLevel() {
 		this.level++;
-	//	this.lines = 0;
-		this.speed += 15; 
+		// this.lines = 0;
+		this.speed += 15;
 
 	}
 
@@ -492,7 +491,5 @@ public class TetrisGrid extends JPanel {
 		}
 		score += (2 * numCells);
 	}
-
-	
 
 }
