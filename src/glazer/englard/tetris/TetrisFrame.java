@@ -22,7 +22,6 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 import javax.swing.border.Border;
@@ -36,7 +35,7 @@ public class TetrisFrame extends JFrame implements KeyListener {
 
 	private ScheduledExecutorService executor;
 	private ScheduledExecutorService executor2;
-	private JPanel northPanel;
+	// private JPanel northPanel;
 	private TetrisGrid grid;
 	private JLabel scoreLabel;
 	private JLabel score;
@@ -57,7 +56,7 @@ public class TetrisFrame extends JFrame implements KeyListener {
 	private int column2;
 	private int column3;
 	private int column4;
-	private ImageIcon nextShapeIcon;
+	private Color nextShapeColor;
 	private JPanel eastHolder;
 	private boolean isPaused;
 	private DropMenu menuBar;
@@ -68,18 +67,17 @@ public class TetrisFrame extends JFrame implements KeyListener {
 	private JLabel gameOverLabel;
 	private JLabel pauseLabel;
 	private JButton startButton;
-
+	private boolean isGameOver;
+	private int myLevel;
+	private  MusicThread musicThread;
 	public TetrisFrame() {
 		setSize(640, 650);
 		setTitle("Tetris");
-		setResizable(false);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.container = getContentPane();
-
-		this.northPanel = new JPanel();
+		// this.northPanel = new JPanel();
 		this.westPanel = new JPanel();
-		grid = new TetrisGrid();
-
+		this.grid = new TetrisGrid();
 		this.scoreLabel = new JLabel("Score");
 		this.score = new JLabel("0");
 		this.linesLabel = new JLabel("Lines");
@@ -105,44 +103,42 @@ public class TetrisFrame extends JFrame implements KeyListener {
 		this.gameOverLabel = new JLabel("GAME OVER");
 		this.pauseLabel = new JLabel("PAUSE");
 		this.startButton = new JButton("START");
+		this.isGameOver = true;
+		this.myLevel = 1;
+		this.musicThread = new MusicThread();
 		setComponents();
 		addComponents();
 	}
 
 	public void setComponents() {
 		this.container.setLayout(new BorderLayout());
-		this.northPanel.setLayout(new FlowLayout());
-		// this.westPanel.setLayout(new BoxLayout(this.westPanel,
-		// BoxLayout.PAGE_AXIS));
-		// this.eastHolder.setLayout(new BoxLayout(this.eastHolder,
-		// BoxLayout.PAGE_AXIS));
+		// this.northPanel.setLayout(new FlowLayout());
 		this.container.setFocusable(true);
 		this.eastHolder.setLayout(new BorderLayout());
 		this.eastPanel.setLayout(new GridLayout(3, 4));
-
-		this.eastPanel.setMinimumSize(new Dimension(5, 80));
-		this.eastPanel.setPreferredSize(new Dimension(5, 80));
-		this.eastPanel.setMaximumSize(new Dimension(5, 80));
+		this.eastPanel.setMinimumSize(new Dimension(150, 100));
+		this.eastPanel.setPreferredSize(new Dimension(150, 100));
+		this.eastPanel.setMaximumSize(new Dimension(150, 100));
 		this.eastHolder.setBackground(Color.BLUE);
-		this.northPanel.setBackground(Color.BLUE);
+		// this.northPanel.setBackground(Color.BLUE);
 		this.westPanel.setBackground(Color.BLUE);
 		this.eastPanel.setBackground(Color.BLUE);
 		this.westNorthPanel.setBackground(Color.BLUE);
 		this.westSouthPanel.setBackground(Color.BLUE);
-		this.score.setMinimumSize(new Dimension(120, 50));
-		this.score.setPreferredSize(new Dimension(120, 50));
-		this.score.setMaximumSize(new Dimension(120, 50));
+		this.score.setMinimumSize(new Dimension(130, 50));
+		this.score.setPreferredSize(new Dimension(130, 50));
+		this.score.setMaximumSize(new Dimension(130, 50));
 		// this.score.setBorder(BorderFactory.createLineBorder(Color.BLACK));
-		this.startButton.setMinimumSize(new Dimension(120, 50));
-		this.startButton.setPreferredSize(new Dimension(12, 50));
-		this.startButton.setMaximumSize(new Dimension(120, 50));
-		this.lines.setMinimumSize(new Dimension(120, 50));
-		this.lines.setPreferredSize(new Dimension(120, 50));
-		this.lines.setMaximumSize(new Dimension(120, 50));
+		this.startButton.setMinimumSize(new Dimension(130, 50));
+		this.startButton.setPreferredSize(new Dimension(130, 50));
+		this.startButton.setMaximumSize(new Dimension(130, 50));
+		this.lines.setMinimumSize(new Dimension(130, 50));
+		this.lines.setPreferredSize(new Dimension(130, 50));
+		this.lines.setMaximumSize(new Dimension(130, 50));
 
-		this.level.setMinimumSize(new Dimension(120, 50));
-		this.level.setPreferredSize(new Dimension(120, 50));
-		this.level.setMaximumSize(new Dimension(120, 50));
+		this.level.setMinimumSize(new Dimension(130, 50));
+		this.level.setPreferredSize(new Dimension(130, 50));
+		this.level.setMaximumSize(new Dimension(130, 50));
 		Border paddingBorder = BorderFactory.createEmptyBorder(0, 0, 0, 0);
 		Border border = BorderFactory.createLineBorder(Color.WHITE);
 		Border compound = BorderFactory.createCompoundBorder(paddingBorder,
@@ -162,7 +158,7 @@ public class TetrisFrame extends JFrame implements KeyListener {
 		level.setHorizontalAlignment(SwingConstants.CENTER);
 		level.setVerticalAlignment(SwingConstants.CENTER);
 		lines.setFont(new Font("Serif", Font.PLAIN, 20));
-		startButton.setFont(new Font("Serif", Font.PLAIN, 20));
+		startButton.setFont(new Font("Serif", Font.PLAIN, 30));
 		this.linesLabel.setFont(new Font("Serif", Font.PLAIN, 20));
 		this.score.setFont(new Font("Serif", Font.PLAIN, 20));
 		this.scoreLabel.setFont(new Font("Serif", Font.PLAIN, 20));
@@ -192,11 +188,8 @@ public class TetrisFrame extends JFrame implements KeyListener {
 		this.eastHolder.setMinimumSize(new Dimension(170, 500));
 		this.eastHolder.setPreferredSize(new Dimension(170, 500));
 		this.eastHolder.setMaximumSize(new Dimension(170, 500));
-
 		this.tetrisIconLabel.setIcon(this.tetrisIcon);
-		// this.nextShape = grid.getNextShape();
-		// setEastPanel();
-		gameOverLabel.setVisible(false);
+		this.gameOverLabel.setVisible(false);
 		this.gameOverLabel.setForeground(Color.WHITE);
 		this.gameOverLabel.setFont(new Font("Arial", Font.BOLD, 60));
 		this.pauseLabel.setForeground(Color.WHITE);
@@ -210,9 +203,7 @@ public class TetrisFrame extends JFrame implements KeyListener {
 		this.pauseLabel.setVisible(false);
 		this.gameOverLabel.setVisible(false);
 		this.container.add(this.grid, BorderLayout.CENTER);
-
 		this.setMenuBar(menuBar);
-		this.container.add(this.northPanel, BorderLayout.NORTH);
 		this.container.add(this.westPanel, BorderLayout.WEST);
 		this.eastHolder.add(eastPanel, BorderLayout.NORTH);
 		this.eastHolder.add(this.westNorthPanel, BorderLayout.CENTER);
@@ -237,8 +228,6 @@ public class TetrisFrame extends JFrame implements KeyListener {
 			for (int x = 0; x < 4; x++) {
 				this.nextPieceLabels[i][x] = new JLabel(" ");
 				this.eastPanel.add(this.nextPieceLabels[i][x]);
-				// this.nextPieceLabels[i][x].setBorder(BorderFactory
-				// .createLineBorder(Color.BLACK));
 			}
 		}
 		this.startButton.addActionListener(new ActionListener() {
@@ -246,11 +235,15 @@ public class TetrisFrame extends JFrame implements KeyListener {
 			public void actionPerformed(ActionEvent arg0) {
 				if (startButton.getText().equals("NEW GAME")) {
 					executor.shutdown();
+					executor = Executors.newScheduledThreadPool(1);
+					System.out.println("executor canceled");
+					gameOverLabel.setVisible(false);
+				} else {
+					startButton.setText("NEW GAME");
+					startButton.setFont(new Font("Serif", Font.PLAIN, 24));
 				}
-				//startButton.setText("NEW GAME");
 				startButton.setFocusable(false);
-				startButton.setEnabled(false);
-
+				// startButton.setEnabled(false);
 				startGame();
 			}
 		});
@@ -260,26 +253,33 @@ public class TetrisFrame extends JFrame implements KeyListener {
 	public void startGame() {
 		// playSound();
 		grid.startGame();
+		this.isGameOver = false;
 		setEastPanel();
-		this.executor = Executors.newScheduledThreadPool(1);
+
 		// executor.scheduleAtFixedRate(gameRunnable, 0, grid.getSpeed(),
 		// TimeUnit.MILLISECONDS);
+		if(musicThread.isAlive()){
+			musicThread.stopMusic();
+			musicThread= new MusicThread();
+		 
+		}
+		//musicThread.start();
+		System.out.println(" new executor");
 		executor.scheduleAtFixedRate(gameRunnable, 0, 150,
 				TimeUnit.MILLISECONDS);
-		// MusicThread musicThread= new MusicThread();
-		// musicThread.start();
+	
 		this.executor2.scheduleAtFixedRate(playSound, 0, 22, TimeUnit.SECONDS);
 	}
 
 	Runnable playSound = new Runnable() {
 
 		public void run() {
-			// MusicThread musicThread= new MusicThread();
-			// musicThread.start();
+			  musicThread= new MusicThread();
+			musicThread.start();
 
-			Applet.newAudioClip(getClass().getResource("jolly-game-groove.wav"))
+			/*Applet.newAudioClip(getClass().getResource("jolly-game-groove.wav"))
 					.play();
-		}
+*/		}
 	};
 	Runnable gameRunnable = new Runnable() {
 
@@ -295,18 +295,33 @@ public class TetrisFrame extends JFrame implements KeyListener {
 					e.printStackTrace();
 				}
 			} else {
-				runningThread = new RunningThread(grid, score, lines, level);
-				runningThread.start();
-				setEastPanel();
+				if (myLevel != grid.getLevel()) {
+					myLevel = grid.getLevel();
+					incrementLevel();
+				} else {
+					runningThread = new RunningThread(grid, score, lines, level);
+					runningThread.start();
+					setEastPanel();
+				}
 			}
 		}
+
 	};
+
+	private void incrementLevel() {
+		// TODO Auto-generated method stub
+		executor.shutdown();
+		executor = Executors.newScheduledThreadPool(1);
+		executor.scheduleAtFixedRate(gameRunnable, 0, 300,
+				TimeUnit.MILLISECONDS);
+	}
 
 	public void gameOver() {
 		executor.shutdown();
+		this.isGameOver = true;
 		// gameOverLabel= new JLabel("Game Over");
-		this.pauseLabel.setText("");
-		while (true) {
+		// this.pauseLabel.setText("");
+		while (isGameOver) {
 			gameOverLabel.setVisible(true);
 			try {
 				Thread.sleep(200);
@@ -329,14 +344,13 @@ public class TetrisFrame extends JFrame implements KeyListener {
 		for (int i = 0; i < 2; i++) {
 			for (int x = 0; x < 4; x++) {
 				this.nextPieceLabels[i][x].setBackground(Color.BLACK);
-				this.nextPieceLabels[i][x].setIcon(null);
 				this.nextPieceLabels[i][x].setOpaque(true);
 				this.nextPieceLabels[i][x].setBorder(BorderFactory
 						.createLineBorder(Color.BLACK));
 			}
 		}
 		this.nextShape = grid.getNextShape();
-		this.nextShapeIcon = this.nextShape.getNextPanelIcon();
+		this.nextShapeColor = this.nextShape.getColor();
 		this.column1 = this.nextShape.getColumn1() - 3;
 		this.column2 = this.nextShape.getColumn2() - 3;
 		this.column3 = this.nextShape.getColumn3() - 3;
@@ -345,10 +359,10 @@ public class TetrisFrame extends JFrame implements KeyListener {
 		this.row2 = this.nextShape.getRow2() + 1;
 		this.row3 = this.nextShape.getRow3() + 1;
 		this.row4 = this.nextShape.getRow4() + 1;
-		this.nextPieceLabels[row1][column1].setIcon(this.nextShapeIcon);
-		this.nextPieceLabels[row2][column2].setIcon(this.nextShapeIcon);
-		this.nextPieceLabels[row3][column3].setIcon(this.nextShapeIcon);
-		this.nextPieceLabels[row4][column4].setIcon(this.nextShapeIcon);
+		this.nextPieceLabels[row1][column1].setBackground(this.nextShapeColor);
+		this.nextPieceLabels[row2][column2].setBackground(this.nextShapeColor);
+		this.nextPieceLabels[row3][column3].setBackground(this.nextShapeColor);
+		this.nextPieceLabels[row4][column4].setBackground(this.nextShapeColor);
 		this.nextPieceLabels[row1][column1].setBorder(BorderFactory
 				.createLineBorder(Color.DARK_GRAY));
 		this.nextPieceLabels[row2][column2].setBorder(BorderFactory
@@ -371,8 +385,10 @@ public class TetrisFrame extends JFrame implements KeyListener {
 			grid.moveRight();
 		} else if (c == KeyEvent.VK_P) {
 			// pause
-			this.isPaused = true;
-			this.pauseLabel.setVisible(true);
+			if (!this.isGameOver) {
+				this.isPaused = true;
+				this.pauseLabel.setVisible(true);
+			}
 		} else if (c == KeyEvent.VK_R) {
 			// resume
 			this.pauseLabel.setVisible(false);

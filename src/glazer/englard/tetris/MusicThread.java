@@ -14,7 +14,10 @@ public MusicThread(){
 	//	.play();
 		URL urlClick = getClass().getResource("jolly-game-groove.wav");
 		click = Applet.newAudioClip(urlClick);
-
-		click.loop();
+		click.play();
 }
+	
+	public void stopMusic() {
+		click.stop();
+	}
 }
