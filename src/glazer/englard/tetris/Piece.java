@@ -3,6 +3,9 @@ package glazer.englard.tetris;
 import java.awt.Color;
 import java.util.Random;
 
+import javax.swing.Icon;
+import javax.swing.ImageIcon;
+
 public abstract class Piece {
 
 	// the shape and color of the piece are randomly generated
@@ -10,6 +13,8 @@ public abstract class Piece {
 
 	// private char shape;
 	protected Color color;
+	protected ImageIcon colorImage;
+	protected ImageIcon nextPanelIcon;
 	protected int row1;
 	protected int column1;
 	protected int row2;
@@ -143,5 +148,13 @@ public abstract class Piece {
 	}
 
 	public abstract void turn();
+
+	public ImageIcon getIcon() {
+		return this.colorImage;
+	}
+	
+	public ImageIcon getNextPanelIcon(){
+		return this.nextPanelIcon;
+	}
 
 }

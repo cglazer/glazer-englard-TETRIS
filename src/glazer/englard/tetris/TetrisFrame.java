@@ -57,7 +57,7 @@ public class TetrisFrame extends JFrame implements KeyListener {
 	private int column2;
 	private int column3;
 	private int column4;
-	private Color nextShapeColor;
+	private ImageIcon nextShapeIcon;
 	private JPanel eastHolder;
 	private boolean isPaused;
 	private DropMenu menuBar;
@@ -72,6 +72,7 @@ public class TetrisFrame extends JFrame implements KeyListener {
 	public TetrisFrame() {
 		setSize(640, 650);
 		setTitle("Tetris");
+		setResizable(false);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.container = getContentPane();
 
@@ -119,29 +120,29 @@ public class TetrisFrame extends JFrame implements KeyListener {
 		this.eastHolder.setLayout(new BorderLayout());
 		this.eastPanel.setLayout(new GridLayout(3, 4));
 
-		this.eastPanel.setMinimumSize(new Dimension(150, 100));
-		this.eastPanel.setPreferredSize(new Dimension(150, 100));
-		this.eastPanel.setMaximumSize(new Dimension(150, 100));
+		this.eastPanel.setMinimumSize(new Dimension(5, 80));
+		this.eastPanel.setPreferredSize(new Dimension(5, 80));
+		this.eastPanel.setMaximumSize(new Dimension(5, 80));
 		this.eastHolder.setBackground(Color.BLUE);
 		this.northPanel.setBackground(Color.BLUE);
 		this.westPanel.setBackground(Color.BLUE);
 		this.eastPanel.setBackground(Color.BLUE);
 		this.westNorthPanel.setBackground(Color.BLUE);
 		this.westSouthPanel.setBackground(Color.BLUE);
-		this.score.setMinimumSize(new Dimension(130, 50));
-		this.score.setPreferredSize(new Dimension(130, 50));
-		this.score.setMaximumSize(new Dimension(130, 50));
+		this.score.setMinimumSize(new Dimension(120, 50));
+		this.score.setPreferredSize(new Dimension(120, 50));
+		this.score.setMaximumSize(new Dimension(120, 50));
 		// this.score.setBorder(BorderFactory.createLineBorder(Color.BLACK));
-		this.startButton.setMinimumSize(new Dimension(130, 50));
-		this.startButton.setPreferredSize(new Dimension(130, 50));
-		this.startButton.setMaximumSize(new Dimension(130, 50));
-		this.lines.setMinimumSize(new Dimension(130, 50));
-		this.lines.setPreferredSize(new Dimension(130, 50));
-		this.lines.setMaximumSize(new Dimension(130, 50));
+		this.startButton.setMinimumSize(new Dimension(120, 50));
+		this.startButton.setPreferredSize(new Dimension(12, 50));
+		this.startButton.setMaximumSize(new Dimension(120, 50));
+		this.lines.setMinimumSize(new Dimension(120, 50));
+		this.lines.setPreferredSize(new Dimension(120, 50));
+		this.lines.setMaximumSize(new Dimension(120, 50));
 
-		this.level.setMinimumSize(new Dimension(130, 50));
-		this.level.setPreferredSize(new Dimension(130, 50));
-		this.level.setMaximumSize(new Dimension(130, 50));
+		this.level.setMinimumSize(new Dimension(120, 50));
+		this.level.setPreferredSize(new Dimension(120, 50));
+		this.level.setMaximumSize(new Dimension(120, 50));
 		Border paddingBorder = BorderFactory.createEmptyBorder(0, 0, 0, 0);
 		Border border = BorderFactory.createLineBorder(Color.WHITE);
 		Border compound = BorderFactory.createCompoundBorder(paddingBorder,
@@ -328,13 +329,14 @@ public class TetrisFrame extends JFrame implements KeyListener {
 		for (int i = 0; i < 2; i++) {
 			for (int x = 0; x < 4; x++) {
 				this.nextPieceLabels[i][x].setBackground(Color.BLACK);
+				this.nextPieceLabels[i][x].setIcon(null);
 				this.nextPieceLabels[i][x].setOpaque(true);
 				this.nextPieceLabels[i][x].setBorder(BorderFactory
 						.createLineBorder(Color.BLACK));
 			}
 		}
 		this.nextShape = grid.getNextShape();
-		this.nextShapeColor = this.nextShape.getColor();
+		this.nextShapeIcon = this.nextShape.getNextPanelIcon();
 		this.column1 = this.nextShape.getColumn1() - 3;
 		this.column2 = this.nextShape.getColumn2() - 3;
 		this.column3 = this.nextShape.getColumn3() - 3;
@@ -343,10 +345,10 @@ public class TetrisFrame extends JFrame implements KeyListener {
 		this.row2 = this.nextShape.getRow2() + 1;
 		this.row3 = this.nextShape.getRow3() + 1;
 		this.row4 = this.nextShape.getRow4() + 1;
-		this.nextPieceLabels[row1][column1].setBackground(this.nextShapeColor);
-		this.nextPieceLabels[row2][column2].setBackground(this.nextShapeColor);
-		this.nextPieceLabels[row3][column3].setBackground(this.nextShapeColor);
-		this.nextPieceLabels[row4][column4].setBackground(this.nextShapeColor);
+		this.nextPieceLabels[row1][column1].setIcon(this.nextShapeIcon);
+		this.nextPieceLabels[row2][column2].setIcon(this.nextShapeIcon);
+		this.nextPieceLabels[row3][column3].setIcon(this.nextShapeIcon);
+		this.nextPieceLabels[row4][column4].setIcon(this.nextShapeIcon);
 		this.nextPieceLabels[row1][column1].setBorder(BorderFactory
 				.createLineBorder(Color.DARK_GRAY));
 		this.nextPieceLabels[row2][column2].setBorder(BorderFactory

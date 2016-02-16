@@ -1,12 +1,21 @@
 package glazer.englard.tetris;
 
 import java.awt.Color;
+import java.awt.Image;
+
+import javax.swing.ImageIcon;
 
 public class SPiece extends Piece {
 
 	public SPiece(int maxC) {
 		super(maxC);
 		super.color = Color.GREEN;
+		super.colorImage = new ImageIcon(new ImageIcon(this.getClass()
+				.getResource("./greenPiece.png")).getImage()
+				.getScaledInstance(25, 25, Image.SCALE_SMOOTH));
+		super.nextPanelIcon = new ImageIcon(colorImage.getImage().getScaledInstance(37, 25, Image.SCALE_SMOOTH));
+
+		startPosition();
 		startPosition();
 	}
 

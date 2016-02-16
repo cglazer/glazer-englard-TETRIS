@@ -362,18 +362,22 @@ public class TetrisGrid extends JPanel {
 		// TODO Auto-generated method stub
 		// if piece is on board it gets erased!!
 		if (row1 > 0) {
+			labels[coloredRow1][coloredColumn1].setIcon(null);
 			labels[coloredRow1][coloredColumn1].setBackground(Color.BLACK);
 			map.put(labels[coloredRow1][coloredColumn1], false);
 		}
 		if (row2 > 0) {
+			labels[coloredRow2][coloredColumn2].setIcon(null);
 			labels[coloredRow2][coloredColumn2].setBackground(Color.BLACK);
 			map.put(labels[coloredRow2][coloredColumn2], false);
 		}
 		if (row3 > 0) {
+			labels[coloredRow3][coloredColumn3].setIcon(null);
 			labels[coloredRow3][coloredColumn3].setBackground(Color.BLACK);
 			map.put(labels[coloredRow3][coloredColumn3], false);
 		}
 		if (row4 > 0) {
+			labels[coloredRow4][coloredColumn4].setIcon(null);
 			labels[coloredRow4][coloredColumn4].setBackground(Color.BLACK);
 			map.put(labels[coloredRow4][coloredColumn4], false);
 		}
@@ -381,32 +385,27 @@ public class TetrisGrid extends JPanel {
 	}
 
 	public void drawCurrentPiece() {
-		// TODO Auto-generated method stub
 		// draws current piece
 		if (row1 >= 0) {
-			labels[row1][column1].setBackground(color);// //.setIcon(new
-														// ImageIcon(new
-														// ImageIcon(this
-			// .getClass().getResource("./purplePiece.png")).getImage()
-			// .getScaledInstance(27, 27, java.awt.Image.SCALE_SMOOTH)));
+			labels[row1][column1].setIcon(this.pieceShape.getIcon());
 			labels[row1][column1].setOpaque(true);
 			map.put(labels[row1][column1], true);
 			labelSet.add(labels[row1][column1]);
 		}
 		if (row2 >= 0) {
-			labels[row2][column2].setBackground(color);
+			labels[row2][column2].setIcon(this.pieceShape.getIcon());
 			labels[row2][column2].setOpaque(true);
 			map.put(labels[row2][column2], true);
 			labelSet.add(labels[row2][column2]);
 		}
 		if (row3 >= 0) {
-			labels[row3][column3].setBackground(color);
+			labels[row3][column3].setIcon(this.pieceShape.getIcon());
 			labels[row3][column3].setOpaque(true);
 			map.put(labels[row3][column3], true);
 			labelSet.add(labels[row3][column3]);
 		}
 		if (row4 >= 0) {
-			labels[row4][column4].setBackground(color);
+			labels[row4][column4].setIcon(this.pieceShape.getIcon());
 			labels[row4][column4].setOpaque(true);
 			map.put(labels[row4][column4], true);
 			labelSet.add(labels[row4][column4]);
