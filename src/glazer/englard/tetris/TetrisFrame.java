@@ -248,6 +248,7 @@ public class TetrisFrame extends JFrame implements KeyListener {
 					future.cancel(false);
 					// executor.shutdown();
 					// executor = Executors.newScheduledThreadPool(1);
+
 					System.out.println("executor canceled");
 					gameOverLabel.setVisible(false);
 				} else {
@@ -270,6 +271,7 @@ public class TetrisFrame extends JFrame implements KeyListener {
 
 		// executor.scheduleAtFixedRate(gameRunnable, 0, grid.getSpeed(),
 		// TimeUnit.MILLISECONDS);
+
 		if (musicThread.isAlive()) {
 			musicThread.stopMusic();
 			// musicThread= new MusicThread();
@@ -283,7 +285,6 @@ public class TetrisFrame extends JFrame implements KeyListener {
 		 */
 		future = executor.scheduleWithFixedDelay(gameRunnable, 0, 150,
 				TimeUnit.MILLISECONDS);
-
 		this.executor2.scheduleAtFixedRate(playSound, 0, 22, TimeUnit.SECONDS);
 	}
 

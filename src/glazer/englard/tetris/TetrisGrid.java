@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Random;
 import javax.swing.BorderFactory;
+import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.border.Border;
@@ -276,6 +277,7 @@ public class TetrisGrid extends JPanel {
 			map.put(labels[0][i], false);
 			labels[0][i].setBackground(Color.BLACK);
 		}
+
 		if (lines % 10 == 0) {
 			moveUpLevel();
 		}
@@ -388,6 +390,7 @@ public class TetrisGrid extends JPanel {
 			// labels[row1][column1].setIcon(new ImageIcon(new
 			// ImageIcon(this.getClass().getResource("./purplePiece.png")).getImage().getScaledInstance(27,
 			// 27,java.awt.Image.SCALE_SMOOTH)));
+
 			labels[row1][column1].setOpaque(true);
 			map.put(labels[row1][column1], true);
 			labelSet.add(labels[row1][column1]);
