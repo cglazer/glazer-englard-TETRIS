@@ -12,6 +12,7 @@ public class Testing extends JFrame {
 	private ScheduledExecutorService executor;
 	private ScheduledExecutorService executor2;
 	private JLabel text;
+
 	public static void main(String[] args) {
 		Testing frame = new Testing();
 		frame.setVisible(true);
@@ -22,7 +23,7 @@ public class Testing extends JFrame {
 		setTitle("Testing");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		// playSound();
-		this.executor=Executors.newScheduledThreadPool(1);
+		this.executor = Executors.newScheduledThreadPool(1);
 		this.executor.scheduleAtFixedRate(test, 0, 200, TimeUnit.MILLISECONDS);
 		this.executor2 = Executors.newScheduledThreadPool(1);
 		this.executor2.scheduleAtFixedRate(playSound, 0, 22, TimeUnit.SECONDS);

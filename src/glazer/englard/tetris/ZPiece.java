@@ -73,7 +73,7 @@ public class ZPiece extends Piece  {
 	@Override
 	public boolean moveLeftValidate() {
 		//left most piece is 4 1 or 2
-		return (super.column3 > 0 && super.column2 > 0 && super.column4> 0);
+		return (super.column3 > 0 && super.column2 > 0 && super.column1>0 && super.column4> 0);
 		
 	}
 

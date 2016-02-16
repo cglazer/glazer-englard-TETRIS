@@ -1,11 +1,9 @@
 package glazer.englard.tetris;
 
-import java.applet.Applet;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Container;
 import java.awt.Dimension;
-import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.Image;
@@ -15,14 +13,15 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
 
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JCheckBoxMenuItem;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 import javax.swing.border.Border;
@@ -33,10 +32,8 @@ public class TetrisFrame extends JFrame implements KeyListener {
 	 */
 	private static final long serialVersionUID = 1L;
 	private Container container;
-
 	private ScheduledExecutorService executor;
 	private ScheduledExecutorService executor2;
-	private JPanel northPanel;
 	private TetrisGrid grid;
 	private JLabel scoreLabel;
 	private JLabel score;
@@ -68,17 +65,21 @@ public class TetrisFrame extends JFrame implements KeyListener {
 	private JLabel gameOverLabel;
 	private JLabel pauseLabel;
 	private JButton startButton;
+	private boolean isGameOver;
+	private int myLevel;
+	private MusicThread musicThread;
+	private JCheckBoxMenuItem mute;
+	private boolean sound;
+	private ScheduledFuture<?> future;
+	private boolean isGameStarted;
 
 	public TetrisFrame() {
 		setSize(640, 650);
 		setTitle("Tetris");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.container = getContentPane();
-
-		this.northPanel = new JPanel();
 		this.westPanel = new JPanel();
-		grid = new TetrisGrid();
-
+		this.grid = new TetrisGrid();
 		this.scoreLabel = new JLabel("Score");
 		this.score = new JLabel("0");
 		this.linesLabel = new JLabel("Lines");
@@ -104,26 +105,27 @@ public class TetrisFrame extends JFrame implements KeyListener {
 		this.gameOverLabel = new JLabel("GAME OVER");
 		this.pauseLabel = new JLabel("PAUSE");
 		this.startButton = new JButton("START");
+		this.isGameOver = true;
+		this.myLevel = 1;
+		this.musicThread = new MusicThread();
+		this.mute = new JCheckBoxMenuItem("MUTE");
+		this.mute.addActionListener(muteGame);
+		this.sound = true;
+		this.isGameStarted = false;
 		setComponents();
 		addComponents();
 	}
 
 	public void setComponents() {
 		this.container.setLayout(new BorderLayout());
-		this.northPanel.setLayout(new FlowLayout());
-		// this.westPanel.setLayout(new BoxLayout(this.westPanel,
-		// BoxLayout.PAGE_AXIS));
-		// this.eastHolder.setLayout(new BoxLayout(this.eastHolder,
-		// BoxLayout.PAGE_AXIS));
 		this.container.setFocusable(true);
 		this.eastHolder.setLayout(new BorderLayout());
 		this.eastPanel.setLayout(new GridLayout(3, 4));
-
 		this.eastPanel.setMinimumSize(new Dimension(150, 100));
 		this.eastPanel.setPreferredSize(new Dimension(150, 100));
 		this.eastPanel.setMaximumSize(new Dimension(150, 100));
 		this.eastHolder.setBackground(Color.BLUE);
-		this.northPanel.setBackground(Color.BLUE);
+		// this.northPanel.setBackground(Color.BLUE);
 		this.westPanel.setBackground(Color.BLUE);
 		this.eastPanel.setBackground(Color.BLUE);
 		this.westNorthPanel.setBackground(Color.BLUE);
@@ -161,7 +163,7 @@ public class TetrisFrame extends JFrame implements KeyListener {
 		level.setHorizontalAlignment(SwingConstants.CENTER);
 		level.setVerticalAlignment(SwingConstants.CENTER);
 		lines.setFont(new Font("Serif", Font.PLAIN, 20));
-		startButton.setFont(new Font("Serif", Font.PLAIN, 20));
+		startButton.setFont(new Font("Serif", Font.PLAIN, 30));
 		this.linesLabel.setFont(new Font("Serif", Font.PLAIN, 20));
 		this.score.setFont(new Font("Serif", Font.PLAIN, 20));
 		this.scoreLabel.setFont(new Font("Serif", Font.PLAIN, 20));
@@ -191,15 +193,17 @@ public class TetrisFrame extends JFrame implements KeyListener {
 		this.eastHolder.setMinimumSize(new Dimension(170, 500));
 		this.eastHolder.setPreferredSize(new Dimension(170, 500));
 		this.eastHolder.setMaximumSize(new Dimension(170, 500));
-
 		this.tetrisIconLabel.setIcon(this.tetrisIcon);
-		// this.nextShape = grid.getNextShape();
-		// setEastPanel();
-		gameOverLabel.setVisible(false);
+		this.gameOverLabel.setVisible(false);
 		this.gameOverLabel.setForeground(Color.WHITE);
 		this.gameOverLabel.setFont(new Font("Arial", Font.BOLD, 60));
 		this.pauseLabel.setForeground(Color.WHITE);
 		this.pauseLabel.setFont(new Font("Arial", Font.BOLD, 60));
+		this.mute.setBackground(Color.BLUE);
+		this.mute.setFont(new Font("Arial", Font.PLAIN, 20));
+		this.mute.setForeground(Color.BLACK);
+		Border blueBorder = BorderFactory.createLineBorder(Color.BLUE);
+		this.mute.setBorder(blueBorder);
 	}
 
 	public void addComponents() {
@@ -209,12 +213,11 @@ public class TetrisFrame extends JFrame implements KeyListener {
 		this.pauseLabel.setVisible(false);
 		this.gameOverLabel.setVisible(false);
 		this.container.add(this.grid, BorderLayout.CENTER);
-
 		this.setMenuBar(menuBar);
-		this.container.add(this.northPanel, BorderLayout.NORTH);
 		this.container.add(this.westPanel, BorderLayout.WEST);
 		this.eastHolder.add(eastPanel, BorderLayout.NORTH);
 		this.eastHolder.add(this.westNorthPanel, BorderLayout.CENTER);
+		this.eastHolder.add(this.mute, BorderLayout.SOUTH);
 		this.container.add(this.eastHolder, BorderLayout.EAST);
 		this.westNorthPanel.add(this.scoreLabel);
 		this.westNorthPanel.add(this.score);
@@ -236,20 +239,22 @@ public class TetrisFrame extends JFrame implements KeyListener {
 			for (int x = 0; x < 4; x++) {
 				this.nextPieceLabels[i][x] = new JLabel(" ");
 				this.eastPanel.add(this.nextPieceLabels[i][x]);
-				// this.nextPieceLabels[i][x].setBorder(BorderFactory
-				// .createLineBorder(Color.BLACK));
 			}
 		}
 		this.startButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				if (startButton.getText().equals("NEW GAME")) {
-					executor.shutdown();
+					future.cancel(false);
+					// executor.shutdown();
+					// executor = Executors.newScheduledThreadPool(1);
+					System.out.println("executor canceled");
+					gameOverLabel.setVisible(false);
+				} else {
+					startButton.setText("NEW GAME");
+					startButton.setFont(new Font("Serif", Font.PLAIN, 24));
 				}
-				//startButton.setText("NEW GAME");
 				startButton.setFocusable(false);
-				startButton.setEnabled(false);
-
 				startGame();
 			}
 		});
@@ -257,27 +262,40 @@ public class TetrisFrame extends JFrame implements KeyListener {
 	}
 
 	public void startGame() {
+		this.isGameStarted = true;
 		// playSound();
 		grid.startGame();
+		this.isGameOver = false;
 		setEastPanel();
-		this.executor = Executors.newScheduledThreadPool(1);
+
 		// executor.scheduleAtFixedRate(gameRunnable, 0, grid.getSpeed(),
 		// TimeUnit.MILLISECONDS);
-		executor.scheduleAtFixedRate(gameRunnable, 0, 150,
-				TimeUnit.MILLISECONDS);
-		// MusicThread musicThread= new MusicThread();
+		if (musicThread.isAlive()) {
+			musicThread.stopMusic();
+			// musicThread= new MusicThread();
+
+		}
 		// musicThread.start();
+		System.out.println(" new executor");
+		/*
+		 * executor.scheduleAtFixedRate(gameRunnable, 0, 150,
+		 * TimeUnit.MILLISECONDS);
+		 */
+		future = executor.scheduleWithFixedDelay(gameRunnable, 0, 150,
+				TimeUnit.MILLISECONDS);
+
 		this.executor2.scheduleAtFixedRate(playSound, 0, 22, TimeUnit.SECONDS);
 	}
 
 	Runnable playSound = new Runnable() {
 
 		public void run() {
-			// MusicThread musicThread= new MusicThread();
-			// musicThread.start();
-
-			Applet.newAudioClip(getClass().getResource("jolly-game-groove.wav"))
-					.play();
+			if (sound) {
+				musicThread = new MusicThread();
+				musicThread.start();
+			}
+			// Applet.newAudioClip(getClass().getResource("jolly-game-groove.wav"))
+			// .play();
 		}
 	};
 	Runnable gameRunnable = new Runnable() {
@@ -294,18 +312,36 @@ public class TetrisFrame extends JFrame implements KeyListener {
 					e.printStackTrace();
 				}
 			} else {
-				runningThread = new RunningThread(grid, score, lines, level);
-				runningThread.start();
-				setEastPanel();
+				if (myLevel != grid.getLevel()) {
+					myLevel = grid.getLevel();
+					incrementLevel();
+				} else {
+					runningThread = new RunningThread(grid, score, lines, level);
+					runningThread.start();
+					setEastPanel();
+				}
 			}
 		}
+
 	};
 
+	private void incrementLevel() {
+		// TODO Auto-generated method stub
+		/*
+		 * executor.shutdown(); executor = Executors.newScheduledThreadPool(1);
+		 * executor.scheduleAtFixedRate(gameRunnable, 0, 300,
+		 * TimeUnit.MILLISECONDS);
+		 */
+
+		future.cancel(false);
+		future = executor.scheduleWithFixedDelay(gameRunnable, 0,
+				grid.getSpeed(), TimeUnit.MILLISECONDS);
+	}
+
 	public void gameOver() {
-		executor.shutdown();
-		// gameOverLabel= new JLabel("Game Over");
-		this.pauseLabel.setText("");
-		while (true) {
+		future.cancel(false);
+		this.isGameOver = true;
+		while (isGameOver) {
 			gameOverLabel.setVisible(true);
 			try {
 				Thread.sleep(200);
@@ -369,8 +405,10 @@ public class TetrisFrame extends JFrame implements KeyListener {
 			grid.moveRight();
 		} else if (c == KeyEvent.VK_P) {
 			// pause
-			this.isPaused = true;
-			this.pauseLabel.setVisible(true);
+			if (!this.isGameOver) {
+				this.isPaused = true;
+				this.pauseLabel.setVisible(true);
+			}
 		} else if (c == KeyEvent.VK_R) {
 			// resume
 			this.pauseLabel.setVisible(false);
@@ -391,5 +429,25 @@ public class TetrisFrame extends JFrame implements KeyListener {
 	public void keyTyped(KeyEvent arg0) {
 		// TODO Auto-generated method stub
 	}
+
+	ActionListener muteGame = new ActionListener() {
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			if (sound) {
+				sound = false;
+				if (isGameStarted) {
+					musicThread.stopMusic();
+				}
+
+			} else {
+
+				musicThread = new MusicThread();
+				musicThread.start();
+				sound = true;
+			}
+
+		}
+
+	};
 
 }

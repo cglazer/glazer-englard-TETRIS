@@ -1,7 +1,6 @@
 package glazer.englard.tetris;
 
 import java.awt.Color;
-import java.util.Random;
 
 public abstract class Piece {
 

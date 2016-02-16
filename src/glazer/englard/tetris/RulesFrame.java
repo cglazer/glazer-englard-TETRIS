@@ -21,7 +21,7 @@ public class RulesFrame extends JFrame {
 		setTitle("Tetris Rules");
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		JLabel list = new JLabel(
-				"<html><p style=\" padding:10;\">To play press the start button<br> "
+				"<html><p style=\" padding:10;\">To PLAY press the start button<br> "
 						+ "To PAUSE press p<br>To RESUME press r<br> "
 						+ "To TURN the piece use the up arrow <br>To MOVE RIGHT hit the right arrow <br>"
 						+ "To MOVE LEFT hit the left arrow <br>"
