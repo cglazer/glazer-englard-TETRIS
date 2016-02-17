@@ -77,6 +77,12 @@ public class TetrisFrame extends JFrame implements KeyListener {
 		setSize(640, 650);
 		setTitle("Tetris");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		ImageIcon frameIcon = new ImageIcon("./gameIcon.png");
+		Image img2= frameIcon.getImage();
+		Image newimg2 = img2.getScaledInstance(250, 250,
+				java.awt.Image.SCALE_SMOOTH);
+		frameIcon.setImage(newimg2);
+		setIconImage(frameIcon.getImage());
 		this.container = getContentPane();
 		this.westPanel = new JPanel();
 		this.grid = new TetrisGrid();
