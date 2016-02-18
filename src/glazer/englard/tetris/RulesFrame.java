@@ -1,13 +1,11 @@
 package glazer.englard.tetris;
 
-import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Container;
 import java.awt.Font;
 
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JTextField;
 
 public class RulesFrame extends JFrame {
 

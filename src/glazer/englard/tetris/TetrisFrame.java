@@ -77,8 +77,8 @@ public class TetrisFrame extends JFrame implements KeyListener {
 		setSize(640, 650);
 		setTitle("Tetris");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		ImageIcon frameIcon = new ImageIcon("./gameIcon.png");
-		Image img2= frameIcon.getImage();
+		ImageIcon frameIcon = new ImageIcon(getClass().getResource("./gameIcon.png"));
+		Image img2 = frameIcon.getImage();
 		Image newimg2 = img2.getScaledInstance(250, 250,
 				java.awt.Image.SCALE_SMOOTH);
 		frameIcon.setImage(newimg2);
@@ -101,6 +101,7 @@ public class TetrisFrame extends JFrame implements KeyListener {
 		this.menuBar = new DropMenu();
 		this.westNorthPanel = new JPanel();
 		this.westSouthPanel = new JPanel();
+
 		this.tetrisIcon = new ImageIcon(this.getClass().getResource(
 				"tetrisIcon.jpg"));
 		this.tetrisIconLabel = new JLabel();
@@ -131,7 +132,6 @@ public class TetrisFrame extends JFrame implements KeyListener {
 		this.eastPanel.setPreferredSize(new Dimension(150, 100));
 		this.eastPanel.setMaximumSize(new Dimension(150, 100));
 		this.eastHolder.setBackground(Color.BLUE);
-		// this.northPanel.setBackground(Color.BLUE);
 		this.westPanel.setBackground(Color.BLUE);
 		this.eastPanel.setBackground(Color.BLUE);
 		this.westNorthPanel.setBackground(Color.BLUE);
@@ -170,11 +170,15 @@ public class TetrisFrame extends JFrame implements KeyListener {
 		level.setVerticalAlignment(SwingConstants.CENTER);
 		lines.setFont(new Font("Serif", Font.PLAIN, 20));
 		startButton.setFont(new Font("Serif", Font.PLAIN, 30));
-		this.linesLabel.setFont(new Font("Serif", Font.PLAIN, 20));
+		this.linesLabel.setFont(new Font("Serif", Font.BOLD, 20));
+		this.linesLabel.setForeground(Color.WHITE);
 		this.score.setFont(new Font("Serif", Font.PLAIN, 20));
-		this.scoreLabel.setFont(new Font("Serif", Font.PLAIN, 20));
+		this.scoreLabel.setFont(new Font("Serif", Font.BOLD, 20));
+		this.scoreLabel.setForeground(Color.WHITE);
 		level.setFont(new Font("Serif", Font.PLAIN, 20));
-		this.levelLabel.setFont(new Font("Serif", Font.PLAIN, 20));
+		this.levelLabel.setFont(new Font("Serif", Font.BOLD, 20));
+		this.levelLabel.setFont(new Font("Serif", Font.BOLD, 20));
+		this.levelLabel.setForeground(Color.WHITE);
 		this.westPanel.setLayout(new BorderLayout());
 		this.westPanel.setBorder(BorderFactory.createEmptyBorder(5, 5, 50, 5));
 		this.eastHolder.setBorder(BorderFactory.createEmptyBorder(5, 5, 50, 5));
@@ -206,7 +210,7 @@ public class TetrisFrame extends JFrame implements KeyListener {
 		this.pauseLabel.setForeground(Color.WHITE);
 		this.pauseLabel.setFont(new Font("Arial", Font.BOLD, 60));
 		this.mute.setBackground(Color.BLUE);
-		this.mute.setFont(new Font("Arial", Font.PLAIN, 20));
+		this.mute.setFont(new Font("Serif", Font.PLAIN, 20));
 		this.mute.setForeground(Color.BLACK);
 		Border blueBorder = BorderFactory.createLineBorder(Color.BLUE);
 		this.mute.setBorder(blueBorder);
@@ -252,10 +256,6 @@ public class TetrisFrame extends JFrame implements KeyListener {
 			public void actionPerformed(ActionEvent arg0) {
 				if (startButton.getText().equals("NEW GAME")) {
 					future.cancel(false);
-					// executor.shutdown();
-					// executor = Executors.newScheduledThreadPool(1);
-
-					System.out.println("executor canceled");
 					gameOverLabel.setVisible(false);
 				} else {
 					startButton.setText("NEW GAME");
@@ -270,25 +270,13 @@ public class TetrisFrame extends JFrame implements KeyListener {
 
 	public void startGame() {
 		this.isGameStarted = true;
-		// playSound();
 		grid.startGame();
 		this.isGameOver = false;
 		setEastPanel();
-
-		// executor.scheduleAtFixedRate(gameRunnable, 0, grid.getSpeed(),
-		// TimeUnit.MILLISECONDS);
-
 		if (musicThread.isAlive()) {
 			musicThread.stopMusic();
-			// musicThread= new MusicThread();
 
 		}
-		// musicThread.start();
-		System.out.println(" new executor");
-		/*
-		 * executor.scheduleAtFixedRate(gameRunnable, 0, 150,
-		 * TimeUnit.MILLISECONDS);
-		 */
 		future = executor.scheduleWithFixedDelay(gameRunnable, 0, 150,
 				TimeUnit.MILLISECONDS);
 		this.executor2.scheduleAtFixedRate(playSound, 0, 22, TimeUnit.SECONDS);
@@ -301,8 +289,6 @@ public class TetrisFrame extends JFrame implements KeyListener {
 				musicThread = new MusicThread();
 				musicThread.start();
 			}
-			// Applet.newAudioClip(getClass().getResource("jolly-game-groove.wav"))
-			// .play();
 		}
 	};
 	Runnable gameRunnable = new Runnable() {
@@ -334,12 +320,6 @@ public class TetrisFrame extends JFrame implements KeyListener {
 
 	private void incrementLevel() {
 		// TODO Auto-generated method stub
-		/*
-		 * executor.shutdown(); executor = Executors.newScheduledThreadPool(1);
-		 * executor.scheduleAtFixedRate(gameRunnable, 0, 300,
-		 * TimeUnit.MILLISECONDS);
-		 */
-
 		future.cancel(false);
 		future = executor.scheduleWithFixedDelay(gameRunnable, 0,
 				grid.getSpeed(), TimeUnit.MILLISECONDS);

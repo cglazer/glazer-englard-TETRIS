@@ -6,10 +6,8 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Random;
 import javax.swing.BorderFactory;
-import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.border.Border;
 
 public class TetrisGrid extends JPanel {
 	/**
@@ -53,19 +51,16 @@ public class TetrisGrid extends JPanel {
 		this.numCols = 10;
 		this.numCells = 0;
 		this.level = 1;
-		this.speed = 170;
-		this.labels = new JLabel[this.numRows + 1][this.numCols + 1];
+		this.speed = 200;
+		this.labels = new JLabel[this.numRows][this.numCols];
 		this.map = new HashMap<JLabel, Boolean>();
 		this.labelSet = new HashSet<JLabel>();
 		this.numDeletedRows = 0;
 		this.queue = new PriorityQueue();
-		setLayout(new GridLayout(this.numRows + 1, this.numCols + 1));
-		Border raisedbevel = BorderFactory.createRaisedSoftBevelBorder();
-		Border loweredbevel = BorderFactory.createEtchedBorder();
-		Border compound = BorderFactory.createCompoundBorder(loweredbevel,
-				raisedbevel);
+		setLayout(new GridLayout(this.numRows, this.numCols));
+
 		for (int i = 0; i < this.numRows; i++) {
-			for (int x = 0; x < this.numCols + 1; x++) {
+			for (int x = 0; x < this.numCols; x++) {
 				this.labels[i][x] = new JLabel();
 				add(this.labels[i][x]);
 				this.labels[i][x].setBackground(Color.BLACK);
@@ -73,17 +68,6 @@ public class TetrisGrid extends JPanel {
 				this.labels[i][x].setBorder(BorderFactory
 						.createLineBorder(Color.DARK_GRAY));
 			}
-		}
-		for (int i = 0; i < this.numRows; i++) {
-			this.labels[i][this.numCols].setBackground(Color.LIGHT_GRAY);
-		}
-		for (int i = 0; i < this.numCols; i++) {
-			this.labels[this.numRows][i] = new JLabel();
-			add(this.labels[this.numRows][i]);
-			this.labels[this.numRows][i].setBackground(Color.LIGHT_GRAY);
-			this.labels[this.numRows][i].setOpaque(true);
-			this.labels[this.numRows][i].setBorder(BorderFactory
-					.createLineBorder(Color.DARK_GRAY));
 		}
 	}
 
@@ -238,8 +222,6 @@ public class TetrisGrid extends JPanel {
 			queue.enqueue(this.nextPieceShape);
 			break;
 		}
-		// score += 10;
-
 	}
 
 	public Piece getNextShape() {
@@ -386,11 +368,6 @@ public class TetrisGrid extends JPanel {
 		// draws current piece
 		if (row1 >= 0) {
 			labels[row1][column1].setBackground(color);
-
-			// labels[row1][column1].setIcon(new ImageIcon(new
-			// ImageIcon(this.getClass().getResource("./purplePiece.png")).getImage().getScaledInstance(27,
-			// 27,java.awt.Image.SCALE_SMOOTH)));
-
 			labels[row1][column1].setOpaque(true);
 			map.put(labels[row1][column1], true);
 			labelSet.add(labels[row1][column1]);
