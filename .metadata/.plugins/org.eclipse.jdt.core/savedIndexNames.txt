@@ -1,2 +1,0 @@
-INDEX VERSION 1.127+C:\Users\Naami\Documents\glazer-englard-TETRIS\.metadata\.plugins\org.eclipse.jdt.core
-248351807.index
