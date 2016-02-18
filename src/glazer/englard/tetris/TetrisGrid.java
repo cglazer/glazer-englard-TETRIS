@@ -51,7 +51,7 @@ public class TetrisGrid extends JPanel {
 		this.numCols = 10;
 		this.numCells = 0;
 		this.level = 1;
-		this.speed = 200;
+		this.speed = 210;
 		this.labels = new JLabel[this.numRows][this.numCols];
 		this.map = new HashMap<JLabel, Boolean>();
 		this.labelSet = new HashSet<JLabel>();

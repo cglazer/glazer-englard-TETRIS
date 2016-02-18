@@ -72,14 +72,19 @@ public class TetrisFrame extends JFrame implements KeyListener {
 	private boolean sound;
 	private ScheduledFuture<?> future;
 	private boolean isGameStarted;
+	private ImageIcon frameIcon;
+	private Image img2;
+	private Image newimg2;
+	private Image img;
+	private Image newimg;
 
 	public TetrisFrame() {
 		setSize(640, 650);
 		setTitle("Tetris");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		ImageIcon frameIcon = new ImageIcon(getClass().getResource("./gameIcon.png"));
-		Image img2 = frameIcon.getImage();
-		Image newimg2 = img2.getScaledInstance(250, 250,
+		this.frameIcon = new ImageIcon(getClass().getResource("./gameIcon.png"));
+		this.img2 = frameIcon.getImage();
+		this.newimg2 = img2.getScaledInstance(250, 250,
 				java.awt.Image.SCALE_SMOOTH);
 		frameIcon.setImage(newimg2);
 		setIconImage(frameIcon.getImage());
@@ -105,8 +110,8 @@ public class TetrisFrame extends JFrame implements KeyListener {
 		this.tetrisIcon = new ImageIcon(this.getClass().getResource(
 				"tetrisIcon.jpg"));
 		this.tetrisIconLabel = new JLabel();
-		Image img = tetrisIcon.getImage();
-		Image newimg = img.getScaledInstance(160, 100,
+		this.img = tetrisIcon.getImage();
+		this.newimg = img.getScaledInstance(160, 100,
 				java.awt.Image.SCALE_SMOOTH);
 		this.tetrisIcon = new ImageIcon(newimg);
 		this.gameOverLabel = new JLabel("GAME OVER");
@@ -139,14 +144,12 @@ public class TetrisFrame extends JFrame implements KeyListener {
 		this.score.setMinimumSize(new Dimension(130, 50));
 		this.score.setPreferredSize(new Dimension(130, 50));
 		this.score.setMaximumSize(new Dimension(130, 50));
-		// this.score.setBorder(BorderFactory.createLineBorder(Color.BLACK));
 		this.startButton.setMinimumSize(new Dimension(130, 50));
 		this.startButton.setPreferredSize(new Dimension(130, 50));
 		this.startButton.setMaximumSize(new Dimension(130, 50));
 		this.lines.setMinimumSize(new Dimension(130, 50));
 		this.lines.setPreferredSize(new Dimension(130, 50));
 		this.lines.setMaximumSize(new Dimension(130, 50));
-
 		this.level.setMinimumSize(new Dimension(130, 50));
 		this.level.setPreferredSize(new Dimension(130, 50));
 		this.level.setMaximumSize(new Dimension(130, 50));
@@ -217,13 +220,12 @@ public class TetrisFrame extends JFrame implements KeyListener {
 	}
 
 	public void addComponents() {
-
-		container.add(this.gameOverLabel).setBounds(145, 250, 400, 100);
+		this.container.add(this.gameOverLabel).setBounds(145, 250, 400, 100);
 		this.container.add(this.pauseLabel).setBounds(215, 250, 300, 100);
 		this.pauseLabel.setVisible(false);
 		this.gameOverLabel.setVisible(false);
 		this.container.add(this.grid, BorderLayout.CENTER);
-		this.setMenuBar(menuBar);
+		this.setMenuBar(this.menuBar);
 		this.container.add(this.westPanel, BorderLayout.WEST);
 		this.eastHolder.add(eastPanel, BorderLayout.NORTH);
 		this.eastHolder.add(this.westNorthPanel, BorderLayout.CENTER);
@@ -270,14 +272,14 @@ public class TetrisFrame extends JFrame implements KeyListener {
 
 	public void startGame() {
 		this.isGameStarted = true;
-		grid.startGame();
+		this.grid.startGame();
 		this.isGameOver = false;
 		setEastPanel();
 		if (musicThread.isAlive()) {
 			musicThread.stopMusic();
 
 		}
-		future = executor.scheduleWithFixedDelay(gameRunnable, 0, 150,
+		this.future = executor.scheduleWithFixedDelay(gameRunnable, 0, 150,
 				TimeUnit.MILLISECONDS);
 		this.executor2.scheduleAtFixedRate(playSound, 0, 22, TimeUnit.SECONDS);
 	}
@@ -320,23 +322,23 @@ public class TetrisFrame extends JFrame implements KeyListener {
 
 	private void incrementLevel() {
 		// TODO Auto-generated method stub
-		future.cancel(false);
-		future = executor.scheduleWithFixedDelay(gameRunnable, 0,
+		this.future.cancel(false);
+		this.future = executor.scheduleWithFixedDelay(gameRunnable, 0,
 				grid.getSpeed(), TimeUnit.MILLISECONDS);
 	}
 
 	public void gameOver() {
-		future.cancel(false);
+		this.future.cancel(false);
 		this.isGameOver = true;
 		while (isGameOver) {
-			gameOverLabel.setVisible(true);
+			this.gameOverLabel.setVisible(true);
 			try {
 				Thread.sleep(200);
 			} catch (InterruptedException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			gameOverLabel.setVisible(false);
+			this.gameOverLabel.setVisible(false);
 			try {
 				Thread.sleep(200);
 			} catch (InterruptedException e) {

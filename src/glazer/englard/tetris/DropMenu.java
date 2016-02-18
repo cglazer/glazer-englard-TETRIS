@@ -17,16 +17,15 @@ public class DropMenu extends MenuBar {
 
 	public DropMenu() {
 
-		properites = new Menu("Properties");
+		this.properites = new Menu("Properties");
 		this.add(properites);
-		rules = new MenuItem("Rules");
-		properites.add(rules);
+		this.rules = new MenuItem("Rules");
+		this.properites.add(rules);
 
 		rules.addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-
 				RulesFrame frame = new RulesFrame();
 				frame.setVisible(true);
 
