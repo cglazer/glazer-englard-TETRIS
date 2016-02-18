@@ -4,8 +4,8 @@ import java.awt.Color;
 
 public class IPiece extends Piece {
 
-	public IPiece(int maxC) {
-		super(maxC);
+	public IPiece(int maxC, int maxR) {
+		super(maxC, maxR);
 		super.color = new Color(31, 190, 214); // light blue
 		startPosition();
 
@@ -150,5 +150,4 @@ public class IPiece extends Piece {
 
 	}
 
-	
 }

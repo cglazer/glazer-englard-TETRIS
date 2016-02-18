@@ -194,31 +194,31 @@ public class TetrisGrid extends JPanel {
 		int numShape = newShape.nextInt(7);
 		switch (numShape) {
 		case 0:
-			this.nextPieceShape = new LPiece(numCols);
+			this.nextPieceShape = new LPiece(numCols, numRows);
 			queue.enqueue(this.nextPieceShape);
 			break;
 		case 1:
-			this.nextPieceShape = new IPiece(numCols);
+			this.nextPieceShape = new IPiece(numCols, numRows);
 			queue.enqueue(this.nextPieceShape);
 			break;
 		case 2:
-			this.nextPieceShape = new OPiece(numCols);
+			this.nextPieceShape = new OPiece(numCols, numRows);
 			queue.enqueue(this.nextPieceShape);
 			break;
 		case 3:
-			this.nextPieceShape = new JPiece(numCols);
+			this.nextPieceShape = new JPiece(numCols, numRows);
 			queue.enqueue(this.nextPieceShape);
 			break;
 		case 4:
-			this.nextPieceShape = new TPiece(numCols);
+			this.nextPieceShape = new TPiece(numCols, numRows);
 			queue.enqueue(this.nextPieceShape);
 			break;
 		case 5:
-			this.nextPieceShape = new ZPiece(numCols);
+			this.nextPieceShape = new ZPiece(numCols, numRows);
 			queue.enqueue(this.nextPieceShape);
 			break;
 		case 6:
-			this.nextPieceShape = new SPiece(numCols);
+			this.nextPieceShape = new SPiece(numCols, numRows);
 			queue.enqueue(this.nextPieceShape);
 			break;
 		}

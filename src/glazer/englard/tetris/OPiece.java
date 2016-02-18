@@ -4,8 +4,8 @@ import java.awt.Color;
 
 public class OPiece extends Piece  {
 
-	public OPiece(int maxC) {
-		super(maxC);
+	public OPiece(int maxC, int maxR) {
+		super(maxC, maxR);
 		super.color = Color.YELLOW;
 		startPosition();
 	}

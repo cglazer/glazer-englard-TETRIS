@@ -2,10 +2,10 @@ package glazer.englard.tetris;
 
 import java.awt.Color;
 
-public class ZPiece extends Piece  {
+public class ZPiece extends Piece {
 
-	public ZPiece(int maxC) {
-		super(maxC);
+	public ZPiece(int maxC, int maxR) {
+		super(maxC, maxR);
 		super.color = Color.RED;
 		startPosition();
 	}
@@ -24,14 +24,14 @@ public class ZPiece extends Piece  {
 
 	@Override
 	public void turn() {
-		if(super.row1 == -1 ){
+		if (super.row1 == -1) {
 			return;
 		}
 		int turnType = super.turnCounter % 4;
 		switch (turnType) {
 		case 1:
-			//make sure does not go off the end of the board
-			if (super.row2 + 2 > super.MaxRow){
+			// make sure does not go off the end of the board
+			if (super.row2 + 2 > super.MaxRow) {
 				return;
 			}
 			// 3 and 4 stay, r1 stays, and c2 stays
@@ -44,14 +44,14 @@ public class ZPiece extends Piece  {
 			super.column4 -= 2;
 			break;
 		case 3:
-			//3 and 4 stay
-			super.row2 -=2;
-			super.column1 -=2;
+			// 3 and 4 stay
+			super.row2 -= 2;
+			super.column1 -= 2;
 			break;
 		case 0:
-			//2 and 3 stay 
-			super.row1 -=2;
-			super.column4 +=2;
+			// 2 and 3 stay
+			super.row1 -= 2;
+			super.column4 += 2;
 			break;
 
 		}
@@ -66,15 +66,16 @@ public class ZPiece extends Piece  {
 
 	@Override
 	public boolean moveRightValidate() {
-		//right most piece is 4 1 or 2
-		return (super.column2< super.MaxColumn && super.column1 < super.MaxColumn && super.column4 < super.MaxColumn  );
+		// right most piece is 4 1 or 2
+		return (super.column2 < super.MaxColumn
+				&& super.column1 < super.MaxColumn && super.column4 < super.MaxColumn);
 	}
 
 	@Override
 	public boolean moveLeftValidate() {
-		//left most piece is 4 1 or 2
-		return (super.column3 > 0 && super.column2 > 0 && super.column1>0 && super.column4> 0);
-		
+		// left most piece is 4 1 or 2
+		return (super.column3 > 0 && super.column2 > 0 && super.column1 > 0 && super.column4 > 0);
+
 	}
 
 	@Override
@@ -84,7 +85,7 @@ public class ZPiece extends Piece  {
 		int turnType = super.turnCounter % 4;
 		switch (turnType) {
 		case 1:
-			
+
 			// 3 and 4 stay, r1 stays, and c2 stays
 			super.row2 -= 2;
 			super.column1 -= 2;
@@ -95,14 +96,14 @@ public class ZPiece extends Piece  {
 			super.column4 += 2;
 			break;
 		case 3:
-			//3 and 4 stay
-			super.row2 +=2;
-			super.column1 +=2;
+			// 3 and 4 stay
+			super.row2 += 2;
+			super.column1 += 2;
 			break;
 		case 0:
-			//2 and 3 stay 
-			super.row1 +=2;
-			super.column4 -=2;
+			// 2 and 3 stay
+			super.row1 += 2;
+			super.column4 -= 2;
 			break;
 
 		}
@@ -111,7 +112,7 @@ public class ZPiece extends Piece  {
 		}
 		while (super.column4 > super.MaxColumn) {
 			super.moveLeft();
-		
+
 		}
 
 	}
