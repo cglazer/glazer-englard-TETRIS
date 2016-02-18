@@ -4,8 +4,8 @@ import java.awt.Color;
 
 public class SPiece extends Piece {
 
-	public SPiece(int maxC) {
-		super(maxC);
+	public SPiece(int maxC, int maxR) {
+		super(maxC, maxR);
 		super.color = Color.GREEN;
 		startPosition();
 	}

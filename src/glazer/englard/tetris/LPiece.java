@@ -4,8 +4,8 @@ import java.awt.Color;
 
 public class LPiece extends Piece {
 
-	public LPiece(int maxC) {
-		super(maxC);
+	public LPiece(int maxC, int maxR) {
+		super(maxC, maxR);
 		super.color = Color.ORANGE;
 		startPosition();
 	}
@@ -75,9 +75,6 @@ public class LPiece extends Piece {
 		}
 	}
 
-
-	
-
 	public void unTurn() {
 		super.turnCounter--;
 		int turnType = super.turnCounter % 4;
@@ -87,13 +84,13 @@ public class LPiece extends Piece {
 			super.row1 -= 2;
 			super.row2 += 1;
 			super.row4 -= 1;
-			super.column2 +=1;
-			super.column4 -=1;
+			super.column2 += 1;
+			super.column4 -= 1;
 			break;
 		case 2:
 			// r1 stays r234 allr3
-			super.row2 -=1;
-			super.row4 +=1;
+			super.row2 -= 1;
+			super.row4 += 1;
 			super.column1 += 2;
 			super.column2 += 1;
 			super.column4 -= 1;
@@ -103,20 +100,19 @@ public class LPiece extends Piece {
 			super.row1 += 2;
 			super.row2 += 1;
 			super.row4 -= 1;
-			super.column2 -=1;
-			super.column4 +=1;
+			super.column2 -= 1;
+			super.column4 += 1;
 			break;
 		case 0:
 			// 3 stays , r1 stays
-			super.row2 -=1;
-			super.row4 +=1;
+			super.row2 -= 1;
+			super.row4 += 1;
 			super.column1 -= 2;
 			super.column2 -= 1;
 			super.column4 += 1;
 			break;
 
 		}
-		
 
 		// validate that pieces did not go off the board
 		while (super.column1 < 0) {
@@ -135,8 +131,5 @@ public class LPiece extends Piece {
 		// left most piece s 4 or 1
 		return (super.column1 > 0 && super.column4 > 0);
 	}
-
-	
-
 
 }

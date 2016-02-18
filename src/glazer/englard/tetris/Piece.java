@@ -18,11 +18,12 @@ public abstract class Piece {
 	protected int row4;
 	protected int column4;
 	protected int turnCounter;
-	protected int MaxRow = 28;
+	protected int MaxRow ;
 	protected int MaxColumn;
 
-	public Piece(int maxColumn) {
+	public Piece(int maxColumn, int maxRow) {
 		this.MaxColumn = maxColumn - 1;
+		this.MaxRow = maxRow;
 		this.turnCounter = 1;
 	}
 

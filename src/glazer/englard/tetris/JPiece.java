@@ -3,8 +3,8 @@ package glazer.englard.tetris;
 import java.awt.Color;
 
 public class JPiece extends Piece {
-	public JPiece(int maxC) {
-		super(maxC);
+	public JPiece(int maxC, int maxR) {
+		super(maxC, maxR);
 		super.color = Color.BLUE;
 		startPosition();
 	}
@@ -96,14 +96,14 @@ public class JPiece extends Piece {
 			super.row2 += 1;
 			super.row4 -= 1;
 			super.column1 -= 2;
-			super.column2 -=1;
-			super.column4 +=1;
+			super.column2 -= 1;
+			super.column4 += 1;
 			break;
 		case 2:
 			// 3 stays, c1 stays, 24 go to r3
 			super.row1 -= 2;
-			super.row2 -=1;
-			super.row4 +=1;
+			super.row2 -= 1;
+			super.row4 += 1;
 			super.column2 -= 1;
 			super.column4 += 1;
 			break;
@@ -112,19 +112,19 @@ public class JPiece extends Piece {
 			super.row2 -= 1;
 			super.row4 += 1;
 			super.column1 -= 2;
-			super.column2 +=1;
-			super.column4 -=1 ;
+			super.column2 += 1;
+			super.column4 -= 1;
 			break;
 		case 0:
 			super.row1 += 2;
-			super.row2 +=1 ;
-			super.row4 -=1 ;
+			super.row2 += 1;
+			super.row4 -= 1;
 			super.column2 += 1;
 			super.column4 -= 1;
 			break;
 
 		}
-		
+
 		// validate that pieces did not go off the board
 		while (super.column1 < 0) {
 			super.moveRight();
@@ -132,5 +132,4 @@ public class JPiece extends Piece {
 
 	}
 
-	
 }
