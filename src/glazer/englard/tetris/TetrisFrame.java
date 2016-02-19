@@ -84,8 +84,7 @@ public class TetrisFrame extends JFrame implements KeyListener {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.frameIcon = new ImageIcon(getClass().getResource("./gameIcon.png"));
 		this.img2 = frameIcon.getImage();
-		this.newimg2 = img2.getScaledInstance(250, 250,
-				java.awt.Image.SCALE_SMOOTH);
+		this.newimg2 = img2.getScaledInstance(250, 250, java.awt.Image.SCALE_SMOOTH);
 		frameIcon.setImage(newimg2);
 		setIconImage(frameIcon.getImage());
 		this.container = getContentPane();
@@ -107,12 +106,10 @@ public class TetrisFrame extends JFrame implements KeyListener {
 		this.westNorthPanel = new JPanel();
 		this.westSouthPanel = new JPanel();
 
-		this.tetrisIcon = new ImageIcon(this.getClass().getResource(
-				"tetrisIcon.jpg"));
+		this.tetrisIcon = new ImageIcon(this.getClass().getResource("tetrisIcon.jpg"));
 		this.tetrisIconLabel = new JLabel();
 		this.img = tetrisIcon.getImage();
-		this.newimg = img.getScaledInstance(160, 100,
-				java.awt.Image.SCALE_SMOOTH);
+		this.newimg = img.getScaledInstance(160, 100, java.awt.Image.SCALE_SMOOTH);
 		this.tetrisIcon = new ImageIcon(newimg);
 		this.gameOverLabel = new JLabel("GAME OVER");
 		this.pauseLabel = new JLabel("PAUSE");
@@ -155,14 +152,12 @@ public class TetrisFrame extends JFrame implements KeyListener {
 		this.level.setMaximumSize(new Dimension(130, 50));
 		Border paddingBorder = BorderFactory.createEmptyBorder(0, 0, 0, 0);
 		Border border = BorderFactory.createLineBorder(Color.WHITE);
-		Border compound = BorderFactory.createCompoundBorder(paddingBorder,
-				border);
+		Border compound = BorderFactory.createCompoundBorder(paddingBorder, border);
 		this.startButton.setBorder(compound);
 		this.lines.setBorder(compound);
 		this.score.setBorder(compound);
 		this.level.setBorder(compound);
-		this.eastPanel.setBorder(BorderFactory.createCompoundBorder(
-				paddingBorder, border));
+		this.eastPanel.setBorder(BorderFactory.createCompoundBorder(paddingBorder, border));
 		this.startButton.setHorizontalAlignment(SwingConstants.CENTER);
 		this.startButton.setVerticalAlignment(SwingConstants.CENTER);
 		lines.setHorizontalAlignment(SwingConstants.CENTER);
@@ -279,8 +274,7 @@ public class TetrisFrame extends JFrame implements KeyListener {
 			musicThread.stopMusic();
 
 		}
-		this.future = executor.scheduleWithFixedDelay(gameRunnable, 0, 150,
-				TimeUnit.MILLISECONDS);
+		this.future = executor.scheduleWithFixedDelay(gameRunnable, 0, 150, TimeUnit.MILLISECONDS);
 		this.executor2.scheduleAtFixedRate(playSound, 0, 22, TimeUnit.SECONDS);
 	}
 
@@ -323,8 +317,7 @@ public class TetrisFrame extends JFrame implements KeyListener {
 	private void incrementLevel() {
 		// TODO Auto-generated method stub
 		this.future.cancel(false);
-		this.future = executor.scheduleWithFixedDelay(gameRunnable, 0,
-				grid.getSpeed(), TimeUnit.MILLISECONDS);
+		this.future = executor.scheduleWithFixedDelay(gameRunnable, 0, grid.getSpeed(), TimeUnit.MILLISECONDS);
 	}
 
 	public void gameOver() {
@@ -354,8 +347,7 @@ public class TetrisFrame extends JFrame implements KeyListener {
 			for (int x = 0; x < 4; x++) {
 				this.nextPieceLabels[i][x].setBackground(Color.BLACK);
 				this.nextPieceLabels[i][x].setOpaque(true);
-				this.nextPieceLabels[i][x].setBorder(BorderFactory
-						.createLineBorder(Color.BLACK));
+				this.nextPieceLabels[i][x].setBorder(BorderFactory.createLineBorder(Color.BLACK));
 			}
 		}
 		this.nextShape = grid.getNextShape();
@@ -372,14 +364,10 @@ public class TetrisFrame extends JFrame implements KeyListener {
 		this.nextPieceLabels[row2][column2].setBackground(this.nextShapeColor);
 		this.nextPieceLabels[row3][column3].setBackground(this.nextShapeColor);
 		this.nextPieceLabels[row4][column4].setBackground(this.nextShapeColor);
-		this.nextPieceLabels[row1][column1].setBorder(BorderFactory
-				.createLineBorder(Color.DARK_GRAY));
-		this.nextPieceLabels[row2][column2].setBorder(BorderFactory
-				.createLineBorder(Color.DARK_GRAY));
-		this.nextPieceLabels[row3][column3].setBorder(BorderFactory
-				.createLineBorder(Color.DARK_GRAY));
-		this.nextPieceLabels[row4][column4].setBorder(BorderFactory
-				.createLineBorder(Color.DARK_GRAY));
+		this.nextPieceLabels[row1][column1].setBorder(BorderFactory.createLineBorder(Color.DARK_GRAY));
+		this.nextPieceLabels[row2][column2].setBorder(BorderFactory.createLineBorder(Color.DARK_GRAY));
+		this.nextPieceLabels[row3][column3].setBorder(BorderFactory.createLineBorder(Color.DARK_GRAY));
+		this.nextPieceLabels[row4][column4].setBorder(BorderFactory.createLineBorder(Color.DARK_GRAY));
 	}
 
 	public void keyPressed(KeyEvent e) {

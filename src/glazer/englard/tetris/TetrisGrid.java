@@ -65,8 +65,7 @@ public class TetrisGrid extends JPanel {
 				add(this.labels[i][x]);
 				this.labels[i][x].setBackground(Color.BLACK);
 				this.labels[i][x].setOpaque(true);
-				this.labels[i][x].setBorder(BorderFactory
-						.createLineBorder(Color.DARK_GRAY));
+				this.labels[i][x].setBorder(BorderFactory.createLineBorder(Color.DARK_GRAY));
 			}
 		}
 	}
@@ -99,14 +98,10 @@ public class TetrisGrid extends JPanel {
 	public void moveLeft() {
 		if (row1 > 0) {
 			if (pieceShape.moveLeftValidate()
-					&& (!map.get(labels[row1][column1 - 1]) || labelSet
-							.contains(labels[row1][column1 - 1]))
-					&& (!map.get(labels[row2][column2 - 1]) || labelSet
-							.contains(labels[row2][column2 - 1]))
-					&& (!map.get(labels[row3][column3 - 1]) || labelSet
-							.contains(labels[row3][column3 - 1]))
-					&& (!map.get(labels[row4][column4 - 1]) || labelSet
-							.contains(labels[row4][column4 - 1]))) {
+					&& (!map.get(labels[row1][column1 - 1]) || labelSet.contains(labels[row1][column1 - 1]))
+					&& (!map.get(labels[row2][column2 - 1]) || labelSet.contains(labels[row2][column2 - 1]))
+					&& (!map.get(labels[row3][column3 - 1]) || labelSet.contains(labels[row3][column3 - 1]))
+					&& (!map.get(labels[row4][column4 - 1]) || labelSet.contains(labels[row4][column4 - 1]))) {
 				this.pieceShape.moveLeft();
 				refreshColumnValues();
 			}
@@ -116,15 +111,11 @@ public class TetrisGrid extends JPanel {
 	public void moveRight() {
 		if (row1 > 0) {
 			if (pieceShape.moveRightValidate()
-					&& (!map.get(labels[row1][column1 + 1]) || labelSet
-							.contains(labels[row1][column1 + 1]))
-					&& (!map.get(labels[row2][column2 + 1]) || labelSet
-							.contains(labels[row2][column2 + 1]))
-					&& (!map.get(labels[row3][column3 + 1]) || labelSet
-							.contains(labels[row3][column3 + 1]))
+					&& (!map.get(labels[row1][column1 + 1]) || labelSet.contains(labels[row1][column1 + 1]))
+					&& (!map.get(labels[row2][column2 + 1]) || labelSet.contains(labels[row2][column2 + 1]))
+					&& (!map.get(labels[row3][column3 + 1]) || labelSet.contains(labels[row3][column3 + 1]))
 
-					&& (!map.get(labels[row4][column4 + 1]) || labelSet
-							.contains(labels[row4][column4 + 1]))) {
+					&& (!map.get(labels[row4][column4 + 1]) || labelSet.contains(labels[row4][column4 + 1]))) {
 				this.pieceShape.moveRight();
 				refreshColumnValues();
 			}
@@ -133,26 +124,15 @@ public class TetrisGrid extends JPanel {
 
 	public void moveDownFast() {
 		if (row1 > 0) {
-			if (row1 + 2 < numRows
-					&& row2 + 2 < numRows
-					&& row3 + 2 < numRows
-					&& row4 + 2 < numRows
-					&& (!map.get(labels[row1 + 2][column1]) || labelSet
-							.contains(labels[row1 + 2][column1]))
-					&& (!map.get(labels[row2 + 2][column2]) || labelSet
-							.contains(labels[row2 + 2][column2]))
-					&& (!map.get(labels[row3 + 2][column3]) || labelSet
-							.contains(labels[row3 + 2][column3]))
-					&& (!map.get(labels[row4 + 2][column4]) || labelSet
-							.contains(labels[row4 + 2][column4]))
-					&& (!map.get(labels[row1 + 1][column1]) || labelSet
-							.contains(labels[row1 + 1][column1]))
-					&& (!map.get(labels[row2 + 1][column2]) || labelSet
-							.contains(labels[row2 + 1][column2]))
-					&& (!map.get(labels[row3 + 1][column3]) || labelSet
-							.contains(labels[row3 + 1][column3]))
-					&& (!map.get(labels[row4 + 1][column4]) || labelSet
-							.contains(labels[row4 + 1][column4]))) {
+			if (row1 + 2 < numRows && row2 + 2 < numRows && row3 + 2 < numRows && row4 + 2 < numRows
+					&& (!map.get(labels[row1 + 2][column1]) || labelSet.contains(labels[row1 + 2][column1]))
+					&& (!map.get(labels[row2 + 2][column2]) || labelSet.contains(labels[row2 + 2][column2]))
+					&& (!map.get(labels[row3 + 2][column3]) || labelSet.contains(labels[row3 + 2][column3]))
+					&& (!map.get(labels[row4 + 2][column4]) || labelSet.contains(labels[row4 + 2][column4]))
+					&& (!map.get(labels[row1 + 1][column1]) || labelSet.contains(labels[row1 + 1][column1]))
+					&& (!map.get(labels[row2 + 1][column2]) || labelSet.contains(labels[row2 + 1][column2]))
+					&& (!map.get(labels[row3 + 1][column3]) || labelSet.contains(labels[row3 + 1][column3]))
+					&& (!map.get(labels[row4 + 1][column4]) || labelSet.contains(labels[row4 + 1][column4]))) {
 				this.pieceShape.moveDownFast();
 				refreshRowValues();
 				score += 2;
@@ -161,19 +141,14 @@ public class TetrisGrid extends JPanel {
 	}
 
 	public void turn() {
-		if (row1 > 0 && row1 + 1 < numRows && row2 + 1 < numRows
-				&& row4 + 1 < numRows) {
+		if (row1 > 0 && row1 + 1 < numRows && row2 + 1 < numRows && row4 + 1 < numRows) {
 			this.pieceShape.turn();
 			refreshRowValues();
 			refreshColumnValues();
-			if ((map.get(labels[row1][column1]) && !labelSet
-					.contains(labels[row1][column1]))
-					|| (map.get(labels[row2][column2]) && !labelSet
-							.contains(labels[row2][column2]))
-					|| (map.get(labels[row3][column3]) && !labelSet
-							.contains(labels[row3][column3]))
-					|| (map.get(labels[row4][column4]) && !labelSet
-							.contains(labels[row4][column4]))) {
+			if ((map.get(labels[row1][column1]) && !labelSet.contains(labels[row1][column1]))
+					|| (map.get(labels[row2][column2]) && !labelSet.contains(labels[row2][column2]))
+					|| (map.get(labels[row3][column3]) && !labelSet.contains(labels[row3][column3]))
+					|| (map.get(labels[row4][column4]) && !labelSet.contains(labels[row4][column4]))) {
 				this.pieceShape.unTurn();
 				refreshRowValues();
 				refreshColumnValues();
@@ -195,33 +170,27 @@ public class TetrisGrid extends JPanel {
 		switch (numShape) {
 		case 0:
 			this.nextPieceShape = new LPiece(numCols, numRows);
-			queue.enqueue(this.nextPieceShape);
 			break;
 		case 1:
 			this.nextPieceShape = new IPiece(numCols, numRows);
-			queue.enqueue(this.nextPieceShape);
 			break;
 		case 2:
 			this.nextPieceShape = new OPiece(numCols, numRows);
-			queue.enqueue(this.nextPieceShape);
 			break;
 		case 3:
 			this.nextPieceShape = new JPiece(numCols, numRows);
-			queue.enqueue(this.nextPieceShape);
 			break;
 		case 4:
 			this.nextPieceShape = new TPiece(numCols, numRows);
-			queue.enqueue(this.nextPieceShape);
 			break;
 		case 5:
 			this.nextPieceShape = new ZPiece(numCols, numRows);
-			queue.enqueue(this.nextPieceShape);
 			break;
 		case 6:
 			this.nextPieceShape = new SPiece(numCols, numRows);
-			queue.enqueue(this.nextPieceShape);
 			break;
 		}
+		queue.enqueue(this.nextPieceShape);
 	}
 
 	public Piece getNextShape() {
@@ -306,7 +275,11 @@ public class TetrisGrid extends JPanel {
 			}
 
 		}
+		finishRowScore(numSubPiece);
 
+	}
+
+	public void finishRowScore(int numSubPiece) {
 		if (numSubPiece == 0) {
 			score += 2000 * level;
 		} else {
@@ -333,8 +306,7 @@ public class TetrisGrid extends JPanel {
 
 	public boolean checkGameOver() {
 		for (int i = 0; i < numCols; i++) {
-			if (map.get(labels[0][i]) && map.get(labels[1][i])
-					&& !labelSet.contains(labels[1][i])) {
+			if (map.get(labels[0][i]) && map.get(labels[1][i]) && !labelSet.contains(labels[1][i])) {
 				return true;
 			}
 		}
@@ -345,51 +317,49 @@ public class TetrisGrid extends JPanel {
 		// TODO Auto-generated method stub
 		// if piece is on board it gets erased!!
 		if (row1 > 0) {
-			labels[coloredRow1][coloredColumn1].setBackground(Color.BLACK);
-			map.put(labels[coloredRow1][coloredColumn1], false);
+			eraseSubOldPeice(coloredRow1, coloredColumn1);
 		}
 		if (row2 > 0) {
-			labels[coloredRow2][coloredColumn2].setBackground(Color.BLACK);
-			map.put(labels[coloredRow2][coloredColumn2], false);
+			eraseSubOldPeice(coloredRow2, coloredColumn2);
 		}
 		if (row3 > 0) {
-			labels[coloredRow3][coloredColumn3].setBackground(Color.BLACK);
-			map.put(labels[coloredRow3][coloredColumn3], false);
+			eraseSubOldPeice(coloredRow3, coloredColumn3);
 		}
 		if (row4 > 0) {
-			labels[coloredRow4][coloredColumn4].setBackground(Color.BLACK);
-			map.put(labels[coloredRow4][coloredColumn4], false);
+			eraseSubOldPeice(coloredRow4, coloredColumn4);
 		}
 		labelSet.clear();
+	}
+
+	public void eraseSubOldPeice(int eraseRow, int eraseCol) {
+		labels[eraseRow][eraseCol].setBackground(Color.BLACK);
+		map.put(labels[eraseRow][eraseCol], false);
 	}
 
 	public void drawCurrentPiece() {
 		// TODO Auto-generated method stub
 		// draws current piece
 		if (row1 >= 0) {
-			labels[row1][column1].setBackground(color);
-			labels[row1][column1].setOpaque(true);
-			map.put(labels[row1][column1], true);
-			labelSet.add(labels[row1][column1]);
+			subDrawPiece(row1, column1);
 		}
 		if (row2 >= 0) {
-			labels[row2][column2].setBackground(color);
-			labels[row2][column2].setOpaque(true);
-			map.put(labels[row2][column2], true);
-			labelSet.add(labels[row2][column2]);
+			subDrawPiece(row2, column2);
+
 		}
 		if (row3 >= 0) {
-			labels[row3][column3].setBackground(color);
-			labels[row3][column3].setOpaque(true);
-			map.put(labels[row3][column3], true);
-			labelSet.add(labels[row3][column3]);
+			subDrawPiece(row3, column3);
 		}
 		if (row4 >= 0) {
-			labels[row4][column4].setBackground(color);
-			labels[row4][column4].setOpaque(true);
-			map.put(labels[row4][column4], true);
-			labelSet.add(labels[row4][column4]);
+			subDrawPiece(row4, column4);
 		}
+		savePieceInfo();
+		repaint();
+		pieceShape.moveDown();
+		refreshRowValues();
+
+	}
+
+	public void savePieceInfo() {
 		coloredRow1 = row1;
 		coloredRow2 = row2;
 		coloredRow3 = row3;
@@ -398,26 +368,22 @@ public class TetrisGrid extends JPanel {
 		coloredColumn2 = column2;
 		coloredColumn3 = column3;
 		coloredColumn4 = column4;
-		repaint();
-		pieceShape.moveDown();
-		refreshRowValues();
+	}
 
+	public void subDrawPiece(int drawRow, int drawCol) {
+		labels[drawRow][drawCol].setBackground(color);
+		labels[drawRow][drawCol].setOpaque(true);
+		map.put(labels[drawRow][drawCol], true);
+		labelSet.add(labels[drawRow][drawCol]);
 	}
 
 	public void checkPieceDone() {
 		// TODO Auto-generated method stub
-		if (row1 == numRows
-				|| row2 == numRows
-				|| row3 == numRows
-				|| row4 == numRows
-				|| (map.get(labels[row1][column1]) && !labelSet
-						.contains(labels[row1][column1]))
-				|| (map.get(labels[row2][column2]) && !labelSet
-						.contains(labels[row2][column2]))
-				|| (map.get(labels[row3][column3]) && !labelSet
-						.contains(labels[row3][column3]))
-				|| (map.get(labels[row4][column4]) && !labelSet
-						.contains(labels[row4][column4]))) {
+		if (row1 == numRows || row2 == numRows || row3 == numRows || row4 == numRows
+				|| (map.get(labels[row1][column1]) && !labelSet.contains(labels[row1][column1]))
+				|| (map.get(labels[row2][column2]) && !labelSet.contains(labels[row2][column2]))
+				|| (map.get(labels[row3][column3]) && !labelSet.contains(labels[row3][column3]))
+				|| (map.get(labels[row4][column4]) && !labelSet.contains(labels[row4][column4]))) {
 			score += 10;
 			checkFinishedRow();
 			nextShape();
@@ -444,18 +410,11 @@ public class TetrisGrid extends JPanel {
 	public void fallDown() {
 		numCells = 0;
 		if (row1 > 0) {
-			while (row1 + 1 < numRows
-					&& row2 + 1 < numRows
-					&& row3 + 1 < numRows
-					&& row4 + 1 < numRows
-					&& (!map.get(labels[row1 + 1][column1]) || labelSet
-							.contains(labels[row1 + 1][column1]))
-					&& (!map.get(labels[row2 + 1][column2]) || labelSet
-							.contains(labels[row2 + 1][column2]))
-					&& (!map.get(labels[row3 + 1][column3]) || labelSet
-							.contains(labels[row3 + 1][column3]))
-					&& (!map.get(labels[row4 + 1][column4]) || labelSet
-							.contains(labels[row4 + 1][column4]))) {
+			while (row1 + 1 < numRows && row2 + 1 < numRows && row3 + 1 < numRows && row4 + 1 < numRows
+					&& (!map.get(labels[row1 + 1][column1]) || labelSet.contains(labels[row1 + 1][column1]))
+					&& (!map.get(labels[row2 + 1][column2]) || labelSet.contains(labels[row2 + 1][column2]))
+					&& (!map.get(labels[row3 + 1][column3]) || labelSet.contains(labels[row3 + 1][column3]))
+					&& (!map.get(labels[row4 + 1][column4]) || labelSet.contains(labels[row4 + 1][column4]))) {
 				this.pieceShape.moveDown();
 				refreshRowValues();
 				this.numCells++;
