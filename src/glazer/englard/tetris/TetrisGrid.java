@@ -51,7 +51,7 @@ public class TetrisGrid extends JPanel {
 		this.numCols = 10;
 		this.numCells = 0;
 		this.level = 1;
-		this.speed = 210;
+		this.speed = 200;
 		this.labels = new JLabel[this.numRows][this.numCols];
 		this.map = new HashMap<JLabel, Boolean>();
 		this.labelSet = new HashSet<JLabel>();
@@ -65,7 +65,8 @@ public class TetrisGrid extends JPanel {
 				add(this.labels[i][x]);
 				this.labels[i][x].setBackground(Color.BLACK);
 				this.labels[i][x].setOpaque(true);
-				this.labels[i][x].setBorder(BorderFactory.createLineBorder(Color.DARK_GRAY));
+				this.labels[i][x].setBorder(BorderFactory
+						.createLineBorder(Color.DARK_GRAY));
 			}
 		}
 	}
@@ -95,13 +96,31 @@ public class TetrisGrid extends JPanel {
 		checkPieceDone();
 	}
 
+	public boolean checkMap(int mapRow, int mapCol) {
+		if (this.map.get(this.labels[mapRow][mapCol])) {
+			return true;
+		}
+		return false;
+	}
+
+	public boolean checkSet(int setRow, int setCol) {
+		if (this.labelSet.contains(this.labels[setRow][setCol])) {
+			return true;
+		}
+		return false;
+	}
+
 	public void moveLeft() {
 		if (row1 > 0) {
 			if (pieceShape.moveLeftValidate()
-					&& (!map.get(labels[row1][column1 - 1]) || labelSet.contains(labels[row1][column1 - 1]))
-					&& (!map.get(labels[row2][column2 - 1]) || labelSet.contains(labels[row2][column2 - 1]))
-					&& (!map.get(labels[row3][column3 - 1]) || labelSet.contains(labels[row3][column3 - 1]))
-					&& (!map.get(labels[row4][column4 - 1]) || labelSet.contains(labels[row4][column4 - 1]))) {
+					&& (!checkMap(row1, column1 - 1) || checkSet(row1,
+							column1 - 1))
+					&& (!checkMap(row2, column2 - 1) || checkSet(row2,
+							column2 - 1))
+					&& (!checkMap(row3, column3 - 1) || checkSet(row3,
+							column3 - 1))
+					&& (!checkMap(row4, column4 - 1) || checkSet(row4,
+							column4 - 1))) {
 				this.pieceShape.moveLeft();
 				refreshColumnValues();
 			}
@@ -111,11 +130,14 @@ public class TetrisGrid extends JPanel {
 	public void moveRight() {
 		if (row1 > 0) {
 			if (pieceShape.moveRightValidate()
-					&& (!map.get(labels[row1][column1 + 1]) || labelSet.contains(labels[row1][column1 + 1]))
-					&& (!map.get(labels[row2][column2 + 1]) || labelSet.contains(labels[row2][column2 + 1]))
-					&& (!map.get(labels[row3][column3 + 1]) || labelSet.contains(labels[row3][column3 + 1]))
-
-					&& (!map.get(labels[row4][column4 + 1]) || labelSet.contains(labels[row4][column4 + 1]))) {
+					&& (!checkMap(row1, column1 + 1) || checkSet(row1,
+							column1 + 1))
+					&& (!checkMap(row2, column2 + 1) || checkSet(row2,
+							column2 + 1))
+					&& (!checkMap(row3, column3 + 1) || checkSet(row3,
+							column3 + 1))
+					&& (!checkMap(row4, column4 + 1) || checkSet(row4,
+							column4 + 1))) {
 				this.pieceShape.moveRight();
 				refreshColumnValues();
 			}
@@ -124,15 +146,26 @@ public class TetrisGrid extends JPanel {
 
 	public void moveDownFast() {
 		if (row1 > 0) {
-			if (row1 + 2 < numRows && row2 + 2 < numRows && row3 + 2 < numRows && row4 + 2 < numRows
-					&& (!map.get(labels[row1 + 2][column1]) || labelSet.contains(labels[row1 + 2][column1]))
-					&& (!map.get(labels[row2 + 2][column2]) || labelSet.contains(labels[row2 + 2][column2]))
-					&& (!map.get(labels[row3 + 2][column3]) || labelSet.contains(labels[row3 + 2][column3]))
-					&& (!map.get(labels[row4 + 2][column4]) || labelSet.contains(labels[row4 + 2][column4]))
-					&& (!map.get(labels[row1 + 1][column1]) || labelSet.contains(labels[row1 + 1][column1]))
-					&& (!map.get(labels[row2 + 1][column2]) || labelSet.contains(labels[row2 + 1][column2]))
-					&& (!map.get(labels[row3 + 1][column3]) || labelSet.contains(labels[row3 + 1][column3]))
-					&& (!map.get(labels[row4 + 1][column4]) || labelSet.contains(labels[row4 + 1][column4]))) {
+			if (row1 + 2 < numRows
+					&& row2 + 2 < numRows
+					&& row3 + 2 < numRows
+					&& row4 + 2 < numRows
+					&& (!checkMap(row1 + 2, column1) || checkSet(row1 + 2,
+							column1))
+					&& (!checkMap(row2 + 2, column2) || checkSet(row2 + 2,
+							column2))
+					&& (!checkMap(row3 + 2, column3) || checkSet(row3 + 2,
+							column3))
+					&& (!checkMap(row4 + 2, column4) || checkSet(row4 + 2,
+							column4))
+					&& (!checkMap(row1 + 1, column1) || checkSet(row1 + 1,
+							column1))
+					&& (!checkMap(row2 + 1, column2) || checkSet(row2 + 1,
+							column2))
+					&& (!checkMap(row3 + 1, column3) || checkSet(row3 + 1,
+							column3))
+					&& (!checkMap(row4 + 1, column4) || checkSet(row4 + 1,
+							column4))) {
 				this.pieceShape.moveDownFast();
 				refreshRowValues();
 				score += 2;
@@ -141,14 +174,15 @@ public class TetrisGrid extends JPanel {
 	}
 
 	public void turn() {
-		if (row1 > 0 && row1 + 1 < numRows && row2 + 1 < numRows && row4 + 1 < numRows) {
+		if (row1 > 0 && row1 + 1 < numRows && row2 + 1 < numRows
+				&& row4 + 1 < numRows) {
 			this.pieceShape.turn();
 			refreshRowValues();
 			refreshColumnValues();
-			if ((map.get(labels[row1][column1]) && !labelSet.contains(labels[row1][column1]))
-					|| (map.get(labels[row2][column2]) && !labelSet.contains(labels[row2][column2]))
-					|| (map.get(labels[row3][column3]) && !labelSet.contains(labels[row3][column3]))
-					|| (map.get(labels[row4][column4]) && !labelSet.contains(labels[row4][column4]))) {
+			if ((checkMap(row1, column1) && !checkSet(row1, column1))
+					|| (checkMap(row2, column2) && !checkSet(row2, column2))
+					|| (checkMap(row3, column3) && !checkSet(row3, column3))
+					|| (checkMap(row4, column4) && !checkSet(row4, column4))) {
 				this.pieceShape.unTurn();
 				refreshRowValues();
 				refreshColumnValues();
@@ -243,11 +277,9 @@ public class TetrisGrid extends JPanel {
 		for (int i = 0; i < numRows; i++) {
 			checkCol = 0;
 			fullLine = true;
-
 			while (fullLine) {
 				if (!map.get(labels[i][checkCol])) {
 					fullLine = false;
-
 				} else {
 					numSubPiece++;
 					if (checkCol == 9) {
@@ -260,10 +292,8 @@ public class TetrisGrid extends JPanel {
 						repaint();
 						fullLine = false;
 						numSubPiece -= 10;
-
 					}
 					checkCol++;
-
 				}
 			}
 			// finish off checking rest of the spaces to see if the whole board
@@ -273,10 +303,8 @@ public class TetrisGrid extends JPanel {
 					numSubPiece++;
 				}
 			}
-
 		}
 		finishRowScore(numSubPiece);
-
 	}
 
 	public void finishRowScore(int numSubPiece) {
@@ -306,7 +334,7 @@ public class TetrisGrid extends JPanel {
 
 	public boolean checkGameOver() {
 		for (int i = 0; i < numCols; i++) {
-			if (map.get(labels[0][i]) && map.get(labels[1][i]) && !labelSet.contains(labels[1][i])) {
+			if (checkMap(0, i) && checkMap(1, i) && !checkSet(1, i)) {
 				return true;
 			}
 		}
@@ -379,11 +407,12 @@ public class TetrisGrid extends JPanel {
 
 	public void checkPieceDone() {
 		// TODO Auto-generated method stub
-		if (row1 == numRows || row2 == numRows || row3 == numRows || row4 == numRows
-				|| (map.get(labels[row1][column1]) && !labelSet.contains(labels[row1][column1]))
-				|| (map.get(labels[row2][column2]) && !labelSet.contains(labels[row2][column2]))
-				|| (map.get(labels[row3][column3]) && !labelSet.contains(labels[row3][column3]))
-				|| (map.get(labels[row4][column4]) && !labelSet.contains(labels[row4][column4]))) {
+		if (row1 == numRows || row2 == numRows || row3 == numRows
+				|| row4 == numRows
+				|| (checkMap(row1, column1) && !checkSet(row1, column1))
+				|| (checkMap(row2, column2) && !checkSet(row2, column2))
+				|| (checkMap(row3, column3) && !checkSet(row3, column3))
+				|| (checkMap(row4, column4) && !checkSet(row4, column4))) {
 			score += 10;
 			checkFinishedRow();
 			nextShape();
@@ -410,11 +439,18 @@ public class TetrisGrid extends JPanel {
 	public void fallDown() {
 		numCells = 0;
 		if (row1 > 0) {
-			while (row1 + 1 < numRows && row2 + 1 < numRows && row3 + 1 < numRows && row4 + 1 < numRows
-					&& (!map.get(labels[row1 + 1][column1]) || labelSet.contains(labels[row1 + 1][column1]))
-					&& (!map.get(labels[row2 + 1][column2]) || labelSet.contains(labels[row2 + 1][column2]))
-					&& (!map.get(labels[row3 + 1][column3]) || labelSet.contains(labels[row3 + 1][column3]))
-					&& (!map.get(labels[row4 + 1][column4]) || labelSet.contains(labels[row4 + 1][column4]))) {
+			while (row1 + 1 < numRows
+					&& row2 + 1 < numRows
+					&& row3 + 1 < numRows
+					&& row4 + 1 < numRows
+					&& (!checkMap(row1 + 1, column1) || checkSet(row1 + 1,
+							column1))
+					&& (!checkMap(row2 + 1, column2) || checkSet(row2 + 1,
+							column2))
+					&& (!checkMap(row3 + 1, column3) || checkSet(row3 + 1,
+							column3))
+					&& (!checkMap(row4 + 1, column4) || checkSet(row4 + 1,
+							column4))) {
 				this.pieceShape.moveDown();
 				refreshRowValues();
 				this.numCells++;
